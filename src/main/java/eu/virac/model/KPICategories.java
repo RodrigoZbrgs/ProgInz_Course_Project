@@ -22,8 +22,13 @@ import lombok.ToString;
 @ToString
 @Entity
 @Table(name="KPI Categories")
+<<<<<<< HEAD:src/main/java/eu/virac/model/KPI_kategorijas.java
 public class KPI_kategorijas {
 	@Column(name = "/idc")
+=======
+public class KPICategories {
+	@Column(name = "IDCat")
+>>>>>>> 08ad06d13cc21859cd462d234641fed90bcbc6bd:src/main/java/eu/virac/model/KPICategories.java
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Setter(value = AccessLevel.NONE)
@@ -40,8 +45,12 @@ public class KPI_kategorijas {
 	@NotEmpty
 	@Pattern(regexp = "{A-Ža-ž0-9 ]{3,300}")
 	private String Description;
+<<<<<<< HEAD:src/main/java/eu/virac/model/KPI_kategorijas.java
 	
 	public KPI_kategorijas(String Category, String Description) {
+=======
+	public KPICategories(String Category, String Description) {
+>>>>>>> 08ad06d13cc21859cd462d234641fed90bcbc6bd:src/main/java/eu/virac/model/KPICategories.java
 	    setCategory(Category);
 	    setDescription(Description);
 	}
