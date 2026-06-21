@@ -1,12 +1,15 @@
 package eu.virac.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -32,8 +35,6 @@ public class ProjectInformation {
 	@Setter(value = AccessLevel.NONE)
 	private long idpi;
 	
-	//TODO validacijas
-	
 	@Column(name = "Project_number")
 	@NotNull
 	@Pattern(regexp = "[P]{1}[0-9]{3,40}")
@@ -52,6 +53,9 @@ public class ProjectInformation {
 	@Column(name = "Ending_date")
 	private LocalDate endingDate;
 	
+	@OneToMany(mappedBy = "projectInformation")
+	@ToString.Exclude
+	private Collection<ProjectContribution> contributions = new ArrayList<ProjectContribution>();
 	
 	public ProjectInformation(long projectNumber, String projectName, LocalDate startingDate, LocalDate endingDate) {
 		setProjectNumber(projectNumber);
