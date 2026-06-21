@@ -59,7 +59,7 @@ public class ProjectContribution {
 		setEmployeePosition(employeePosition);
 		setStartingDate(startingDate);
 		setEndingDate(endingDate);
-//		setUser(user);
+		setUser(user);
 		setProjectInformation(projectInformation);
 	}
 }
