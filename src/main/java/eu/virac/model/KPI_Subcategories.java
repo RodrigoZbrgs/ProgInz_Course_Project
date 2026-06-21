@@ -1,7 +1,5 @@
 package eu.virac.model;
 
-import java.time.LocalDate;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,19 +14,18 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-
 @Getter
 @Setter
 @NoArgsConstructor
 @ToString
 @Entity
-@Table(name="KPI Categories")
-public class KPI_kategorijas {
-	@Column(name = "IDCat")
+@Table(name="KPI Subcategories")
+public class KPI_Subcategories {
+	@Column(name = "IDSC")
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Setter(value = AccessLevel.NONE)
-	private long IDCat;
+	private long IDSC;
 	
 	@Column(name = "Category", unique = true)
 	@NotNull
@@ -40,8 +37,8 @@ public class KPI_kategorijas {
 	@NotEmpty
 	@Pattern(regexp = "{A-Ža-ž0-9 ]{3,300}")
 	private String Description;
-	public KPI_kategorijas(String Category, String Description) {
+	public KPI_Subcategories(String Subcategory, String Description) {
 	    setCategory(Category);
 	    setDescription(Description);
-	}
+}
 }
