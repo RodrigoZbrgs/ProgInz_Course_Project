@@ -1,19 +1,17 @@
 package eu.virac.model;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collection;
-
+import eu.virac.model.enums.EmployeePositions;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,25 +23,19 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 @Entity
-@Table(name = "ProjectInformationTable")
+@Table(name = "ProjectContributionTable")
 
-public class ProjectInformation {
+public class ProjectContribution {
 
-	@Column(name = "Idpi")
+	@Column(name = "Idpc")
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Setter(value = AccessLevel.NONE)
-	private long idpi;
-	
-	@Column(name = "Project_number")
-	@NotNull
-	@Pattern(regexp = "[P]{1}[0-9]{3,40}")
-	private long projectNumber;
+	private long idpc;
 	
 	@NotEmpty
-	@Pattern(regexp = "[A-Ž]{1}[A-Ža-Ž]{3,40}")
-	@Column(name = "Project_name")
-	private String projectName;
+	@Column(name = "Position_name")
+	private EmployeePositions employeePosition;
 	
 	@NotEmpty
 	@Column(name = "Starting_date")
@@ -53,14 +45,21 @@ public class ProjectInformation {
 	@Column(name = "Ending_date")
 	private LocalDate endingDate;
 	
-	@OneToMany(mappedBy = "projectInformation")
-	@ToString.Exclude
-	private Collection<ProjectContribution> contributions = new ArrayList<ProjectContribution>();
+	@ManyToOne
+	@JoinColumn(name = "idpi")
+	@NotNull
+	private ProjectInformation projectInformation;
 	
-	public ProjectInformation(long projectNumber, String projectName, LocalDate startingDate, LocalDate endingDate) {
-		setProjectNumber(projectNumber);
-		setProjectName(projectName);
+	@ManyToOne
+	@JoinColumn(name = "uid")
+	@NotNull
+	private Users user;
+	
+	public ProjectContribution(EmployeePositions employeePosition, LocalDate startingDate, LocalDate endingDate, ProjectInformation projectInformation) {
+		setEmployeePosition(employeePosition);
 		setStartingDate(startingDate);
 		setEndingDate(endingDate);
+//		setUser(user);
+		setProjectInformation(projectInformation);
 	}
 }

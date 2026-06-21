@@ -1,10 +1,14 @@
 package eu.virac.model;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -55,6 +59,10 @@ public class Users {
 	@NotNull
 	@NotEmpty
 	private Department department;
+	
+	@OneToMany(mappedBy = "user")
+	@ToString.Exclude
+	private Collection<ProjectContribution> contributions = new ArrayList<ProjectContribution>();
 
 	public Users(String name, String surname, String email, String password, Department department) {
 		setName(name);
