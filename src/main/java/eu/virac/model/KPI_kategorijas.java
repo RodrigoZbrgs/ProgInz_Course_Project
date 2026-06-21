@@ -1,5 +1,7 @@
 package eu.virac.model;
 
+import java.time.LocalDate;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -38,5 +40,8 @@ public class KPI_kategorijas {
 	@NotEmpty
 	@Pattern(regexp = "{A-Ža-ž0-9 ]{3,300}")
 	private String Description;
-
+	public KPI_kategorijas(String Category, String Description) {
+	    setCategory(Category);
+	    setDescription(Description);
+	}
 }
