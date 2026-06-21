@@ -21,7 +21,7 @@ import lombok.ToString;
 @ToString
 @Entity
 @Table(name="KPI Categories")
-public class KPI_kategorijas {
+public class KpiCategories {
 	@Column(name = "IDCat")
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
