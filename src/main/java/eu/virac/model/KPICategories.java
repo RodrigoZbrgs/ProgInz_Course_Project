@@ -35,11 +35,13 @@ public class KPICategories {
     @NotEmpty
     @Pattern(regexp = "[A-Ž]{1}[A-Ža-ž0-9 ]{3,40}")
     private String Category;
+    
     @Column(name = "Description", unique = true)
     @NotNull
     @NotEmpty
-    @Pattern(regexp = "{A-Ža-ž0-9 ]{3,300}")
+    @Pattern(regexp = "[A-Ža-ž0-9 ]{3,300}")
     private String Description;
+    
     public KPICategories(String Category, String Description) {
         setCategory(Category);
         setDescription(Description);
