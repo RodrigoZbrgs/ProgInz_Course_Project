@@ -10,7 +10,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -42,6 +41,8 @@ public class KPI_Statuss {
 	private LocalDate statusDate;
 
 
+	// KPIDA_ID un L_ID japievieno caur tiem ManytoOne things 
+	
 	public KPI_Statuss(String status, LocalDate statusDate) {
 		setStatus(status);
 		setStatusDate(statusDate);
