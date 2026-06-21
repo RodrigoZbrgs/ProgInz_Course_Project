@@ -11,6 +11,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -46,11 +47,13 @@ public class ProjectContribution {
 	
 	@ManyToOne
 	@JoinColumn(name = "idpi")
+	@NotNull
 	private ProjectInformation projectInformation;
 	
-//	@ManyToOne
-//	@JoinColumn(name = "idu")
-//	private User user;
+	@ManyToOne
+	@JoinColumn(name = "uid")
+	@NotNull
+	private Users user;
 	
 	public ProjectContribution(EmployeePositions employeePosition, LocalDate startingDate, LocalDate endingDate, ProjectInformation projectInformation) {
 		setEmployeePosition(employeePosition);
