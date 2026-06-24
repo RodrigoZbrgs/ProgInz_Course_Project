@@ -8,6 +8,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
@@ -55,14 +57,21 @@ public class Users {
 	@NotEmpty
 	private String password;
 
-	@Column(name = "section")
-	@NotNull
-	@NotEmpty
+	@ManyToOne
+    @JoinColumn(name = "did")
 	private Department department;
 	
 	@OneToMany(mappedBy = "user")
 	@ToString.Exclude
 	private Collection<ProjectContribution> contributions = new ArrayList<ProjectContribution>();
+
+	@OneToMany(mappedBy = "user")
+	@ToString.Exclude
+    private Collection<KPIWorkDescription> kpiWorkDescription = new ArrayList<KPIWorkDescription>();
+
+	@OneToMany(mappedBy = "user")
+	@ToString.Exclude
+    private Collection<KPI_Statuss> kpiStatuss = new ArrayList<KPI_Statuss>();
 
 	public Users(String name, String surname, String email, String password, Department department) {
 		setName(name);

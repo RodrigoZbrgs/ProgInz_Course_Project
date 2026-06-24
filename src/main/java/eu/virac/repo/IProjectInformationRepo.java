@@ -6,4 +6,6 @@ import eu.virac.model.ProjectInformation;
 
 public interface IProjectInformationRepo extends CrudRepository<ProjectInformation, Long> {
 
+	public abstract boolean existsByProjectName(String projectName);
+
 }

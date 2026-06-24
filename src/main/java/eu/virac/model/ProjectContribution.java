@@ -1,6 +1,9 @@
 package eu.virac.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collection;
+
 import eu.virac.model.enums.EmployeePositions;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,6 +12,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -55,11 +59,13 @@ public class ProjectContribution {
 	@NotNull
 	private Users user;
 	
+	@OneToMany(mappedBy = "contributions")
+	private Collection<KPIWorkDescription> workDescription = new ArrayList<KPIWorkDescription>();
+	
 	public ProjectContribution(EmployeePositions employeePosition, LocalDate startingDate, LocalDate endingDate, ProjectInformation projectInformation) {
 		setEmployeePosition(employeePosition);
 		setStartingDate(startingDate);
 		setEndingDate(endingDate);
-		setUser(user);
 		setProjectInformation(projectInformation);
 	}
 }

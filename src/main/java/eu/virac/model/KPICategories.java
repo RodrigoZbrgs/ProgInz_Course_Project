@@ -1,11 +1,15 @@
 package eu.virac.model;
 
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -41,6 +45,9 @@ public class KPICategories {
 	@Pattern(regexp = "{A-Ža-ž0-9 ]{3,300}")
 	private String Description;
 
+	 @OneToMany(mappedBy = "category")
+	 private Collection<KPI_Subcategories> apakskategorijas = new ArrayList<KPI_Subcategories>();
+	
 	public KPICategories(String Category, String Description) {
 	    setCategory(Category);
 	    setDescription(Description);

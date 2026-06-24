@@ -38,7 +38,7 @@ public class ProjectInformation {
 	@Column(name = "Project_number")
 	@NotNull
 	@Pattern(regexp = "[P]{1}[0-9]{3,40}")
-	private long projectNumber;
+	private String projectNumber;
 	
 	@NotEmpty
 	@Pattern(regexp = "[A-Ž]{1}[A-Ža-Ž]{3,40}")
@@ -57,7 +57,7 @@ public class ProjectInformation {
 	@ToString.Exclude
 	private Collection<ProjectContribution> contributions = new ArrayList<ProjectContribution>();
 	
-	public ProjectInformation(long projectNumber, String projectName, LocalDate startingDate, LocalDate endingDate) {
+	public ProjectInformation(String projectNumber, String projectName, LocalDate startingDate, LocalDate endingDate) {
 		setProjectNumber(projectNumber);
 		setProjectName(projectName);
 		setStartingDate(startingDate);

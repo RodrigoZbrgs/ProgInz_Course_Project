@@ -1,10 +1,16 @@
 package eu.virac.model;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -38,6 +44,13 @@ public class KPI_Subcategories {
 	@NotEmpty
 	@Pattern(regexp = "{A-Ža-ž0-9 ]{3,300}")
 	private String Description;
+	
+	@ManyToOne
+	@JoinColumn(name = "idc")
+	private KPICategories category;
+
+	@OneToMany(mappedBy = "subCategory")
+	private Collection<KPIWorkDescription> workDescription = new ArrayList<KPIWorkDescription>();
 	
 	public KPI_Subcategories(String Subcategory, String Description) {
 	    setCategory(Category);
