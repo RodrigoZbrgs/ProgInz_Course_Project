@@ -21,7 +21,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @Entity
-@Table(name = "department_table")
+@Table(name = "DepartmentTable")
 
 public class Department {
 	

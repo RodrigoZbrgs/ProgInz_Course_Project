@@ -23,7 +23,7 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @Entity
-@Table(name = "KPI_Statuss")
+@Table(name = "KPIStatusTable")
 public class KPI_Statuss {
 
 	@Column(name = "KPI_ID")

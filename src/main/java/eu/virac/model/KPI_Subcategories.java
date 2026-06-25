@@ -25,7 +25,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 @Entity
-@Table(name="KPI Subcategories")
+@Table(name="KPISubcategoriesTable")
 public class KPI_Subcategories {
 	@Column(name = "Idsc")
 	@Id
