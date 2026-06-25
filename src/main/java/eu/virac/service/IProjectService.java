@@ -18,4 +18,5 @@ public interface IProjectService extends ICrudBaseService<ProjectInformation> {
 
 	public abstract void deleteProjectById(int id) throws Exception;
 
+
 }

@@ -3,6 +3,7 @@ package eu.virac.service.impl;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import eu.virac.model.ProjectInformation;
@@ -12,13 +13,14 @@ import eu.virac.service.IProjectService;
 
 @Service
 public class ProjectInformationServiceImpl implements IProjectService {
-
+	
+	@Autowired
 	private IProjectInformationRepo prInfoRepo;
 	
 	@Override
 	public ArrayList<ProjectInformation> selectAllProjects() throws Exception {
 		if (prInfoRepo.count() == 0) {
-			throw new Exception("Darbinieku tabula ir tukša");
+			throw new Exception("Projektu tabula ir tukša");
 		}
 		return (ArrayList<ProjectInformation>) prInfoRepo.findAll();
 	}

@@ -38,13 +38,12 @@ public class KPI_Statuss {
 	private String status;
 
 	@Column(name = "Status_date")
-	@NotEmpty
 	@NotNull
 	private LocalDate statusDate;
 
-//	@ManyToOne
-//    @JoinColumn(name = "")
-//    private KPIWorkDescription workDescription;
+	@ManyToOne
+    @JoinColumn(name = "idkpiwd")
+    private KPIWorkDescription workDescription;
 
     @ManyToOne
     @JoinColumn(name = "uid")

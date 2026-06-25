@@ -46,10 +46,9 @@ public class KPIRealisation {
 	@NotNull
 	private String comment;
 	
-	//TODO uztaisīt saiti uz KPI darba aprakstu
-//    @ManyToOne
-//    @JoinColumn(name = "")
-//    private KPIWorkDescription workDescription;
+	@ManyToOne
+    @JoinColumn(name = "idkpiwd")
+    private KPIWorkDescription workDescription;
 	
 	public KPIRealisation(LocalDate realisationdate, String textvalue, String comment) {
 		setRealisationdate(realisationdate);

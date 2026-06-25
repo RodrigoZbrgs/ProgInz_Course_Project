@@ -1,0 +1,26 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+	<h1>Edit project:</h1>
+	<form method="post" th:object="${project}" th:action="@{/project/crud/update/__${id}__}">
+
+		<p>Input project number</p>
+		<input type="text" th:field="*{projectNumber}" />
+
+		<p>Input project name</p>
+		<input type="text" th:field="*{projectName}" />
+
+		<p>Input starting date</p>
+		<input type="date" th:field="*{startingDate}" />
+
+		<p>Input ending date</p>
+		<input type="date" th:field="*{endingDate}" />
+
+		<p>Input activity</p>
+		<input type="checkbox" th:field="*{isActive}" />
+
+		<button type="submit">Save project</button>
+	</form>
+</body>
+
+</html>

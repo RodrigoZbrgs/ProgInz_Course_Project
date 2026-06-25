@@ -1,0 +1,32 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+	<h1>Input new project:</h1>
+	<form method="post" th:object="${project}" th:action="@{/project/crud/add}">
+
+		<p>Input project number</p>
+		<input type="text" th:field="*{projectNumber}" />
+		<p th:if="${#fields.hasErrors('projectNumber')}" th:errors="*{projectNumber}"></p>
+
+		<p>Input project name</p>
+		<input type="text" th:field="*{projectName}" />
+		<p th:if="${#fields.hasErrors('projectName')}" th:errors="*{projectName}"></p>
+
+		<p>Input starting date</p>
+		<input type="date" th:field="*{startingDate}" />
+		<p th:if="${#fields.hasErrors('startingDate')}" th:errors="*{startingDate}"></p>
+
+		<p>Input ending date</p>
+		<input type="date" th:field="*{endingDate}" />
+		<p th:if="${#fields.hasErrors('endingDate')}" th:errors="*{endingDate}"></p>
+		
+		<p>Input activity</p>
+		<input type="checkbox" th:field="*{isActive}" />
+		<p th:if="${#fields.hasErrors('isActive')}" th:errors="*{isActive}"></p>
+
+		<button type="submit">Save project</button>
+	</form>
+
+</body>
+
+</html>

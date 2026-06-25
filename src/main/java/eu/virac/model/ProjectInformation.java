@@ -35,6 +35,10 @@ public class ProjectInformation {
 	@Setter(value = AccessLevel.NONE)
 	private long idpi;
 	
+	@Column(name = "Is_active")
+	@NotNull
+	private boolean isActive;
+	
 	@Column(name = "Project_number")
 	@NotNull
 	@Pattern(regexp = "[P]{1}[0-9]{3,40}")
@@ -45,11 +49,11 @@ public class ProjectInformation {
 	@Column(name = "Project_name")
 	private String projectName;
 	
-	@NotEmpty
+	@NotNull
 	@Column(name = "Starting_date")
 	private LocalDate startingDate;
 	
-	@NotEmpty
+	@NotNull
 	@Column(name = "Ending_date")
 	private LocalDate endingDate;
 	
@@ -57,7 +61,8 @@ public class ProjectInformation {
 	@ToString.Exclude
 	private Collection<ProjectContribution> contributions = new ArrayList<ProjectContribution>();
 	
-	public ProjectInformation(String projectNumber, String projectName, LocalDate startingDate, LocalDate endingDate) {
+	public ProjectInformation(boolean isActive, String projectNumber, String projectName, LocalDate startingDate, LocalDate endingDate) {
+		setActive(isActive);
 		setProjectNumber(projectNumber);
 		setProjectName(projectName);
 		setStartingDate(startingDate);

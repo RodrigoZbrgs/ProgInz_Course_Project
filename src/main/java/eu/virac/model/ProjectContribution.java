@@ -41,11 +41,11 @@ public class ProjectContribution {
 	@Column(name = "Position_name")
 	private EmployeePositions employeePosition;
 	
-	@NotEmpty
+	@NotNull
 	@Column(name = "Starting_date")
 	private LocalDate startingDate;
 	
-	@NotEmpty
+	@NotNull
 	@Column(name = "Ending_date")
 	private LocalDate endingDate;
 	
