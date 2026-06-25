@@ -45,7 +45,7 @@ public class Department {
     private Collection<Users> user = new ArrayList<Users>();
     
     @OneToMany(mappedBy = "department")
-    private Collection<KPIWorkDescription> workDescription = new ArrayList<KPIWorkDescription>();
+    private Collection<KPIWorkDescription> workDescription = new ArrayList<>();
 
 	public Department(long did, String description, String goals) {
 		setDescription(description);

@@ -73,11 +73,10 @@ public class Users {
 	@ToString.Exclude
     private Collection<KPI_Statuss> kpiStatuss = new ArrayList<KPI_Statuss>();
 
-	public Users(String name, String surname, String email, String password, Department department) {
+	public Users(String name, String surname, String email, String password) {
 		setName(name);
 		setSurname(surname);
 		setEmail(email);
 		setPassword(password);
-		setDepartment(department);
 	}
 }

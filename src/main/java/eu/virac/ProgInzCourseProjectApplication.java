@@ -1,6 +1,9 @@
 package eu.virac;
 
+import eu.virac.model.ProjectContribution;
 import eu.virac.model.ProjectInformation;
+import eu.virac.model.Users;
+import eu.virac.model.enums.EmployeePositions;
 import eu.virac.repo.IKPICategoriesRepo;
 import eu.virac.repo.IKPIRealisation;
 import eu.virac.repo.IKPISubcategoriesRepo;
@@ -35,8 +38,6 @@ public class ProgInzCourseProjectApplication {
 			@Override
 			public void run(String... args) throws Exception {
 				if (prInfoRepo.count() == 0) {
-					// project contribution
-
 					// project
 					ProjectInformation p1 = new ProjectInformation(true, "P123", "ProjectAlpha", LocalDate.of(2026, 6, 24),
 							LocalDate.of(2027, 6, 24));
@@ -44,7 +45,29 @@ public class ProgInzCourseProjectApplication {
 							LocalDate.of(2027, 6, 25));
 					ProjectInformation p3 = new ProjectInformation(true, "P125", "ProjectEcho", LocalDate.of(2026, 6, 26),
 							LocalDate.of(2027, 6, 26));
+					
 					prInfoRepo.saveAll(Arrays.asList(p1, p2, p3));
+					
+					Users u1 = new Users("Rodrigo", "Zandbergs", "rodrigo.zandbergs@gmail.com", "********");
+					usersRepo.saveAll(Arrays.asList(u1));
+					
+					// project contribution
+					ProjectContribution pc1 = new ProjectContribution(EmployeePositions.Darbinieks, LocalDate.of(2026, 6, 24), 
+							LocalDate.of(2027, 6, 24));
+					ProjectContribution pc2 = new ProjectContribution(EmployeePositions.Darbinieks, LocalDate.of(2026, 6, 25), 
+							LocalDate.of(2027, 6, 25));
+					ProjectContribution pc3 = new ProjectContribution(EmployeePositions.Darbinieks, LocalDate.of(2026, 6, 26), 
+							LocalDate.of(2027, 6, 26));
+					
+					pc1.setProjectInformation(p1);
+					pc2.setProjectInformation(p2);
+					pc3.setProjectInformation(p3);
+					pc1.setUser(u1);
+					pc2.setUser(u1);
+					pc3.setUser(u1);
+					prContrRepo.saveAll(Arrays.asList(pc1,pc2,pc3));
+					
+
 				}
 			}
 		};

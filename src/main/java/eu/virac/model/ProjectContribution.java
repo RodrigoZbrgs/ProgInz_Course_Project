@@ -14,7 +14,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -37,7 +36,7 @@ public class ProjectContribution {
 	@Setter(value = AccessLevel.NONE)
 	private long idpc;
 	
-	@NotEmpty
+	@NotNull
 	@Column(name = "Position_name")
 	private EmployeePositions employeePosition;
 	
@@ -51,7 +50,6 @@ public class ProjectContribution {
 	
 	@ManyToOne
 	@JoinColumn(name = "idpi")
-	@NotNull
 	private ProjectInformation projectInformation;
 	
 	@ManyToOne
@@ -60,12 +58,11 @@ public class ProjectContribution {
 	private Users user;
 	
 	@OneToMany(mappedBy = "contributions")
-	private Collection<KPIWorkDescription> workDescription = new ArrayList<KPIWorkDescription>();
+	private Collection<KPIWorkDescription> workDescription = new ArrayList<>();
 	
-	public ProjectContribution(EmployeePositions employeePosition, LocalDate startingDate, LocalDate endingDate, ProjectInformation projectInformation) {
+	public ProjectContribution(EmployeePositions employeePosition, LocalDate startingDate, LocalDate endingDate) {
 		setEmployeePosition(employeePosition);
 		setStartingDate(startingDate);
 		setEndingDate(endingDate);
-		setProjectInformation(projectInformation);
 	}
 }

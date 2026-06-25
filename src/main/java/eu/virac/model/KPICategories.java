@@ -46,7 +46,7 @@ public class KPICategories {
 	private String Description;
 
 	 @OneToMany(mappedBy = "category")
-	 private Collection<KPI_Subcategories> apakskategorijas = new ArrayList<KPI_Subcategories>();
+	 private Collection<KPI_Subcategories> subcategories = new ArrayList<>();
 	
 	public KPICategories(String Category, String Description) {
 	    setCategory(Category);
