@@ -13,7 +13,7 @@ public interface IUsersRepo extends CrudRepository<Users, Long> {
 
 	Users findByUid(int uid);
 
-	ArrayList<Users> findByNameStartingLetter(String letter);
+	ArrayList<Users> findByNameStartingWith(String letter);
 
 	ArrayList<Users> findByEmail(String email);
 

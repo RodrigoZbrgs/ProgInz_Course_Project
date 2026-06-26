@@ -107,7 +107,7 @@ public class WorkDescriptionServiceImpl implements IWorkDescriptionService, IWor
 	}
 	
 	@Override
-	public ArrayList<KPIWorkDescription> filterByAmountLesserThan(int amount) throws Exception {
+	public ArrayList<KPIWorkDescription> findByAmountLessThan(int amount) throws Exception {
 		if (amount < 1) {
 	        throw new Exception("Amount must be at least 1");
 	    }

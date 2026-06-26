@@ -11,7 +11,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.AccessLevel;
@@ -37,7 +36,7 @@ public class ProjectInformation {
 	
 	@Column(name = "Is_active")
 	@NotNull
-	private boolean isActive;
+	private boolean active;
 	
 	@Column(name = "Project_number")
 	@NotNull

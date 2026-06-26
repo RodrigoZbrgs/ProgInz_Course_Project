@@ -21,8 +21,8 @@
 		<p th:if="${#fields.hasErrors('endingDate')}" th:errors="*{endingDate}"></p>
 		
 		<p>Input activity</p>
-		<input type="checkbox" th:field="*{isActive}" />
-		<p th:if="${#fields.hasErrors('isActive')}" th:errors="*{isActive}"></p>
+		<input type="checkbox" th:field="*{active}" />
+		<p th:if="${#fields.hasErrors('active')}" th:errors="*{active}"></p>
 
 		<button type="submit">Save project</button>
 	</form>

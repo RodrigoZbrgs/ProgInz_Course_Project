@@ -5,10 +5,8 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 
@@ -25,7 +23,7 @@ public class UserFilterController {
     @GetMapping("/name/{letter}")// localhost:8080/user/filter/name/M
     public String getUsersByFirstLetter(@PathVariable(name = "letter") String letter, Model model) {
         try {
-            ArrayList<Users> usersFromDB = Ufilterservice.filterByFirstLetterOfName(letter);
+            ArrayList<Users> usersFromDB = Ufilterservice.filterByStartingWith(letter);
 
             model.addAttribute("package", usersFromDB);
             model.addAttribute("info", "Users with name starting letter: " + letter);

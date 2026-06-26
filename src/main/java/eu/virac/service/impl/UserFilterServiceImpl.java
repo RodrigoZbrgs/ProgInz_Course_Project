@@ -15,11 +15,11 @@ public class UserFilterServiceImpl implements IUserFilter{
 	private IUsersRepo userRepo;
 
 	@Override
-	public ArrayList<Users> filterByFirstLetterOfName(String letter) throws Exception {
+	public ArrayList<Users> filterByStartingWith(String letter) throws Exception {
 		if (letter == null || letter.isEmpty()) {
             throw new Exception("Letter cannot be empty");
         }
-        return userRepo.findByNameStartingLetter(letter);
+        return userRepo.findByNameStartingWith(letter);
 	}
 
 	@Override
