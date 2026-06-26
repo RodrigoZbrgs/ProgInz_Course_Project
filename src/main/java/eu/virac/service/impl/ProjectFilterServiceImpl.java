@@ -8,10 +8,10 @@ import org.springframework.stereotype.Service;
 
 import eu.virac.model.ProjectInformation;
 import eu.virac.repo.IProjectInformationRepo;
-import eu.virac.service.IProjectFilter;
+import eu.virac.service.IProjectFIlter;
 
 @Service
-public class ProjectFilterServiceImpl implements IProjectFilter {
+public class ProjectFilterServiceImpl implements IProjectFIlter {
 
 	@Autowired
 	private IProjectInformationRepo projRepo;
