@@ -1,5 +1,6 @@
 package eu.virac;
 
+import eu.virac.model.KPIWorkDescription;
 import eu.virac.model.ProjectContribution;
 import eu.virac.model.ProjectInformation;
 import eu.virac.model.Users;
@@ -68,6 +69,12 @@ public class ProgInzCourseProjectApplication {
 					pc2.setUser(u1);
 					pc3.setUser(u1);
 					prContrRepo.saveAll(Arrays.asList(pc1,pc2,pc3));
+					
+					KPIWorkDescription wd1 = new KPIWorkDescription(LocalDate.of(2026, 6, 24), 5, "Debugging my toaster");
+	                KPIWorkDescription wd2 = new KPIWorkDescription(LocalDate.of(2026, 6, 25), 10, "Writting documentations");
+	                KPIWorkDescription wd3 = new KPIWorkDescription(LocalDate.of(2026, 6, 26), 3, "Meeting with client");
+	                
+	                kpiWorkDescRepo.saveAll(Arrays.asList(wd1, wd2, wd3));
 					
 
 				}

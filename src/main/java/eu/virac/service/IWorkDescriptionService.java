@@ -1,7 +1,6 @@
 package eu.virac.service;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Optional;
 import eu.virac.model.KPIWorkDescription;
 
 public interface IWorkDescriptionService {
