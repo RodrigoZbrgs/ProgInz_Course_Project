@@ -49,7 +49,7 @@ public class ProgInzCourseProjectApplication {
 					prInfoRepo.saveAll(Arrays.asList(p1, p2, p3));
 					
 					Users u1 = new Users("Rodrigo", "Zandbergs", "rodrigo.zandbergs@gmail.com", "********");
-					Users u2 = new Users("Maris", "Maize", "maris.maize@gmail.com", "rootadmin");
+					Users u2 = new Users("Maris", "Maize", "maris.maize@inbox.com", "rootadmin");
 					Users u3 = new Users("Marcis", "Rupmaize", "marcis.rupmaize@gmail.com", "adminroot");
 					usersRepo.saveAll(Arrays.asList(u1,u2,u3));
 					

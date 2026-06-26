@@ -11,11 +11,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import eu.virac.model.ProjectInformation;
+
 import eu.virac.model.Users;
 import eu.virac.service.IUserService;
-
-
 
 @Controller
 @RequestMapping("/user/crud")
