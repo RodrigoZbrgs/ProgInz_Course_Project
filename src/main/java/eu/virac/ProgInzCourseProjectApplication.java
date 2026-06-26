@@ -65,8 +65,8 @@ public class ProgInzCourseProjectApplication {
 					pc2.setProjectInformation(p2);
 					pc3.setProjectInformation(p3);
 					pc1.setUser(u1);
-					pc2.setUser(u1);
-					pc3.setUser(u1);
+					pc2.setUser(u2);
+					pc3.setUser(u3);
 					prContrRepo.saveAll(Arrays.asList(pc1,pc2,pc3));
 					
 
