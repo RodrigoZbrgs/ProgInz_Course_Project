@@ -63,7 +63,7 @@ public class UserCRUDController {
 	public String getControllerForUserAdding(Model model) {
 		try {
 
-			model.addAttribute("project", new Users());
+			model.addAttribute("user", new Users());
 			return "add-one-user";
 
 		} catch (Exception e) {
@@ -75,7 +75,7 @@ public class UserCRUDController {
 	public String retrieveUpdateuserById(@PathVariable(name = "id") int id, Model model) {
 		try {
 			Users usersFromDB = userService.selectUsersByUid(id);
-			model.addAttribute("project", usersFromDB);
+			model.addAttribute("user", usersFromDB);
 			return "update-one-user";
 
 		} catch (Exception e) {
