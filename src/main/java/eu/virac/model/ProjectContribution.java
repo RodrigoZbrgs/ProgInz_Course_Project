@@ -1,6 +1,9 @@
 package eu.virac.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collection;
+
 import eu.virac.model.enums.EmployeePositions;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,8 +12,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -32,34 +35,34 @@ public class ProjectContribution {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Setter(value = AccessLevel.NONE)
 	private long idpc;
-	
-	@NotEmpty
+
+	@NotNull
 	@Column(name = "Position_name")
 	private EmployeePositions employeePosition;
-	
-	@NotEmpty
+
+	@NotNull
 	@Column(name = "Starting_date")
 	private LocalDate startingDate;
-	
-	@NotEmpty
+
+	@NotNull
 	@Column(name = "Ending_date")
 	private LocalDate endingDate;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "idpi")
-	@NotNull
 	private ProjectInformation projectInformation;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "uid")
 	@NotNull
 	private Users user;
-	
-	public ProjectContribution(EmployeePositions employeePosition, LocalDate startingDate, LocalDate endingDate, ProjectInformation projectInformation) {
+
+	@OneToMany(mappedBy = "contributions")
+	private Collection<KPIWorkDescription> workDescription = new ArrayList<>();
+
+	public ProjectContribution(EmployeePositions employeePosition, LocalDate startingDate, LocalDate endingDate) {
 		setEmployeePosition(employeePosition);
 		setStartingDate(startingDate);
 		setEndingDate(endingDate);
-		setUser(user);
-		setProjectInformation(projectInformation);
 	}
 }

@@ -7,6 +7,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -21,7 +23,7 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @Entity
-@Table(name = "KPI_Statuss")
+@Table(name = "KPIStatusTable")
 public class KPI_Statuss {
 
 	@Column(name = "KPI_ID")
@@ -29,20 +31,24 @@ public class KPI_Statuss {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Setter(value = AccessLevel.NONE)
 	private long kpiId;
-	
+
 	@Column(name = "Status")
 	@NotEmpty
 	@NotNull
 	private String status;
 
 	@Column(name = "Status_date")
-	@NotEmpty
 	@NotNull
 	private LocalDate statusDate;
 
+	@ManyToOne
+	@JoinColumn(name = "idkpiwd")
+	private KPIWorkDescription workDescription;
 
-	// KPIDA_ID un L_ID japievieno caur tiem ManytoOne things 
-	
+	@ManyToOne
+	@JoinColumn(name = "uid")
+	private Users user;
+
 	public KPI_Statuss(String status, LocalDate statusDate) {
 		setStatus(status);
 		setStatusDate(statusDate);

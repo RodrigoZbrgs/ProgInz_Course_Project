@@ -1,0 +1,33 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+	<h1>Project data:</h1>
+
+	<table border="1px">
+		<tr>
+			<td>Idpi</td>
+			<td>Is_Active</td>
+			<td>Project_number</td>
+			<td>Project_name</td>
+			<td>Starting_date</td>
+			<td>Ending_date</td>
+		</tr>
+		<tr>
+			<td th:text="${package.idpi}"></td>
+			<td th:text="${package.active}"></td>
+			<td th:text="${package.projectNumber}"></td>
+			<td th:text="${package.projectName}"></td>
+			<td th:text="${package.startingDate}"></td>
+			<td th:text="${package.endingDate}"></td>
+		</tr>
+		</th:block>
+	</table>
+
+
+
+</body>
+
+
+
+</html>

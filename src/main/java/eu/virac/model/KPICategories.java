@@ -1,10 +1,14 @@
 package eu.virac.model;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -20,15 +24,14 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 @Entity
-@Table(name = "KPI Categories")
 
+@Table(name = "KPICategoriesTable")
 public class KPICategories {
-	
-	@Column(name = "IDCat")
+	@Column(name = "Idc")
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Setter(value = AccessLevel.NONE)
-	private long IDCat;
+	private long idc;
 
 	@Column(name = "Category", unique = true)
 	@NotNull
@@ -42,5 +45,12 @@ public class KPICategories {
 	@Pattern(regexp = "[A-Ža-ž0-9 ]{3,300}")
 	private String Description;
 
+	@OneToMany(mappedBy = "category")
+	private Collection<KPI_Subcategories> subcategories = new ArrayList<>();
+
+	public KPICategories(String Category, String Description) {
+		setCategory(Category);
+		setDescription(Description);
+	}
 
 }

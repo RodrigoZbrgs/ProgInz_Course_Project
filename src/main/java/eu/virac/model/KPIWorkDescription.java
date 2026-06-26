@@ -3,8 +3,18 @@ package eu.virac.model;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collection;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.Min;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,34 +25,53 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 @Entity
-@Table(name="KPI_work_description")
+@Table(name = "KPIWorkDescriptionTable")
 public class KPIWorkDescription {
-	
-	@Column(name = "kpiwdid")
-	private long kpiwdid;
-	
-	@Column(name = "uid")
-	private long uid;
-	
-	@Column(name = "scid")
-	private long scid;
-	
+
+	@Column(name = "Idkpiwd")
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Setter(value = AccessLevel.NONE)
+	private long idkpiwd;
+
 	@Column(name = "date")
 	@NotNull
-	@NotEmpty
-	private String date;
-	
+	private LocalDate date;
+
 	@Column(name = "amount")
+	@Min(1)
 	private int amount;
-	
+
 	@Column(name = "description", unique = true)
 	@NotNull
-	@NotEmpty
 	private String Description;
-	
-	public KPIWorkDescription(String date, int amount, String description) {
-	    setDate(date);
-	    setAmount(amount);
-	    setDescription(description);
+
+	@ManyToOne
+	@JoinColumn(name = "uid")
+	private Users user;
+
+	@ManyToOne
+	@JoinColumn(name = "idsc")
+	private KPI_Subcategories subCategory;
+
+	@ManyToOne
+	@JoinColumn(name = "idpc")
+	private ProjectContribution contributions;
+
+	@ManyToOne
+	@JoinColumn(name = "did")
+	private Department department;
+
+	@OneToMany(mappedBy = "workDescription")
+	private Collection<KPI_Statuss> kpiStatuss = new ArrayList<KPI_Statuss>();
+
+	@OneToMany(mappedBy = "workDescription")
+	private Collection<KPIRealisation> kpiRealisation = new ArrayList<KPIRealisation>();
+
+	public KPIWorkDescription(LocalDate date, int amount, String description) {
+		setDate(date);
+		setAmount(amount);
+		setDescription(description);
 	}
+
 }

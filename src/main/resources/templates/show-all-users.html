@@ -1,0 +1,32 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+	<h1>User data:</h1>
+	<h2 th:text="${info}"></h2>
+
+	<table border="1px">
+		<tr>
+			<td>UID</td>
+			<td>Name</td>
+			<td>Surname</td>
+			<td>Email</td>
+			<td>Password</td>
+			<td>Department</td>
+		</tr>
+
+		<th:block th:each="user : ${package}">
+			<tr>
+				<td th:text="${user.uid}"></td>
+				<td th:text="${user.name}"></td>
+				<td th:text="${user.surname}"></td>
+				<td th:text="${user.email}"></td>
+				<td th:text="${user.password}"></td>
+			</tr>
+		</th:block>
+
+	</table>
+
+</body>
+
+</html>

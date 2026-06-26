@@ -11,7 +11,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.AccessLevel;
@@ -34,30 +33,35 @@ public class ProjectInformation {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Setter(value = AccessLevel.NONE)
 	private long idpi;
-	
+
+	@Column(name = "Is_active")
+	@NotNull
+	private boolean active;
+
 	@Column(name = "Project_number")
 	@NotNull
 	@Pattern(regexp = "[P]{1}[0-9]{3,40}")
-	private long projectNumber;
-	
-	@NotEmpty
+	private String projectNumber;
+
+	@NotNull
 	@Pattern(regexp = "[A-Ž]{1}[A-Ža-Ž]{3,40}")
 	@Column(name = "Project_name")
 	private String projectName;
-	
-	@NotEmpty
+
+	@NotNull
 	@Column(name = "Starting_date")
 	private LocalDate startingDate;
-	
-	@NotEmpty
+
+	@NotNull
 	@Column(name = "Ending_date")
 	private LocalDate endingDate;
-	
+
 	@OneToMany(mappedBy = "projectInformation")
-	@ToString.Exclude
-	private Collection<ProjectContribution> contributions = new ArrayList<ProjectContribution>();
-	
-	public ProjectInformation(long projectNumber, String projectName, LocalDate startingDate, LocalDate endingDate) {
+	private Collection<ProjectContribution> contributions = new ArrayList<>();
+
+	public ProjectInformation(boolean isActive, String projectNumber, String projectName, LocalDate startingDate,
+			LocalDate endingDate) {
+		setActive(isActive);
 		setProjectNumber(projectNumber);
 		setProjectName(projectName);
 		setStartingDate(startingDate);
