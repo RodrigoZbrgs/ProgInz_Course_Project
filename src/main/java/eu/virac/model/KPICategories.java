@@ -42,7 +42,7 @@ public class KPICategories {
 	@Column(name = "Description", unique = true)
 	@NotNull
 	@NotEmpty
-	@Pattern(regexp = "{A-Ža-ž0-9 ]{3,300}")
+	@Pattern(regexp = "[A-Ža-ž0-9 ]{3,300}")
 	private String Description;
 
 	 @OneToMany(mappedBy = "category")
