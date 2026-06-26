@@ -44,7 +44,7 @@ public class WorkDescriptionCRUDController {
             return "error-page";
         }
     }
-    @GetMapping("/remove/{id}") //http://localhost:8080/workdescriptions/crud/add
+    @GetMapping("/remove/{id}") //http://localhost:8080/workdescriptions/crud/remove
     public String getControllerWorkDescriptionForRemoval(@PathVariable(name = "id") long id, Model model) {
         try {
             workDescriptionService.deleteWorkDescription(id);
