@@ -25,7 +25,7 @@ public class UserFilterController {
     @GetMapping("/name/{letter}")// localhost:8080/user/filter/name/M
     public String getUsersByFirstLetter(@PathVariable(name = "letter") String letter, Model model) {
         try {
-            ArrayList<Users> usersFromDB = Ufilterservice.filterByFirstLetterOfName(letter);
+            ArrayList<Users> usersFromDB = Ufilterservice.filterByStartingWith(letter);
 
             model.addAttribute("package", usersFromDB);
             model.addAttribute("info", "Users with name starting letter: " + letter);
