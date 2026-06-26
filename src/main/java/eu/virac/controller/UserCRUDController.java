@@ -36,7 +36,7 @@ public class UserCRUDController {
 	@GetMapping("/all/{id}")// localhost:8080/user/crud/all/1
 	public String getControllerSelectUsersById(@PathVariable(name = "id") int id, Model model) {
 		try {
-			Users usersFromDB = userService.selectUsersById(id);
+			Users usersFromDB = userService.selectUsersByUid(id);
 			model.addAttribute("package", usersFromDB);
 			return "show-one-user";
 
@@ -50,7 +50,7 @@ public class UserCRUDController {
 	@GetMapping("/remove/{id}")// localhost:8080/user/crud/all/1
 	public String getControllerUserForRemoval(@PathVariable(name = "id") int id, Model model) {
 		try {
-			userService.deleteUserById(id);
+			userService.deleteUserByUid(id);
 			ArrayList<Users> usersFromDB= userService.selectAllUser();
 			model.addAttribute("package", usersFromDB);
 			return "show-all-users";
@@ -74,7 +74,7 @@ public class UserCRUDController {
 	@GetMapping("/update/{id}")// localhost:8080/user/crud/all/2
 	public String retrieveUpdateuserById(@PathVariable(name = "id") int id, Model model) {
 		try {
-			Users usersFromDB = userService.selectUsersById(id);
+			Users usersFromDB = userService.selectUsersByUid(id);
 			model.addAttribute("project", usersFromDB);
 			return "update-one-user";
 

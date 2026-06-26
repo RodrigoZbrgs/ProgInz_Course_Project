@@ -9,9 +9,9 @@ import eu.virac.model.Users;
 
 public interface IUsersRepo extends CrudRepository<Users, Long> {
 
-	boolean existsById(int id);
+	boolean existsByUid(int uid);
 
-	Users findById(int id);
+	Users findByUid(int uid);
 
 	ArrayList<Users> findByNameStartingLetter(String letter);
 

@@ -24,7 +24,7 @@ public class UserServiceImpl implements IUserService{
 	}
 
 	@Override
-	public Users selectUsersById(int id) throws Exception {
+	public Users selectUsersByUid(int id) throws Exception {
 		if (userRepo.count() == 0) {
 			throw new Exception("Users tabula ir tukša un nevar atgriezt id");
 		}
@@ -33,23 +33,23 @@ public class UserServiceImpl implements IUserService{
 			throw new Exception("Id nevar būt negatīvs vai 0");
 		}
 
-		if (!userRepo.existsById(id)) {
+		if (!userRepo.existsByUid(id)) {
 			throw new Exception("User ar id" + id + "neeksiste");
 		}
 
-		return userRepo.findById(id);
+		return userRepo.findByUid(id);
 	}
 
 	@Override
-	public void deleteUserById(int id) throws Exception {
-		Users UserForDeleting  = selectUsersById(id);
+	public void deleteUserByUid(int id) throws Exception {
+		Users UserForDeleting  = selectUsersByUid(id);
 		userRepo.delete(UserForDeleting);
 		
 	}
 
 	@Override
-	public void updateUserById(int id, String name, String surname, String email, String password) throws Exception {
-	    Users userToUpdate = selectUsersById(id);
+	public void updateUserByUid(int id, String name, String surname, String email, String password) throws Exception {
+	    Users userToUpdate = selectUsersByUid(id);
 	    if (name == null || surname == null || email == null || password == null) {
 	        throw new Exception("Nav korekti ievades dati");
 	    }
