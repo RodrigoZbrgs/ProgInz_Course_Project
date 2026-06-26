@@ -21,7 +21,9 @@ import lombok.ToString;
 @ToString
 @Entity
 @Table(name = "KPI Categories")
+
 public class KPICategories {
+	
 	@Column(name = "IDCat")
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -40,8 +42,5 @@ public class KPICategories {
 	@Pattern(regexp = "[A-Ža-ž0-9 ]{3,300}")
 	private String Description;
 
-	public KPICategories(String Category, String Description) {
-		setCategory(Category);
-		setDescription(Description);
-	}
+
 }
