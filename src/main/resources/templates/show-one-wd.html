@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+    <h1>Work Description Details</h1>
+
+    <table border="1px">
+        <tr>
+            <td>ID</td>
+            <td th:text="${package.idkpiwd}"></td>
+        </tr>
+        <tr>
+            <td>Date</td>
+            <td th:text="${package.date}"></td>
+        </tr>
+        <tr>
+            <td>Amount</td>
+            <td th:text="${package.amount}"></td>
+        </tr>
+        <tr>
+            <td>Description</td>
+            <td th:text="${package.description}"></td>
+        </tr>
+    </table>
+
+</body>
+
+</html>

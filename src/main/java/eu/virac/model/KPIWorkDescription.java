@@ -45,7 +45,7 @@ public class KPIWorkDescription {
 
     @Column(name = "description", unique = true)
     @NotNull
-    private String Description;
+    private String description;
     
     @ManyToOne
     @JoinColumn(name = "uid")

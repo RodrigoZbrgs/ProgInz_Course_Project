@@ -48,14 +48,20 @@ public class WorkDescriptionServiceImpl implements IWorkDescriptionService, IWor
 
 	@Override
 	public KPIWorkDescription addWorkDescription(KPIWorkDescription workDescription) throws Exception {
-		if (workDescription == null) {
+	    if (workDescription == null) {
 	        throw new Exception("Work description data is not available");
+	    }
+	    if (workDescription.getDescription() == null || workDescription.getDescription().isEmpty()) {
+	        throw new Exception("Description cannot be empty");
+	    }
+	    if (workDescription.getDate() == null) {
+	        throw new Exception("Date cannot be empty");
+	    }
+	    if (workDescription.getAmount() < 1) {
+	        throw new Exception("Amount must be at least 1");
 	    }
 	    if (workDescriptionRepo.existsByDescription(workDescription.getDescription())) {
 	        throw new Exception("Work description with this name already exists");
-	    }
-	    if (workDescription.getDescription() == null){
-	    	throw new Exception ("invalid input");
 	    }
 	    return workDescriptionRepo.save(workDescription);
 	}
@@ -94,12 +100,6 @@ public class WorkDescriptionServiceImpl implements IWorkDescriptionService, IWor
 
 	@Override
 	public KPIWorkDescription findWorkDescriptionById(long id) throws Exception {
-		if (workDescriptionRepo.count() == 0) {
-	        throw new Exception("Work description table is empty");
-	    }
-	    if (id < 1) {
-	        throw new Exception("Id cannot be negative or 0");
-	    }
 	    if (!workDescriptionRepo.existsById(id)) {
 	        throw new Exception("Work description with id " + id + " does not exist");
 	    }
@@ -111,7 +111,7 @@ public class WorkDescriptionServiceImpl implements IWorkDescriptionService, IWor
 		if (amount < 1) {
 	        throw new Exception("Amount must be at least 1");
 	    }
-	    return workDescriptionRepo.findByAmountLesserThan(amount);
+	    return workDescriptionRepo.findByAmountLessThan(amount);
 	}
 
 }
