@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import eu.virac.model.ProjectInformation;
 
-public interface IProjectFilter {
+public interface IProjectFIlter {
 	
 	public abstract ArrayList<ProjectInformation> filterByKeyWord(String keyword) throws Exception;
 	
