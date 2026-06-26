@@ -62,7 +62,7 @@ public class ProjectFilterServiceImpl implements IProjectFIlter {
 			throw new Exception("DB has no projects, so can not be filtered");
 		}
 
-		ArrayList<ProjectInformation> filteredProjects = projRepo.findByIsActive(activity);
+		ArrayList<ProjectInformation> filteredProjects = projRepo.findByActive(activity);
 
 		if (filteredProjects.isEmpty()) {
 			throw new Exception("No project is in " + activity + "status");

@@ -14,7 +14,7 @@ public interface IProjectInformationRepo extends CrudRepository<ProjectInformati
 
 	public abstract ArrayList<ProjectInformation> findByProjectNameContaining(String keyword);
 
-	public abstract ArrayList<ProjectInformation> findByIsActive(Boolean activity);
+	public abstract ArrayList<ProjectInformation> findByActive(Boolean activity);
 
 	public abstract ArrayList<ProjectInformation> findByEndingDate(LocalDate endingDate);
 

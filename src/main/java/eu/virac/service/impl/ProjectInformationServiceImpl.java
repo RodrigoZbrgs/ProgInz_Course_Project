@@ -28,7 +28,7 @@ public class ProjectInformationServiceImpl implements IProjectService {
 	@Override
 	public ProjectInformation selectProjectById(long id) throws Exception {
 		if (prInfoRepo.count() == 0) {
-			throw new Exception("Studentu tabula ir tukša un nevar atgriezt id");
+			throw new Exception("Projekta tabula ir tukša un nevar atgriezt id");
 		}
 
 		if (id < 1) {
@@ -36,7 +36,7 @@ public class ProjectInformationServiceImpl implements IProjectService {
 		}
 
 		if (!prInfoRepo.existsById(id)) {
-			throw new Exception("Students ar id" + id + "neeksiste");
+			throw new Exception("Projekts ar id" + id + "neeksiste");
 		}
 
 		return prInfoRepo.findById(id).get();
@@ -51,11 +51,11 @@ public class ProjectInformationServiceImpl implements IProjectService {
 	@Override	
 	public ProjectInformation insertNewProject(ProjectInformation newProject) throws Exception {
 		if(newProject == null) {
-			throw new Exception("Darbinieka dati nav pieejami, jo nav reference");
+			throw new Exception("Projekta dati nav pieejami, jo nav reference");
 		}
 		
 		if (prInfoRepo.existsByProjectName(newProject.getProjectName())) {
-		    throw new Exception("Darbinieks ar tādu persona kodu jau eksistē");
+		    throw new Exception("Projekts ar tādu vārdu jau eksistē");
 		}
 		
 		if(newProject.getProjectName() == null || newProject.getProjectNumber() == null
