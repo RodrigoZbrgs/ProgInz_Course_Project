@@ -1,0 +1,30 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+	<h1>Edit user:</h1>
+
+	<form method="post"
+		  th:object="${user}"
+		  th:action="@{/user/crud/update/__${id}__}">
+
+		<p>Input name</p>
+		<input type="text" th:field="*{name}" />
+
+		<p>Input surname</p>
+		<input type="text" th:field="*{surname}" />
+
+		<p>Input email</p>
+		<input type="text" th:field="*{email}" />
+
+		<p>Input password</p>
+		<input type="password" th:field="*{password}" />
+
+		<p>Select department description</p>
+		<input type="text" th:field="*{department.description}" />
+
+		<button type="submit">Save user</button>
+
+	</form>
+</body>
+
+</html>
