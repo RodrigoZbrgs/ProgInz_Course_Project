@@ -12,5 +12,5 @@ public interface IWorkDescriptionsFilter {
 
 	public abstract ArrayList<KPIWorkDescription> filterByAmountGreaterThan(int amount) throws Exception;
 
-	public abstract ArrayList<KPIWorkDescription> findByAmountLessThan(int amount) throws Exception;
+	public abstract ArrayList<KPIWorkDescription> filterAmountLessThan(int amount) throws Exception;
 }

@@ -69,16 +69,15 @@ public class ProgInzCourseProjectApplication {
 					pc1.setUser(u1);
 					pc2.setUser(u2);
 					pc3.setUser(u3);
-					prContrRepo.saveAll(Arrays.asList(pc1, pc2, pc3));
+					prContrRepo.saveAll(Arrays.asList(pc1,pc2,pc3));
+					
+					KPIWorkDescription wd1 = new KPIWorkDescription(LocalDate.of(2026, 6, 24), 10, "Debugging my toaster");
+	                KPIWorkDescription wd2 = new KPIWorkDescription(LocalDate.of(2026, 6, 25), 2, "Writting documentations");
+	                KPIWorkDescription wd3 = new KPIWorkDescription(LocalDate.of(2026, 6, 26), 6, "Meeting with client");
+	                
+	                kpiWorkDescRepo.saveAll(Arrays.asList(wd1, wd2, wd3));
+					
 
-					KPIWorkDescription wd1 = new KPIWorkDescription(LocalDate.of(2026, 6, 24), 5,
-							"Debugging my toaster");
-					KPIWorkDescription wd2 = new KPIWorkDescription(LocalDate.of(2026, 6, 25), 10,
-							"Writting documentations");
-					KPIWorkDescription wd3 = new KPIWorkDescription(LocalDate.of(2026, 6, 26), 3,
-							"Meeting with client");
-
-					kpiWorkDescRepo.saveAll(Arrays.asList(wd1, wd2, wd3));
 
 				}
 			}

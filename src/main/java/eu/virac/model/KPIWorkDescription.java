@@ -13,6 +13,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -33,10 +34,15 @@ public class KPIWorkDescription {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Setter(value = AccessLevel.NONE)
 	private long idkpiwd;
-
-	@Column(name = "date")
-	@NotNull
-	private LocalDate date;
+	
+    @Column(name = "date")
+    @NotNull
+    private LocalDate date;
+//severity
+    @Column(name = "amount")
+    @Min(1)
+    @Max(10)
+    private int amount;
 
 	@Column(name = "description", unique = true)
 	@NotNull
@@ -45,10 +51,6 @@ public class KPIWorkDescription {
 	@ManyToOne
 	@JoinColumn(name = "uid")
 	private Users user;
-
-	@Column(name = "amount")
-	@Min(1)
-	private int amount;
 
 	@Column(name = "description", unique = true)
 	@NotNull
