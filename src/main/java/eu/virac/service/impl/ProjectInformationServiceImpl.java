@@ -15,7 +15,7 @@ import eu.virac.repo.IProjectInformationRepo;
 import eu.virac.service.IProjectService;
 
 @Service
-public class ProjectInformationServiceImpl implements IProjectService {
+public class ProjectInformationServiceImpl implements IProjectService  {
 
 	@Autowired
 	private IProjectInformationRepo prInfoRepo;
