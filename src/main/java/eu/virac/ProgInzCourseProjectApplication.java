@@ -1,5 +1,6 @@
 package eu.virac;
 
+import eu.virac.model.KPIRealisation;
 import eu.virac.model.KPIWorkDescription;
 import eu.virac.model.ProjectContribution;
 import eu.virac.model.ProjectInformation;
@@ -69,15 +70,24 @@ public class ProgInzCourseProjectApplication {
 					pc1.setUser(u1);
 					pc2.setUser(u2);
 					pc3.setUser(u3);
-					prContrRepo.saveAll(Arrays.asList(pc1,pc2,pc3));
-					
-					KPIWorkDescription wd1 = new KPIWorkDescription(LocalDate.of(2026, 6, 24), 10, "Debugging my toaster");
-	                KPIWorkDescription wd2 = new KPIWorkDescription(LocalDate.of(2026, 6, 25), 2, "Writting documentations");
-	                KPIWorkDescription wd3 = new KPIWorkDescription(LocalDate.of(2026, 6, 26), 6, "Meeting with client");
-	                
-	                kpiWorkDescRepo.saveAll(Arrays.asList(wd1, wd2, wd3));
-					
+					prContrRepo.saveAll(Arrays.asList(pc1, pc2, pc3));
 
+					KPIWorkDescription wd1 = new KPIWorkDescription(LocalDate.of(2026, 6, 24), 10,
+							"Debugging my toaster");
+					KPIWorkDescription wd2 = new KPIWorkDescription(LocalDate.of(2026, 6, 25), 2,
+							"Writting documentations");
+					KPIWorkDescription wd3 = new KPIWorkDescription(LocalDate.of(2026, 6, 26), 6,
+							"Meeting with client");
+
+					KPIRealisation kpir1 = new KPIRealisation(LocalDate.now(), "Fixed up the telescope",
+							"wasnt easy :(");
+					KPIRealisation kpir2 = new KPIRealisation(LocalDate.now(), "Finally aligned the primary mirrors",
+							"took three coffees and a existential crisis");
+					KPIRealisation kpir3 = new KPIRealisation(LocalDate.now(), "Calibrated the spectrograph",
+							"still don't think it's 100% right but I'm leaving it");
+					kpiRealisationRepo.saveAll(Arrays.asList(kpir1, kpir2, kpir3));
+
+					kpiWorkDescRepo.saveAll(Arrays.asList(wd1, wd2, wd3));
 
 				}
 			}
