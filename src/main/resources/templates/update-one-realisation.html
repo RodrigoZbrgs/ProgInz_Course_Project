@@ -2,16 +2,16 @@
 
 <body>
 	<h1>Edit realisation:</h1>
-	<form method="post" th:object="${kpirealisation}" th:action="@{/kpireal/crud/update/__${id}__}">
+	<form method="post" th:object="${realisation}" th:action="@{/kpireal/crud/update/__${id}__}">
 
 		<p>Input realisation date</p>
-		<input type="text" th:field="*{realisationdate}" />
+		<input type="date" th:field="*{realisationdate}" />
 
 		<p>Input realisation text</p>
 		<input type="text" th:field="*{textvalue}" />
 
 		<p>Input realisation comment</p>
-		<input type="date" th:field="*{comment}" />
+		<input type="text" th:field="*{comment}" />
 
 		<button type="submit">Save project</button>
 	</form>

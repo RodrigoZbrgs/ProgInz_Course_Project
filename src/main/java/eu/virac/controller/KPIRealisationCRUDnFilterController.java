@@ -62,7 +62,7 @@ public class KPIRealisationCRUDnFilterController {
 	public String getControllerForRealisationAdding(Model model) {
 		try {
 
-			model.addAttribute("project", new KPIRealisation());
+			model.addAttribute("realisation", new KPIRealisation());
 			return "add-one-realisation";
 
 		} catch (Exception e) {
@@ -75,7 +75,7 @@ public class KPIRealisationCRUDnFilterController {
 	public String retrieveUpdateuserById(@PathVariable(name = "id") int id, Model model) {
 		try {
 			KPIRealisation kpiRealFromDB = realService.findRealisationById(id);
-			model.addAttribute("project", kpiRealFromDB);
+			model.addAttribute("realisation", kpiRealFromDB);
 			return "update-one-realisation";
 
 		} catch (Exception e) {

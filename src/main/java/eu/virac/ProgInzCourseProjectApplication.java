@@ -1,5 +1,6 @@
 package eu.virac;
 
+import eu.virac.model.KPIRealisation;
 import eu.virac.model.KPIWorkDescription;
 import eu.virac.model.ProjectContribution;
 import eu.virac.model.ProjectInformation;
@@ -55,21 +56,13 @@ public class ProgInzCourseProjectApplication {
 					Users u3 = new Users("Marcis", "Rupmaize", "marcis.rupmaize@gmail.com", "adminroot");
 					usersRepo.saveAll(Arrays.asList(u1, u2, u3));
 
-					// project contribution
-					ProjectContribution pc1 = new ProjectContribution(EmployeePositions.Darbinieks,
-							LocalDate.of(2026, 6, 24), LocalDate.of(2027, 6, 24));
-					ProjectContribution pc2 = new ProjectContribution(EmployeePositions.Darbinieks,
-							LocalDate.of(2026, 6, 25), LocalDate.of(2027, 6, 25));
-					ProjectContribution pc3 = new ProjectContribution(EmployeePositions.Darbinieks,
-							LocalDate.of(2026, 6, 26), LocalDate.of(2027, 6, 26));
-
-					pc1.setProjectInformation(p1);
-					pc2.setProjectInformation(p2);
-					pc3.setProjectInformation(p3);
-					pc1.setUser(u1);
-					pc2.setUser(u2);
-					pc3.setUser(u3);
-					prContrRepo.saveAll(Arrays.asList(pc1,pc2,pc3));
+					KPIRealisation kpir1 = new KPIRealisation(LocalDate.of(2026, 3, 24), "Fixed up the telescope",
+                            "wasnt easy :(");
+                    KPIRealisation kpir2 = new KPIRealisation(LocalDate.of(2026, 3, 24), "Finally aligned the primary mirrors",
+                            "took three coffees and a existential crisis");
+                    KPIRealisation kpir3 = new KPIRealisation(LocalDate.of(2026, 3, 24), "Calibrated the spectrograph",
+                            "still don't think it's 100% right but I'm leaving it");
+                    kpiRealisationRepo.saveAll(Arrays.asList(kpir1, kpir2, kpir3));
 					
 					KPIWorkDescription wd1 = new KPIWorkDescription(LocalDate.of(2026, 6, 24), 10, "Debugging my toaster");
 	                KPIWorkDescription wd2 = new KPIWorkDescription(LocalDate.of(2026, 6, 25), 2, "Writting documentations");
