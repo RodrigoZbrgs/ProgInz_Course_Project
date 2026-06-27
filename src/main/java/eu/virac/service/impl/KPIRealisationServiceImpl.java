@@ -82,7 +82,7 @@ public class KPIRealisationServiceImpl implements IKPIRealisationService, IKPIRe
 	}
 
 	@Override
-	public ArrayList<KPIRealisation> filterByDate(LocalDate realisationdate) throws Exception {
+	public ArrayList<KPIRealisation> filterByRealisationDate(LocalDate realisationdate) throws Exception {
 		if (realisationdate == null) {
 			throw new Exception("Incorrect parameters");
 		}
@@ -91,7 +91,7 @@ public class KPIRealisationServiceImpl implements IKPIRealisationService, IKPIRe
 			throw new Exception("DB has no projects, so can not be filtered");
 		}
 
-		ArrayList<KPIRealisation> filteredRealisations = realRepo.findByDate(realisationdate);
+		ArrayList<KPIRealisation> filteredRealisations = realRepo.findByRealisationdate(realisationdate);
 
 		if (filteredRealisations.isEmpty()) {
 			throw new Exception("No project on " + realisationdate);

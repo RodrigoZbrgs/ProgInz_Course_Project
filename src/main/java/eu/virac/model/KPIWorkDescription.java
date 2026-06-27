@@ -52,10 +52,6 @@ public class KPIWorkDescription {
 	@JoinColumn(name = "uid")
 	private Users user;
 
-	@Column(name = "description", unique = true)
-	@NotNull
-	private String Description;
-
 	@ManyToOne
 	@JoinColumn(name = "idsc")
 	private KPI_Subcategories subCategory;
