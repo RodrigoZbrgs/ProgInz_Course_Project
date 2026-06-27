@@ -13,6 +13,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
@@ -38,9 +39,10 @@ public class KPIWorkDescription {
     @Column(name = "date")
     @NotNull
     private LocalDate date;
-
+//severity
     @Column(name = "amount")
     @Min(1)
+    @Max(10)
     private int amount;
 
     @Column(name = "description", unique = true)

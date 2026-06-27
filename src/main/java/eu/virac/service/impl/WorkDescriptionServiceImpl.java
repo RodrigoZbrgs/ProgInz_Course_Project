@@ -18,7 +18,7 @@ public class WorkDescriptionServiceImpl implements IWorkDescriptionService, IWor
 		if (keyword == null || keyword.isEmpty()) {
             throw new Exception("keyword cannot be empty");
         }
-		return (ArrayList<KPIWorkDescription>) workDescriptionRepo.findAll();
+		return workDescriptionRepo.findByDescriptionContainingIgnoreCase(keyword);
     }
 	
 
@@ -32,8 +32,8 @@ public class WorkDescriptionServiceImpl implements IWorkDescriptionService, IWor
 
 	@Override
 	public ArrayList<KPIWorkDescription> filterByAmountGreaterThan(int amount) throws Exception {
-		if (amount < 1) {
-	        throw new Exception("Amount must be at least 1");
+		if (amount < 1 || amount>10) {
+	        throw new Exception("Amount must be at least 1 and lesser than 10");
 	    }
 	    return workDescriptionRepo.findByAmountGreaterThan(amount);
 	}
@@ -107,7 +107,7 @@ public class WorkDescriptionServiceImpl implements IWorkDescriptionService, IWor
 	}
 	
 	@Override
-	public ArrayList<KPIWorkDescription> findByAmountLessThan(int amount) throws Exception {
+	public ArrayList<KPIWorkDescription> filterAmountLessThan(int amount) throws Exception {
 		if (amount < 1) {
 	        throw new Exception("Amount must be at least 1");
 	    }
