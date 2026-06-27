@@ -1,6 +1,5 @@
 package eu.virac.repo;
 
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -19,9 +18,5 @@ public interface IProjectInformationRepo extends CrudRepository<ProjectInformati
 	public abstract ArrayList<ProjectInformation> findByEndingDate(LocalDate endingDate);
 
 	public abstract ArrayList<ProjectInformation> findByStartingDate(LocalDate startingDate);
-
-
-
-
 
 }

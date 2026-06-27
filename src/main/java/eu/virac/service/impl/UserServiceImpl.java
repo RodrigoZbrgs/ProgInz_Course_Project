@@ -10,11 +10,11 @@ import eu.virac.repo.IUsersRepo;
 import eu.virac.service.IUserService;
 
 @Service
-public class UserServiceImpl implements IUserService{
-	
+public class UserServiceImpl implements IUserService {
+
 	@Autowired
 	private IUsersRepo userRepo;
-	
+
 	@Override
 	public ArrayList<Users> selectAllUser() throws Exception {
 		if (userRepo.count() == 0) {
@@ -42,30 +42,30 @@ public class UserServiceImpl implements IUserService{
 
 	@Override
 	public void deleteUserByUid(int id) throws Exception {
-		Users UserForDeleting  = selectUsersByUid(id);
+		Users UserForDeleting = selectUsersByUid(id);
 		userRepo.delete(UserForDeleting);
-		
+
 	}
 
 	@Override
 	public void updateUserByUid(int id, String name, String surname, String email, String password) throws Exception {
-	    Users userToUpdate = selectUsersByUid(id);
-	    if (name == null || surname == null || email == null || password == null) {
-	        throw new Exception("Nav korekti ievades dati");
-	    }
-	    if (name != null) {
-	        userToUpdate.setName(name);
-	    }
-	    if (surname != null) {
-	        userToUpdate.setSurname(surname);
-	    }
-	    if (email != null) {
-	        userToUpdate.setEmail(email);
-	    }
-	    if (password != null) {
-	        userToUpdate.setPassword(password);
-	    }
-	    userRepo.save(userToUpdate);
+		Users userToUpdate = selectUsersByUid(id);
+		if (name == null || surname == null || email == null || password == null) {
+			throw new Exception("Nav korekti ievades dati");
+		}
+		if (name != null) {
+			userToUpdate.setName(name);
+		}
+		if (surname != null) {
+			userToUpdate.setSurname(surname);
+		}
+		if (email != null) {
+			userToUpdate.setEmail(email);
+		}
+		if (password != null) {
+			userToUpdate.setPassword(password);
+		}
+		userRepo.save(userToUpdate);
 	}
 
 }

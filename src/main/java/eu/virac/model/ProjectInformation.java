@@ -33,33 +33,34 @@ public class ProjectInformation {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Setter(value = AccessLevel.NONE)
 	private long idpi;
-	
+
 	@Column(name = "Is_active")
 	@NotNull
 	private boolean active;
-	
+
 	@Column(name = "Project_number")
 	@NotNull
 	@Pattern(regexp = "[P]{1}[0-9]{3,40}")
 	private String projectNumber;
-	
+
 	@NotNull
 	@Pattern(regexp = "[A-Ž]{1}[A-Ža-Ž]{3,40}")
 	@Column(name = "Project_name")
 	private String projectName;
-	
+
 	@NotNull
 	@Column(name = "Starting_date")
 	private LocalDate startingDate;
-	
+
 	@NotNull
 	@Column(name = "Ending_date")
 	private LocalDate endingDate;
-	
+
 	@OneToMany(mappedBy = "projectInformation")
 	private Collection<ProjectContribution> contributions = new ArrayList<>();
-	
-	public ProjectInformation(boolean isActive, String projectNumber, String projectName, LocalDate startingDate, LocalDate endingDate) {
+
+	public ProjectInformation(boolean isActive, String projectNumber, String projectName, LocalDate startingDate,
+			LocalDate endingDate) {
 		setActive(isActive);
 		setProjectNumber(projectNumber);
 		setProjectName(projectName);

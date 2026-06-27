@@ -1,5 +1,9 @@
 package eu.virac.service.impl;
 
+import org.springframework.stereotype.Service;
+
+import eu.virac.service.IProjectService;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -10,13 +14,12 @@ import eu.virac.model.ProjectInformation;
 import eu.virac.repo.IProjectInformationRepo;
 import eu.virac.service.IProjectService;
 
-
 @Service
 public class ProjectInformationServiceImpl implements IProjectService {
-	
+
 	@Autowired
 	private IProjectInformationRepo prInfoRepo;
-	
+
 	@Override
 	public ArrayList<ProjectInformation> selectAllProjects() throws Exception {
 		if (prInfoRepo.count() == 0) {
@@ -24,7 +27,7 @@ public class ProjectInformationServiceImpl implements IProjectService {
 		}
 		return (ArrayList<ProjectInformation>) prInfoRepo.findAll();
 	}
-	
+
 	@Override
 	public ProjectInformation selectProjectById(long id) throws Exception {
 		if (prInfoRepo.count() == 0) {
@@ -41,55 +44,54 @@ public class ProjectInformationServiceImpl implements IProjectService {
 
 		return prInfoRepo.findById(id).get();
 	}
-	
+
 	@Override
 	public void deleteProjectById(int id) throws Exception {
 		ProjectInformation projectForDeleting = selectProjectById(id);
 		prInfoRepo.delete(projectForDeleting);
 	}
-	
-	@Override	
+
+	@Override
 	public ProjectInformation insertNewProject(ProjectInformation newProject) throws Exception {
-		if(newProject == null) {
+		if (newProject == null) {
 			throw new Exception("Projekta dati nav pieejami, jo nav reference");
 		}
-		
+
 		if (prInfoRepo.existsByProjectName(newProject.getProjectName())) {
-		    throw new Exception("Projekts ar tādu vārdu jau eksistē");
+			throw new Exception("Projekts ar tādu vārdu jau eksistē");
 		}
-		
-		if(newProject.getProjectName() == null || newProject.getProjectNumber() == null
-				|| newProject.getStartingDate() == null|| newProject.getEndingDate() == null) {
+
+		if (newProject.getProjectName() == null || newProject.getProjectNumber() == null
+				|| newProject.getStartingDate() == null || newProject.getEndingDate() == null) {
 			throw new Exception("Nav korekti ievades dati");
 		}
 
 		return prInfoRepo.save(newProject);
 	}
-	
-	
-	@Override
-	public void updateByidpi(long id, String projectNumber, String projectName, LocalDate startingDate, LocalDate endingDate) throws Exception {
-	    ProjectInformation projectToUpdate = selectProjectById(id);
 
-		if(projectNumber == null  || projectName == null || startingDate == null
-				|| endingDate == null) {
+	@Override
+	public void updateByidpi(long id, String projectNumber, String projectName, LocalDate startingDate,
+			LocalDate endingDate) throws Exception {
+		ProjectInformation projectToUpdate = selectProjectById(id);
+
+		if (projectNumber == null || projectName == null || startingDate == null || endingDate == null) {
 			throw new Exception("Nav korekti ievades dati");
 		}
-	    
-	    if (projectNumber != null ) {
-	    	projectToUpdate.setProjectNumber(projectNumber);
-	    }
-	    if (projectName != null) {
-	    	projectToUpdate.setProjectName(projectName);
-	    }
-	    if (startingDate != null) {
-	    	projectToUpdate.setStartingDate(startingDate);
-	    }
-	    if (endingDate != null) {
-	    	projectToUpdate.setEndingDate(endingDate);
-	    }
 
-	    prInfoRepo.save(projectToUpdate);
+		if (projectNumber != null) {
+			projectToUpdate.setProjectNumber(projectNumber);
+		}
+		if (projectName != null) {
+			projectToUpdate.setProjectName(projectName);
+		}
+		if (startingDate != null) {
+			projectToUpdate.setStartingDate(startingDate);
+		}
+		if (endingDate != null) {
+			projectToUpdate.setEndingDate(endingDate);
+		}
+
+		prInfoRepo.save(projectToUpdate);
 	}
-	
+
 }

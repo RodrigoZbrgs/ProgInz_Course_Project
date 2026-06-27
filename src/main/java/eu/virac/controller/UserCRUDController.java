@@ -11,29 +11,29 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-
 import eu.virac.model.Users;
 import eu.virac.service.IUserService;
 
 @Controller
 @RequestMapping("/user/crud")
 public class UserCRUDController {
-	
+
 	@Autowired
 	private IUserService userService;
-	
+
 	@GetMapping("/all") // localhost:8080/user/crud/all
 	public String getControllerRetrievAllUsers(Model model) {
 		try {
 			ArrayList<Users> usersFromDB = userService.selectAllUser();
-			model.addAttribute("package", usersFromDB );
+			model.addAttribute("package", usersFromDB);
 			return "show-all-users";
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
 			return "error-page";
 		}
 	}
-	@GetMapping("/all/{id}")// localhost:8080/user/crud/all/1
+
+	@GetMapping("/all/{id}") // localhost:8080/user/crud/all/1
 	public String getControllerSelectUsersById(@PathVariable(name = "id") int id, Model model) {
 		try {
 			Users usersFromDB = userService.selectUsersByUid(id);
@@ -46,12 +46,12 @@ public class UserCRUDController {
 		}
 
 	}
-	
-	@GetMapping("/remove/{id}")// localhost:8080/user/crud/all/1
+
+	@GetMapping("/remove/{id}") // localhost:8080/user/crud/all/1
 	public String getControllerUserForRemoval(@PathVariable(name = "id") int id, Model model) {
 		try {
 			userService.deleteUserByUid(id);
-			ArrayList<Users> usersFromDB= userService.selectAllUser();
+			ArrayList<Users> usersFromDB = userService.selectAllUser();
 			model.addAttribute("package", usersFromDB);
 			return "show-all-users";
 		} catch (Exception e) {
@@ -59,7 +59,8 @@ public class UserCRUDController {
 			return "error-page";
 		}
 	}
-	@GetMapping("/add")// localhost:8080/user/crud/add
+
+	@GetMapping("/add") // localhost:8080/user/crud/add
 	public String getControllerForUserAdding(Model model) {
 		try {
 
@@ -71,7 +72,8 @@ public class UserCRUDController {
 			return "error-page";
 		}
 	}
-	@GetMapping("/update/{id}")// localhost:8080/user/crud/all/2
+
+	@GetMapping("/update/{id}") // localhost:8080/user/crud/all/2
 	public String retrieveUpdateuserById(@PathVariable(name = "id") int id, Model model) {
 		try {
 			Users usersFromDB = userService.selectUsersByUid(id);

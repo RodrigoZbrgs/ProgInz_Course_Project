@@ -58,20 +58,20 @@ public class Users {
 	private String password;
 
 	@ManyToOne
-    @JoinColumn(name = "did")
+	@JoinColumn(name = "did")
 	private Department department;
-	
+
 	@OneToMany(mappedBy = "user")
 	@ToString.Exclude
 	private Collection<ProjectContribution> contributions = new ArrayList<ProjectContribution>();
 
 	@OneToMany(mappedBy = "user")
 	@ToString.Exclude
-    private Collection<KPIWorkDescription> kpiWorkDescription = new ArrayList<KPIWorkDescription>();
+	private Collection<KPIWorkDescription> kpiWorkDescription = new ArrayList<KPIWorkDescription>();
 
 	@OneToMany(mappedBy = "user")
 	@ToString.Exclude
-    private Collection<KPI_Statuss> kpiStatuss = new ArrayList<KPI_Statuss>();
+	private Collection<KPI_Statuss> kpiStatuss = new ArrayList<KPI_Statuss>();
 
 	public Users(String name, String surname, String email, String password) {
 		setName(name);

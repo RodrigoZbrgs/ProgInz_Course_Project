@@ -26,7 +26,7 @@ import lombok.ToString;
 @Table(name = "DepartmentTable")
 
 public class Department {
-	
+
 	@Column(name = "Did")
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -37,17 +37,17 @@ public class Department {
 	@NotEmpty
 	@NotNull
 	private String description;
-	
+
 	@Column(name = "goals")
 	@NotEmpty
 	@NotNull
 	private String goals;
-	
-    @OneToMany(mappedBy = "department")
-    private Collection<Users> user = new ArrayList<Users>();
-    
-    @OneToMany(mappedBy = "department")
-    private Collection<KPIWorkDescription> workDescription = new ArrayList<>();
+
+	@OneToMany(mappedBy = "department")
+	private Collection<Users> user = new ArrayList<Users>();
+
+	@OneToMany(mappedBy = "department")
+	private Collection<KPIWorkDescription> workDescription = new ArrayList<>();
 
 	public Department(long did, String description, String goals) {
 		setDescription(description);

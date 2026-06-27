@@ -15,8 +15,8 @@ public class ProjectFilterServiceImpl implements IProjectFIlter {
 
 	@Autowired
 	private IProjectInformationRepo projRepo;
-	
-	//Filter by starting date
+
+	// Filter by starting date
 	public ArrayList<ProjectInformation> filterByStartingDate(LocalDate startingDate) throws Exception {
 		if (startingDate == null) {
 			throw new Exception("Incorrect parameters");
@@ -33,8 +33,8 @@ public class ProjectFilterServiceImpl implements IProjectFIlter {
 		}
 		return filteredProjects;
 	}
-	
-	//Filter by ending date
+
+	// Filter by ending date
 	public ArrayList<ProjectInformation> filterByEndingDate(LocalDate endingDate) throws Exception {
 		if (endingDate == null) {
 			throw new Exception("Incorrect parameters");
@@ -51,8 +51,8 @@ public class ProjectFilterServiceImpl implements IProjectFIlter {
 		}
 		return filteredProjects;
 	}
-	
-	//Filter by activity
+
+	// Filter by activity
 	public ArrayList<ProjectInformation> filterByActivity(Boolean activity) throws Exception {
 		if (activity == null) {
 			throw new Exception("Incorrect parameters");
@@ -69,7 +69,8 @@ public class ProjectFilterServiceImpl implements IProjectFIlter {
 		}
 		return filteredProjects;
 	}
-	//Filter by keyword
+
+	// Filter by keyword
 	public ArrayList<ProjectInformation> filterByKeyWord(String keyword) throws Exception {
 		if (keyword == null) {
 			throw new Exception("Incorrect parameters");

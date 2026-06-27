@@ -13,6 +13,6 @@ public interface IUserService extends ICrudBaseService<Users> {
 	public abstract void deleteUserByUid(int id) throws Exception;
 
 	public abstract void updateUserByUid(int id, String name, String surname, String email, String password)
-	        throws Exception;
+			throws Exception;
 
 }
