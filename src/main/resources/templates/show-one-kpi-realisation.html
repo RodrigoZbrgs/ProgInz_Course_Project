@@ -1,0 +1,32 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+	<h1>KPI Realisation data:</h1>
+
+	<table border="1px">
+		<tr>
+			<td>Idkpir</td>
+			<td>RealisationDate</td>
+			<td>TextValue</td>
+			<td>Comment</td>
+
+
+		</tr>
+
+		<tr>
+			<td th:text="${kpirealisation.idkpir}"></td>
+			<td th:text="${kpirealisation.realisationdate}"></td>
+			<td th:text="${kpirealisation.textvalue}"></td>
+			<td th:text="${kpirealisation.comment}"></td>
+		</tr>
+
+	</table>
+
+
+
+</body>
+
+
+
+</html>

@@ -1,0 +1,25 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+	<h1>Input new project:</h1>
+	<form method="post" th:object="${project}" th:action="@{/kpireal/crud/add}">
+
+		<p>Input realisation date</p>
+		<input type="text" th:field="*{realisationdate}" />
+		<p th:if="${#fields.hasErrors('realisationdate')}" th:errors="*{realisationdate}"></p>
+
+		<p>Input project text</p>
+		<input type="text" th:field="*{textvalue}" />
+		<p th:if="${#fields.hasErrors('textvalue')}" th:errors="*{textvalue}"></p>
+
+		<p>Input starting comment</p>
+		<input type="date" th:field="*{comment}" />
+		<p th:if="${#fields.hasErrors('comment')}" th:errors="*{comment}"></p>
+
+
+		<button type="submit">Save project</button>
+	</form>
+
+</body>
+
+</html>
