@@ -64,13 +64,14 @@ public class ProgInzCourseProjectApplication {
                             "still don't think it's 100% right but I'm leaving it");
                     kpiRealisationRepo.saveAll(Arrays.asList(kpir1, kpir2, kpir3));
 					
-					KPIWorkDescription wd1 = new KPIWorkDescription(LocalDate.of(2026, 6, 24), 10, "Debugging my toaster");
-	                KPIWorkDescription wd2 = new KPIWorkDescription(LocalDate.of(2026, 6, 25), 2, "Writting documentations");
-	                KPIWorkDescription wd3 = new KPIWorkDescription(LocalDate.of(2026, 6, 26), 6, "Meeting with client");
-	                
-	                kpiWorkDescRepo.saveAll(Arrays.asList(wd1, wd2, wd3));
-					
+					KPIWorkDescription wd1 = new KPIWorkDescription(LocalDate.of(2026, 6, 24), 10,
+							"Debugging my toaster");
+					KPIWorkDescription wd2 = new KPIWorkDescription(LocalDate.of(2026, 6, 25), 2,
+							"Writting documentations");
+					KPIWorkDescription wd3 = new KPIWorkDescription(LocalDate.of(2026, 6, 26), 6,
+							"Meeting with client");
 
+					kpiWorkDescRepo.saveAll(Arrays.asList(wd1, wd2, wd3));
 
 				}
 			}
