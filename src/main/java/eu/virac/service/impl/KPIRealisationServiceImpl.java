@@ -56,7 +56,7 @@ public class KPIRealisationServiceImpl implements IKPIRealisationService, IKPIRe
 		}
 
 		if (realisationdate != null) {
-			realisationToUpdate.setRealisationdate(realisationdate);
+			realisationToUpdate.setDate(realisationdate);
 			;
 		}
 		if (text != null) {

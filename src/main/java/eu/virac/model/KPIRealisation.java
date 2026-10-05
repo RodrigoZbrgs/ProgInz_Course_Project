@@ -34,7 +34,7 @@ public class KPIRealisation {
 
 	@Column(name = "Realisationdate")
 	@NotNull
-	private LocalDate realisationdate;
+	private LocalDate date;
 
 	@Column(name = "Textvalue")
 	@NotNull
@@ -48,8 +48,8 @@ public class KPIRealisation {
 	@JoinColumn(name = "idkpiwd")
 	private KPIWorkDescription workDescription;
 
-	public KPIRealisation(LocalDate realisationdate, String textvalue, String comment) {
-		setRealisationdate(realisationdate);
+	public KPIRealisation(LocalDate date, String textvalue, String comment) {
+		setDate(date);
 		setTextvalue(textvalue);
 		setComment(comment);
 	}
