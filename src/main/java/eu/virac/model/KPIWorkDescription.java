@@ -34,15 +34,15 @@ public class KPIWorkDescription {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Setter(value = AccessLevel.NONE)
 	private long idkpiwd;
-	
-    @Column(name = "date")
-    @NotNull
-    private LocalDate date;
+
+	@Column(name = "date")
+	@NotNull
+	private LocalDate date;
 //severity
-    @Column(name = "amount")
-    @Min(1)
-    @Max(10)
-    private int amount;
+	@Column(name = "amount")
+	@Min(1)
+	@Max(10)
+	private int amount;
 
 	@Column(name = "description", unique = true)
 	@NotNull

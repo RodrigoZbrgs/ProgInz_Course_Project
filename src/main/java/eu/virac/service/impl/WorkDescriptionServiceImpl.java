@@ -18,11 +18,10 @@ public class WorkDescriptionServiceImpl implements IWorkDescriptionService, IWor
 	@Override
 	public ArrayList<KPIWorkDescription> filterByDescription(String keyword) throws Exception {
 		if (keyword == null || keyword.isEmpty()) {
-            throw new Exception("keyword cannot be empty");
-        }
+			throw new Exception("keyword cannot be empty");
+		}
 		return workDescriptionRepo.findByDescriptionContainingIgnoreCase(keyword);
-    }
-	
+	}
 
 	@Override
 	public ArrayList<KPIWorkDescription> filterByDate(LocalDate date) throws Exception {
@@ -34,10 +33,10 @@ public class WorkDescriptionServiceImpl implements IWorkDescriptionService, IWor
 
 	@Override
 	public ArrayList<KPIWorkDescription> filterByAmountGreaterThan(int amount) throws Exception {
-		if (amount < 1 || amount>10) {
-	        throw new Exception("Amount must be at least 1 and lesser than 10");
-	    }
-	    return workDescriptionRepo.findByAmountGreaterThan(amount);
+		if (amount < 1 || amount > 10) {
+			throw new Exception("Amount must be at least 1 and lesser than 10");
+		}
+		return workDescriptionRepo.findByAmountGreaterThan(amount);
 	}
 
 	@Override
@@ -120,8 +119,5 @@ public class WorkDescriptionServiceImpl implements IWorkDescriptionService, IWor
 		}
 		return workDescriptionRepo.findByAmountLessThan(amount);
 	}
-
-
-	
 
 }

@@ -47,7 +47,8 @@ public class KPIRealisationServiceImpl implements IKPIRealisationService, IKPIRe
 	}
 
 	@Override
-	public KPIRealisation updateRealisation(long id, LocalDate realisationdate, String text, String comment) throws Exception {
+	public KPIRealisation updateRealisation(long id, LocalDate realisationdate, String text, String comment)
+			throws Exception {
 		KPIRealisation realisationToUpdate = findRealisationById(id);
 
 		if (realisationdate == null || text.isEmpty() || comment == null) {
