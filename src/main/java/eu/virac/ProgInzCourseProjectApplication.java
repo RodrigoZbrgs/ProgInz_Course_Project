@@ -15,6 +15,8 @@ import eu.virac.repo.IKPI_StatusRepo;
 import eu.virac.repo.IProjectContributionRepo;
 import eu.virac.repo.IProjectInformationRepo;
 import eu.virac.repo.IUsersRepo;
+import eu.virac.repo.security.IMyAuthorityRepo;
+import eu.virac.model.MyAuthority;
 
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -23,6 +25,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootApplication
 public class ProgInzCourseProjectApplication {
@@ -35,7 +39,8 @@ public class ProgInzCourseProjectApplication {
 	public CommandLineRunner saveDatainDB(IKPI_StatusRepo kpiStatusRepo, IKPICategoriesRepo kpiCatRepo,
 			IKPIRealisationRepo kpiRealisationRepo, IKPISubcategoriesRepo kpisubCatRepo,
 			IKPIWorkDescriptionRepo kpiWorkDescRepo, IProjectInformationRepo prInfoRepo,
-			IProjectContributionRepo prContrRepo, IUsersRepo usersRepo) {
+			IProjectContributionRepo prContrRepo, IUsersRepo usersRepo,IMyAuthorityRepo authRepo)
+	{
 
 		return new CommandLineRunner() {
 			@Override
@@ -50,10 +55,19 @@ public class ProgInzCourseProjectApplication {
 							LocalDate.of(2026, 6, 26), LocalDate.of(2027, 6, 26));
 
 					prInfoRepo.saveAll(Arrays.asList(p1, p2, p3));
-
-					Users u1 = new Users("Rodrigo", "Zandbergs", "rodrigo.zandbergs@gmail.com", "********");
-					Users u2 = new Users("Maris", "Maize", "maris.maize@inbox.com", "rootadmin");
-					Users u3 = new Users("Marcis", "Rupmaize", "marcis.rupmaize@gmail.com", "adminroot");
+					MyAuthority auth1 = new MyAuthority("ADMIN");
+					MyAuthority auth2 = new MyAuthority("USER");
+					authRepo.saveAll(Arrays.asList(auth1,auth2));
+					PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+					Users u1 = new Users("Rodrigo", "Zandbergs", "rodrigo.zandbergs@gmail.com");
+					u1.setUsername("Rodrigo");
+					u1.setPassword(encoder.encode("123"));
+					Users u2 = new Users("Maris", "Maize", "maris.maize@inbox.com");
+					u2.setUsername("Maris");
+					u2.setPassword(encoder.encode("321"));
+					Users u3 = new Users("Marcis", "Rupmaize", "marcis.rupmaize@gmail.com");
+					u3.setUsername("Marics");
+					u3.setPassword(encoder.encode("999"));
 					usersRepo.saveAll(Arrays.asList(u1, u2, u3));
 
 					KPIRealisation kpir1 = new KPIRealisation(LocalDate.of(2026, 3, 24), "Fixed up the telescope",
@@ -72,6 +86,13 @@ public class ProgInzCourseProjectApplication {
 							"Meeting with client");
 
 					kpiWorkDescRepo.saveAll(Arrays.asList(wd1, wd2, wd3));
+					auth1.addUser(u1);
+					auth2.addUser(u1);
+					auth2.addUser(u2);
+					auth2.addUser(u3);
+					authRepo.saveAll(Arrays.asList(auth1,auth2));
+					
+					
 
 				}
 			}
