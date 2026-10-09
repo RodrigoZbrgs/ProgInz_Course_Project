@@ -8,17 +8,16 @@ import eu.virac.model.Users;
 import eu.virac.model.enums.EmployeePositions;
 import eu.virac.repo.IKPICategoriesRepo;
 import eu.virac.repo.IKPIRealisationRepo;
-import eu.virac.repo.IKPIRealisationRepo;
 import eu.virac.repo.IKPISubcategoriesRepo;
 import eu.virac.repo.IKPIWorkDescriptionRepo;
 import eu.virac.repo.IKPI_StatusRepo;
 import eu.virac.repo.IProjectContributionRepo;
 import eu.virac.repo.IProjectInformationRepo;
 import eu.virac.repo.IUsersRepo;
+import eu.virac.repo.ldap.IUsersLdapRepo;
 
 import java.time.LocalDate;
 import java.util.Arrays;
-
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -35,9 +34,10 @@ public class ProgInzCourseProjectApplication {
 	public CommandLineRunner saveDatainDB(IKPI_StatusRepo kpiStatusRepo, IKPICategoriesRepo kpiCatRepo,
 			IKPIRealisationRepo kpiRealisationRepo, IKPISubcategoriesRepo kpisubCatRepo,
 			IKPIWorkDescriptionRepo kpiWorkDescRepo, IProjectInformationRepo prInfoRepo,
-			IProjectContributionRepo prContrRepo, IUsersRepo usersRepo) {
+			IProjectContributionRepo prContrRepo, IUsersRepo usersRepo, IUsersLdapRepo ldapUserRepository) {
 
 		return new CommandLineRunner() {
+
 			@Override
 			public void run(String... args) throws Exception {
 				if (prInfoRepo.count() == 0) {
@@ -88,9 +88,22 @@ public class ProgInzCourseProjectApplication {
 					kpiRealisationRepo.saveAll(Arrays.asList(kpir1, kpir2, kpir3));
 
 					kpiWorkDescRepo.saveAll(Arrays.asList(wd1, wd2, wd3));
-
+					// LDAP
 				}
+				try {
+					Object ldapUser = ldapUserRepository.findByUsername("jdoe");
+					if (ldapUser != null) {
+						System.out.println("Atrasts LDAP lietotājs: " + ldapUser.toString());
+					} else {
+						System.out.println("Lietotājs nav atrasts");
+					}
+				} catch (Exception e) {
+					System.out.println("ERROR");
+					e.printStackTrace();
+				}
+
 			}
 		};
 	}
+
 }

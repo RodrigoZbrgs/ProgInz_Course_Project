@@ -1,7 +1,7 @@
 package eu.virac.repo;
 
 import java.util.ArrayList;
-import java.util.Optional;
+
 
 import org.springframework.data.repository.CrudRepository;
 
@@ -16,5 +16,6 @@ public interface IUsersRepo extends CrudRepository<Users, Long> {
 	ArrayList<Users> findByNameStartingWith(String letter);
 
 	ArrayList<Users> findByEmail(String email);
+	
 
 }
