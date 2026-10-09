@@ -15,18 +15,18 @@ public class UserFilterServiceImpl implements IUserFilter{
 	private IUsersRepo userRepo;
 
 	@Override
-	public ArrayList<Users> filterByFirstLetterOfName(String letter) throws Exception {
-		if (letter == null || letter.isEmpty()) {
-            throw new Exception("Letter cannot be empty");
-        }
-        return userRepo.findByNameStartingLetter(letter);
-	}
-
-	@Override
 	public ArrayList<Users> filterByEmail(String Emailkeyword) throws Exception {
 		if (Emailkeyword == null || Emailkeyword.isEmpty()) {
             throw new Exception("Email keyword cannot be empty");
         }
         return userRepo.findByEmail(Emailkeyword);
     }
+
+	@Override
+	public ArrayList<Users> filterByNameStartingWith(String letter) throws Exception {
+		if (letter == null || letter.isEmpty()) {
+            throw new Exception("Letter cannot be empty");
+        }
+        return userRepo.findByNameStartingWith(letter);
+	}
 }
