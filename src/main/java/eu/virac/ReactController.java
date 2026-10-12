@@ -1,8 +1,12 @@
 package eu.virac;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,7 +22,7 @@ import eu.virac.service.IProjectContributionService;
 import eu.virac.service.IProjectService;
 import eu.virac.service.IUserService;
 import eu.virac.service.IWorkDescriptionService;
-
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api")
@@ -26,42 +30,81 @@ public class ReactController {
 
 	@Autowired
 	private IKPIRealisationService kpiRealService;
-	
+
 	@Autowired
 	private IProjectContributionService projectContrService;
-	
+
 	@Autowired
 	private IProjectService projService;
-	
+
 	@Autowired
 	private IUserService userService;
-	
+
 	@Autowired
 	private IWorkDescriptionService workDescriptionService;
-	
+
 	@GetMapping("/projects")
-	public List<ProjectInformation> retrieveAllProjects() throws Exception {
-	    return projService.selectAllProjects(); 
+	public ResponseEntity<?> retrieveAllProjects() {
+		try {
+			return new ResponseEntity<ArrayList<ProjectInformation>>(projService.selectAllProjects(),
+					HttpStatusCode.valueOf(200));
+
+		} catch (Exception e) {
+			return new ResponseEntity<String>(e.getMessage(), HttpStatusCode.valueOf(409));
+		}
+
 	}
-	
+
 	@GetMapping("/projects/{id}")
-	public ProjectInformation retrieveProjectById(@PathVariable(name = "id") int id) throws Exception {
-		return projService.selectProjectById(id);
+	public ResponseEntity<?> retrieveProjectById(@PathVariable long id) {
+		try {
+			return new ResponseEntity<ProjectInformation>(projService.selectProjectById(id),
+					HttpStatusCode.valueOf(200));
+		} catch (Exception e) {
+			return new ResponseEntity<String>(e.getMessage(), HttpStatusCode.valueOf(409));
+		}
 	}
-	
-	@PostMapping("/projects")
-	public ProjectInformation createProject(@RequestBody ProjectInformation project) throws Exception {
-		return projService.insertNewProject(project);
+
+	@PostMapping("/projects/add")
+	public ResponseEntity<?> createProject(@Valid @RequestBody ProjectInformation project, BindingResult result) {
+		if (result.hasErrors()) {
+			return new ResponseEntity<Integer>(result.getErrorCount(), HttpStatusCode.valueOf(409));
+		}
+
+		try {
+			projService.insertNewProject(project);
+			return new ResponseEntity<ArrayList<ProjectInformation>>(projService.selectAllProjects(),
+					HttpStatusCode.valueOf(200));
+		} catch (Exception e) {
+			return new ResponseEntity<String>(e.getMessage(), HttpStatusCode.valueOf(409));
+		}
 	}
-	
-	@DeleteMapping("/projects/{id}")
-	public void deleteProject(@PathVariable(name = "id") int id) throws Exception {
-		projService.deleteProjectById(id);
+
+	@DeleteMapping("/projects/delete/{id}")
+	public ResponseEntity<?> deleteProjectById(@PathVariable(name = "id") int id) {
+		try {
+			projService.deleteProjectById(id);
+			return new ResponseEntity<ArrayList<ProjectInformation>>(projService.selectAllProjects(),
+					HttpStatusCode.valueOf(200));
+		} catch (Exception e) {
+			return new ResponseEntity<String>(e.getMessage(), HttpStatusCode.valueOf(409));
+		}
 	}
-	
-	@PutMapping("/projects/{id}")
-	public void updateProject(@PathVariable(name = "id") int id, @RequestBody ProjectInformation project) {
-		
+
+	@PutMapping("/projects/update/{id}")
+	public ResponseEntity<?> updateProjectById(@PathVariable(name = "id") long id,
+			@RequestBody ProjectInformation project) {
+		try {
+			projService.updateByidpi(id, project.getProjectNumber(), project.getProjectName(),
+					project.getStartingDate(), project.getEndingDate());
+			return new ResponseEntity<ArrayList<ProjectInformation>>(projService.selectAllProjects(),
+					HttpStatusCode.valueOf(200));
+		}
+
+		catch (Exception e) {
+			return new ResponseEntity<String>(e.getMessage(), HttpStatusCode.valueOf(409));
+		}
+
 	}
-	
+
 }
