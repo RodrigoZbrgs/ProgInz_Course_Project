@@ -36,7 +36,7 @@ public class ProjectInformation {
 
 	@Column(name = "Is_active")
 	@NotNull
-	private boolean active;
+	private Boolean active;
 
 	@Column(name = "Project_number")
 	@NotNull
