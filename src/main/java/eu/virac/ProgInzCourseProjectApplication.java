@@ -84,8 +84,32 @@ public class ProgInzCourseProjectApplication {
 							"Writting documentations");
 					KPIWorkDescription wd3 = new KPIWorkDescription(LocalDate.of(2026, 6, 26), 6,
 							"Meeting with client");
+					KPIWorkDescription wd4 = new KPIWorkDescription(LocalDate.of(2026, 6, 27), 4,
+					        "Refactored a method so clean even I don't recognize it");
+					KPIWorkDescription wd5 = new KPIWorkDescription(LocalDate.of(2026, 6, 28), 8,
+					        "Hunted a bug for six hours, turned out to be a typo");
+					KPIWorkDescription wd6 = new KPIWorkDescription(LocalDate.of(2026, 6, 29), 3,
+					        "Wrote unit tests that I will probably never run again");
+					KPIWorkDescription wd7 = new KPIWorkDescription(LocalDate.of(2026, 6, 30), 7,
+					        "Argued with the compiler and lost gracefully");
+					KPIWorkDescription wd8 = new KPIWorkDescription(LocalDate.of(2026, 7, 1), 5,
+					        "Renamed variables until the code looked professional");
+					KPIWorkDescription wd9 = new KPIWorkDescription(LocalDate.of(2026, 7, 2), 2,
+					        "Reviewed a pull request and left 47 comments");
+					KPIWorkDescription wd10 = new KPIWorkDescription(LocalDate.of(2026, 7, 3), 9,
+					        "Optimized a query that nobody was complaining about");
+					KPIWorkDescription wd11 = new KPIWorkDescription(LocalDate.of(2026, 7, 4), 6,
+					        "Deleted 300 lines of dead code and felt alive");
+					KPIWorkDescription wd12 = new KPIWorkDescription(LocalDate.of(2026, 7, 5), 1,
+					        "Attended a meeting that could have been an email");
+					KPIWorkDescription wd13 = new KPIWorkDescription(LocalDate.of(2026, 7, 6), 4,
+					        "Fixed the bug, introduced two new ones, called it progress");
+					KPIWorkDescription wd14 = new KPIWorkDescription(LocalDate.of(2026, 7, 7), 10,
+					        "Deployed on a Friday and prayed");
+					KPIWorkDescription wd15 = new KPIWorkDescription(LocalDate.of(2026, 7, 8), 3,
+					        "Updated the README and pretended that counts as coding");
 
-					kpiWorkDescRepo.saveAll(Arrays.asList(wd1, wd2, wd3));
+					kpiWorkDescRepo.saveAll(Arrays.asList(wd1, wd2, wd3, wd4, wd5,wd6, wd7, wd8, wd9, wd10,wd11, wd12, wd13, wd14, wd15));
 					auth1.addUser(u1);
 					auth2.addUser(u1);
 					auth2.addUser(u2);
