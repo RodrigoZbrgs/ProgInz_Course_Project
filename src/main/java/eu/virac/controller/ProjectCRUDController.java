@@ -28,7 +28,16 @@ public class ProjectCRUDController {
 	@GetMapping("/all") // localhost:8080/project/crud/all
 	public String getControllerRetrievAllProjects(Model model) {
 		try {
+			long start = System.nanoTime();
+			
 			ArrayList<ProjectInformation> projectsFromDB = projService.selectAllProjects();
+			
+			long end = System.nanoTime();
+
+	        System.out.println("Execution time: "
+	                + ((end - start) / 1_000_000.0)
+	                + " ms");
+			
 			model.addAttribute("package", projectsFromDB);
 			return "show-all-projects";
 		} catch (Exception e) {
@@ -40,7 +49,17 @@ public class ProjectCRUDController {
 	@GetMapping("/all/{id}")
 	public String getControllerSelectProjectById(@PathVariable(name = "id") int id, Model model) {
 		try {
+			
+			long start = System.nanoTime();
+			
 			ProjectInformation projectsFromDB = projService.selectProjectById(id);
+			
+			long end = System.nanoTime();
+
+	        System.out.println("Execution time: "
+	                + ((end - start) / 1_000_000.0)
+	                + " ms");
+			
 			model.addAttribute("package", projectsFromDB);
 			return "show-one-project";
 

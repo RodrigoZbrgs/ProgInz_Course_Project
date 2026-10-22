@@ -4,6 +4,10 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.stereotype.Service;
 
 import eu.virac.model.ProjectInformation;
@@ -12,12 +16,14 @@ import eu.virac.service.IProjectService;
 
 
 @Service
+@EnableCaching
 public class ProjectInformationServiceImpl implements IProjectService {
 	
 	@Autowired
 	private IProjectInformationRepo prInfoRepo;
 	
 	@Override
+	@Cacheable("projects")
 	public ArrayList<ProjectInformation> selectAllProjects() throws Exception {
 		if (prInfoRepo.count() == 0) {
 			throw new Exception("Projektu tabula ir tukša");
@@ -43,6 +49,7 @@ public class ProjectInformationServiceImpl implements IProjectService {
 	}
 	
 	@Override
+	@CacheEvict(value = "projects", key = "#id")
 	public void deleteProjectById(int id) throws Exception {
 		ProjectInformation projectForDeleting = selectProjectById(id);
 		prInfoRepo.delete(projectForDeleting);
@@ -68,6 +75,7 @@ public class ProjectInformationServiceImpl implements IProjectService {
 	
 	
 	@Override
+	@CachePut(value = "projects", key = "#id")
 	public void updateByidpi(long id, String projectNumber, String projectName, LocalDate startingDate, LocalDate endingDate) throws Exception {
 	    ProjectInformation projectToUpdate = selectProjectById(id);
 
