@@ -37,6 +37,8 @@ public class ProjectInformation {
 	
 	@Column(name = "Is_active")
 	@NotNull
+	@Setter(value = AccessLevel.NONE)
+	@Getter(value = AccessLevel.NONE)
 	private boolean isActive;
 	
 	@Column(name = "Project_number")
@@ -61,10 +63,18 @@ public class ProjectInformation {
 	private Collection<ProjectContribution> contributions = new ArrayList<>();
 	
 	public ProjectInformation(boolean isActive, String projectNumber, String projectName, LocalDate startingDate, LocalDate endingDate) {
-		setActive(isActive);
+		setIsActive(isActive);
 		setProjectNumber(projectNumber);
 		setProjectName(projectName);
 		setStartingDate(startingDate);
 		setEndingDate(endingDate);
+	}
+
+	public boolean getIsActive() {
+		return isActive;
+	}
+
+	public void setIsActive(boolean isActive) {
+		this.isActive = isActive;
 	}
 }

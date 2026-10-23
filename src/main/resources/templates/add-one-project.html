@@ -23,7 +23,6 @@
 		<p>Input activity</p>
 		<input type="checkbox" th:field="*{isActive}" />
 		<p th:if="${#fields.hasErrors('isActive')}" th:errors="*{isActive}"></p>
-
 		<button type="submit">Save project</button>
 	</form>
 

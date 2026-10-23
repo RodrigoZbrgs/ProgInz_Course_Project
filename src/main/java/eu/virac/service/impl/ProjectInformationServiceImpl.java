@@ -58,11 +58,11 @@ public class ProjectInformationServiceImpl implements IProjectService {
 	@Override	
 	public ProjectInformation insertNewProject(ProjectInformation newProject) throws Exception {
 		if(newProject == null) {
-			throw new Exception("Darbinieka dati nav pieejami, jo nav reference");
+			throw new Exception("Projekta dati nav pieejami, jo nav reference");
 		}
 		
 		if (prInfoRepo.existsByProjectName(newProject.getProjectName())) {
-		    throw new Exception("Darbinieks ar tādu persona kodu jau eksistē");
+		    throw new Exception("Projekts ar tādu persona kodu jau eksistē");
 		}
 		
 		if(newProject.getProjectName() == null || newProject.getProjectNumber() == null
