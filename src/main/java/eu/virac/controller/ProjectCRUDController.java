@@ -26,6 +26,7 @@ public class ProjectCRUDController {
 	private IProjectService projService;
 	
 	@GetMapping("/all") // localhost:8080/project/crud/all
+	
 	public String getControllerRetrievAllProjects(Model model) {
 		try {
 			long start = System.nanoTime();

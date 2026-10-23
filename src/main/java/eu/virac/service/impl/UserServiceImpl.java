@@ -19,7 +19,7 @@ public class UserServiceImpl implements IUserService{
 	@Override
 	public ArrayList<Users> selectAllUser() throws Exception {
 		if (userRepo.count() == 0) {
-			throw new Exception("Projektu tabula ir tukša");
+			throw new Exception("User tabula ir tukša");
 		}
 		return (ArrayList<Users>) userRepo.findAll();
 	}

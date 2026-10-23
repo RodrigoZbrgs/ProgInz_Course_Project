@@ -63,7 +63,7 @@ public class UserCRUDController {
 	public String getControllerForUserAdding(Model model) {
 		try {
 
-			model.addAttribute("project", new Users());
+			model.addAttribute("user", new Users());
 			return "add-one-user";
 
 		} catch (Exception e) {
@@ -71,13 +71,24 @@ public class UserCRUDController {
 			return "error-page";
 		}
 	}
-	@GetMapping("/update/{id}")// localhost:8080/user/crud/all/2
+	@GetMapping("/update/{id}")// localhost:8080/user/crud/update/2
 	public String retrieveUpdateuserById(@PathVariable(name = "id") int id, Model model) {
 		try {
 			Users usersFromDB = userService.selectUsersByUid(id);
-			model.addAttribute("project", usersFromDB);
+			model.addAttribute("user", usersFromDB);
 			return "update-one-user";
 
+		} catch (Exception e) {
+			model.addAttribute("package", e.getMessage());
+			return "error-page";
+		}
+	}
+	
+	@PostMapping("/update/{id}")
+	public String postControllerForUpdateUser(@PathVariable(name="id") int id, Users user, Model model) {
+		try {
+			userService.updateUserByUid(id, user.getName(), user.getSurname(), user.getEmail(), user.getPassword(), user.getDepartment());
+			return "redirect:/user/crud/all/" + id;
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
 			return "error-page";
