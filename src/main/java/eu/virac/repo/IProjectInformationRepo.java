@@ -19,4 +19,6 @@ public interface IProjectInformationRepo extends CrudRepository<ProjectInformati
 
 	public abstract ArrayList<ProjectInformation> findByStartingDate(LocalDate startingDate);
 
+	public abstract ArrayList<ProjectInformation> findByProjectNumberContaining(String projectNumber);
+
 }

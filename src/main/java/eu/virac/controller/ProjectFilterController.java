@@ -77,4 +77,19 @@ public class ProjectFilterController {
 			return "error-page";
 		}
 	}
+	
+	//Project Number
+	@GetMapping("/projectnumber/{projectnumber}")
+	public String getControllerFilterByProjectnumber(@PathVariable(name = "projectnumber") String projectNumber, Model model) {
+		try {
+			ArrayList<ProjectInformation> ProjectsFromDB = filterService.filterByProjectNumber(projectNumber);
+			model.addAttribute("package", ProjectsFromDB);
+			model.addAttribute("info", "Projekts ar projekta numuru: " + projectNumber);
+			return "show-all-projects";
+		}
+		catch (Exception e) {
+			model.addAttribute("package", e.getMessage());
+			return "error-page";
+	}
+}
 }

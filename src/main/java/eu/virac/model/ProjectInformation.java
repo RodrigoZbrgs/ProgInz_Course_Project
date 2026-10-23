@@ -38,15 +38,14 @@ public class ProjectInformation {
 	@NotNull
 	private Boolean active;
 
-	
-	@Column(name = "Project_number")
 	@NotNull
 	@Pattern(regexp = "[P]{1}[0-9]{3,40}")
+	@Column(name = "Project_number", unique = true)
 	private String projectNumber;
 
 	@NotNull
 	@Pattern(regexp = "[A-Ž]{1}[A-Ža-Ž]{3,40}")
-	@Column(name = "Project_name")
+	@Column(name = "Project_name", unique = true)
 	private String projectName;
 
 	@NotNull

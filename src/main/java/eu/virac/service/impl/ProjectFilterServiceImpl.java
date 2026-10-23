@@ -18,12 +18,12 @@ public class ProjectFilterServiceImpl implements IProjectFIlter {
 
 	// Filter by starting date
 	public ArrayList<ProjectInformation> filterByStartingDate(LocalDate startingDate) throws Exception {
-		if (startingDate == null) {
-			throw new Exception("Incorrect parameters");
-		}
-
 		if (projRepo.count() == 0) {
 			throw new Exception("DB has no projects, so can not be filtered");
+		}
+		
+		if (startingDate == null) {
+			throw new Exception("Incorrect parameters");
 		}
 
 		ArrayList<ProjectInformation> filteredProjects = projRepo.findByStartingDate(startingDate);
@@ -36,12 +36,13 @@ public class ProjectFilterServiceImpl implements IProjectFIlter {
 
 	// Filter by ending date
 	public ArrayList<ProjectInformation> filterByEndingDate(LocalDate endingDate) throws Exception {
-		if (endingDate == null) {
-			throw new Exception("Incorrect parameters");
-		}
-
+		
 		if (projRepo.count() == 0) {
 			throw new Exception("DB has no projects, so can not be filtered");
+		}
+		
+		if (endingDate == null) {
+			throw new Exception("Incorrect parameters");
 		}
 
 		ArrayList<ProjectInformation> filteredProjects = projRepo.findByEndingDate(endingDate);
@@ -54,12 +55,12 @@ public class ProjectFilterServiceImpl implements IProjectFIlter {
 
 	// Filter by activity
 	public ArrayList<ProjectInformation> filterByActivity(Boolean activity) throws Exception {
-		if (activity == null) {
-			throw new Exception("Incorrect parameters");
-		}
-
 		if (projRepo.count() == 0) {
 			throw new Exception("DB has no projects, so can not be filtered");
+		}
+		
+		if (activity == null) {
+			throw new Exception("Incorrect parameters");
 		}
 
 		ArrayList<ProjectInformation> filteredProjects = projRepo.findByActive(activity);
@@ -72,12 +73,12 @@ public class ProjectFilterServiceImpl implements IProjectFIlter {
 
 	// Filter by keyword
 	public ArrayList<ProjectInformation> filterByKeyWord(String keyword) throws Exception {
-		if (keyword == null) {
-			throw new Exception("Incorrect parameters");
-		}
-
 		if (projRepo.count() == 0) {
 			throw new Exception("DB has no projects, so can not be found");
+		}
+		
+		if (keyword == null) {
+			throw new Exception("Incorrect parameters");
 		}
 
 		ArrayList<ProjectInformation> filteredProjects = projRepo.findByProjectNameContaining(keyword);
@@ -86,5 +87,23 @@ public class ProjectFilterServiceImpl implements IProjectFIlter {
 		}
 		return filteredProjects;
 	}
-
+	
+	//Filter by project number
+	public ArrayList<ProjectInformation> filterByProjectNumber(String projectNumber) throws Exception {
+		if (projRepo.count() == 0) {
+			throw new Exception("DB has no projects, so can not be found");
+		}
+		
+		if (projectNumber == null) {
+			throw new Exception("Incorrect parameters");
+		}
+		
+		ArrayList<ProjectInformation> filteredProjects = projRepo.findByProjectNumberContaining(projectNumber);
+		if (filteredProjects.isEmpty()) {
+			throw new Exception("Project with project number " + projectNumber + " not found");
+		}
+		return filteredProjects;
+	}
+	
 }
+
