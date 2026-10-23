@@ -14,6 +14,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -22,7 +23,7 @@ import lombok.ToString;
 @ToString
 @Entity
 @Table(name = "DepartmentTable")
-
+@NoArgsConstructor
 public class Department {
 	
 	@Column(name = "Did")
@@ -47,7 +48,7 @@ public class Department {
     @OneToMany(mappedBy = "department")
     private Collection<KPIWorkDescription> workDescription = new ArrayList<>();
 
-	public Department(long did, String description, String goals) {
+	public Department(String description, String goals) {
 		setDescription(description);
 		setGoals(goals);
 	}

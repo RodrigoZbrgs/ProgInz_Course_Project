@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import eu.virac.model.Department;
 import eu.virac.model.Users;
 import eu.virac.repo.IUsersRepo;
 import eu.virac.service.IUserService;
@@ -48,9 +49,9 @@ public class UserServiceImpl implements IUserService{
 	}
 
 	@Override
-	public void updateUserByUid(int id, String name, String surname, String email, String password) throws Exception {
+	public void updateUserByUid(int id, String name, String surname, String email, String password ,Department department) throws Exception {
 	    Users userToUpdate = selectUsersByUid(id);
-	    if (name == null || surname == null || email == null || password == null) {
+	    if (name == null || surname == null || email == null || password == null || department == null ) {
 	        throw new Exception("Nav korekti ievades dati");
 	    }
 	    if (name != null) {
@@ -64,6 +65,9 @@ public class UserServiceImpl implements IUserService{
 	    }
 	    if (password != null) {
 	        userToUpdate.setPassword(password);
+	    }
+	    if (department != null) {
+	    	userToUpdate.setDepartment(department);
 	    }
 	    userRepo.save(userToUpdate);
 	}

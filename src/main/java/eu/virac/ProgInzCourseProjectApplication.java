@@ -1,9 +1,11 @@
 package eu.virac;
 
+import eu.virac.model.Department;
 import eu.virac.model.ProjectContribution;
 import eu.virac.model.ProjectInformation;
 import eu.virac.model.Users;
 import eu.virac.model.enums.EmployeePositions;
+import eu.virac.repo.IDeparmentRepo;
 import eu.virac.repo.IKPICategoriesRepo;
 import eu.virac.repo.IKPIRealisation;
 import eu.virac.repo.IKPISubcategoriesRepo;
@@ -14,6 +16,7 @@ import eu.virac.repo.IProjectInformationRepo;
 import eu.virac.repo.IUsersRepo;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.springframework.boot.CommandLineRunner;
@@ -32,7 +35,7 @@ public class ProgInzCourseProjectApplication {
 	public CommandLineRunner saveDatainDB(IKPI_StatusRepo kpiStatusRepo, IKPICategoriesRepo kpiCatRepo,
 			IKPIRealisation kpiRealisationRepo, IKPISubcategoriesRepo kpisubCatRepo,
 			IKPIWorkDescriptionRepo kpiWorkDescRepo, IProjectInformationRepo prInfoRepo,
-			IProjectContributionRepo prContrRepo, IUsersRepo usersRepo) {
+			IProjectContributionRepo prContrRepo, IUsersRepo usersRepo, IDeparmentRepo depRepo) {
 
 		return new CommandLineRunner() {
 			@Override
@@ -48,9 +51,15 @@ public class ProgInzCourseProjectApplication {
 					
 					prInfoRepo.saveAll(Arrays.asList(p1, p2, p3));
 					
-					Users u1 = new Users("Rodrigo", "Zandbergs", "rodrigo.zandbergs@gmail.com", "********");
-					Users u2 = new Users("Maris", "Maize", "maris.maize@inbox.com", "rootadmin");
-					Users u3 = new Users("Marcis", "Rupmaize", "marcis.rupmaize@gmail.com", "adminroot");
+					Department dep1 = new Department( "Programming", "Clean coding");
+					Department dep2 = new Department("Manegment", "Ower seers");
+					Department dep3 = new Department( "Workers", "Work hard");
+					
+					depRepo.saveAll(Arrays.asList(dep1,dep2, dep3));
+					
+					Users u1 = new Users("Rodrigo", "Zandbergs", "rodrigo.zandbergs@gmail.com", "********", dep1);
+					Users u2 = new Users("Maris", "Maize", "maris.maize@inbox.com", "rootadmin", dep2);
+					Users u3 = new Users("Marcis", "Rupmaize", "marcis.rupmaize@gmail.com", "adminroot", dep3);
 					usersRepo.saveAll(Arrays.asList(u1,u2,u3));
 					
 					// project contribution
