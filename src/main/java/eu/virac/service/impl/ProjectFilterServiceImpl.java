@@ -3,6 +3,7 @@ package eu.virac.service.impl;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import org.antlr.v4.runtime.atn.SemanticContext.AND;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -52,6 +53,9 @@ public class ProjectFilterServiceImpl implements IProjectFIlter {
 		}
 		return filteredProjects;
 	}
+	
+	// Filter by specific date
+
 
 	// Filter by activity
 	public ArrayList<ProjectInformation> filterByActivity(Boolean activity) throws Exception {
@@ -104,6 +108,24 @@ public class ProjectFilterServiceImpl implements IProjectFIlter {
 		}
 		return filteredProjects;
 	}
+
 	
+	//filter by specific date
+	@Override
+	public ArrayList<ProjectInformation> filterBySpecificDate(LocalDate date) throws Exception {
+		if (projRepo.count() == 0) {
+			throw new Exception("DB has no projects, so can not be found");
+		}
+		
+		if(date == null) {
+			throw new Exception("Invalid or empty date has been entered");
+		}
+		ArrayList<ProjectInformation> filteredProjects = projRepo.findByStartingDateBeforeOrEndingDateAfter(date, date);
+		if (filteredProjects.isEmpty()) {
+			throw new Exception("Project with date " + date + " has not been found");
+		}
+		return filteredProjects;
+}
+
 }
 
