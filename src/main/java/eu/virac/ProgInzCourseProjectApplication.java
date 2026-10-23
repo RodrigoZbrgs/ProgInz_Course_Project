@@ -69,6 +69,11 @@ public class ProgInzCourseProjectApplication {
 					u3.setUsername("Marics");
 					u3.setPassword(encoder.encode("999"));
 					usersRepo.saveAll(Arrays.asList(u1, u2, u3));
+					auth1.addUser(u1);
+					auth2.addUser(u1);
+					auth2.addUser(u2);
+					auth2.addUser(u3);
+					authRepo.saveAll(Arrays.asList(auth1,auth2));
 
 					KPIRealisation kpir1 = new KPIRealisation(LocalDate.of(2026, 3, 24), "Fixed up the telescope",
                             "wasnt easy :(");
@@ -110,11 +115,7 @@ public class ProgInzCourseProjectApplication {
 					        "Updated the README and pretended that counts as coding");
 
 					kpiWorkDescRepo.saveAll(Arrays.asList(wd1, wd2, wd3, wd4, wd5,wd6, wd7, wd8, wd9, wd10,wd11, wd12, wd13, wd14, wd15));
-					auth1.addUser(u1);
-					auth2.addUser(u1);
-					auth2.addUser(u2);
-					auth2.addUser(u3);
-					authRepo.saveAll(Arrays.asList(auth1,auth2));
+					
 					
 					
 

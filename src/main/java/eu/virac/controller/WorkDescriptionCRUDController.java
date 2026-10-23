@@ -125,7 +125,7 @@ public class WorkDescriptionCRUDController {
             Pageable pageWithXElements = PageRequest.of(page, 5);
             Page<KPIWorkDescription> pageData =workDescriptionService.findAllWorkDescriptionsPaginated(pageWithXElements);
             model.addAttribute("package", pageData);
-            return "show-all-wd";
+            return "show-all-wd-Paginator";
         } catch (Exception e) {
             model.addAttribute("package", e.getMessage());
             return "error-page";

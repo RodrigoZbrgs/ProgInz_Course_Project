@@ -22,15 +22,7 @@
             </tr>
 			
         </th:block>
-		<div>
-			<p th:text="'number of elements= ' +${package.getNumberOfElements}"></p>
-		    <a th:if="${package.hasPrevious()}"
-			 th:href="@{/workdescriptions/crud/paginatorTest(page=${package.number - 1})}">Previous</a>
-		    <a  th:if="${package.hasNext()}"
-			 th:href="@{/workdescriptions/crud/paginatorTest(page=${package.number + 1})}">Next</a>
-		</p>
-
-    </table>
+		</table>
 
 </body>
 
