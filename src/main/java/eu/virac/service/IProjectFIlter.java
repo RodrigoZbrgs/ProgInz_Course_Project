@@ -14,4 +14,8 @@ public interface IProjectFIlter {
 	public abstract ArrayList<ProjectInformation> filterByStartingDate(LocalDate endingDate) throws Exception;
 
 	public abstract ArrayList<ProjectInformation> filterByEndingDate(LocalDate endingDate) throws Exception;
+
+	public abstract ArrayList<ProjectInformation> filterByProjectNumber(String projectNumber) throws Exception;
+	
+	public abstract ArrayList<ProjectInformation> filterBySpecificDate (LocalDate date) throws Exception;
 }
