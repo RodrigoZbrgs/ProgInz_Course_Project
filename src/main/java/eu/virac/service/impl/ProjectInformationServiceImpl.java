@@ -65,7 +65,15 @@ public class ProjectInformationServiceImpl implements IProjectService  {
 				|| newProject.getStartingDate() == null || newProject.getEndingDate() == null) {
 			throw new Exception("Nav korekti ievades dati");
 		}
-
+		
+		if(newProject.getStartingDate().isAfter(newProject.getEndingDate())) {
+			throw new Exception("Nav pareizi ievadits datums");
+		}
+		
+		if(newProject.getEndingDate().isBefore(newProject.getStartingDate())) {
+			throw new Exception("Nav pareizi ievadits datums");
+		}
+		
 		return prInfoRepo.save(newProject);
 	}
 
@@ -76,6 +84,14 @@ public class ProjectInformationServiceImpl implements IProjectService  {
 
 		if (projectNumber == null || projectName == null || startingDate == null || endingDate == null) {
 			throw new Exception("Nav korekti ievades dati");
+		}
+		
+		if(startingDate.isAfter(endingDate) ) {
+			throw new Exception("Datums nav pareizi ievadits");
+		}
+		
+		if(endingDate.isBefore(startingDate)) {
+			throw new Exception("Datums nav pareizi ievadits");
 		}
 
 		if (projectNumber != null) {
@@ -91,6 +107,7 @@ public class ProjectInformationServiceImpl implements IProjectService  {
 			projectToUpdate.setEndingDate(endingDate);
 		}
 
+		
 		prInfoRepo.save(projectToUpdate);
 	}
 

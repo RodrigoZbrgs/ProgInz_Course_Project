@@ -38,6 +38,7 @@ public class ProjectInformation {
 	@NotNull
 	private Boolean active;
 
+	
 	@Column(name = "Project_number")
 	@NotNull
 	@Pattern(regexp = "[P]{1}[0-9]{3,40}")
