@@ -77,4 +77,35 @@ public class ProjectFilterController {
 			return "error-page";
 		}
 	}
+	
+	//Project Number
+	@GetMapping("/projectnumber/{projectnumber}")
+	public String getControllerFilterByProjectnumber(@PathVariable(name = "projectnumber") String projectNumber, Model model) {
+		try {
+			ArrayList<ProjectInformation> ProjectsFromDB = filterService.filterByProjectNumber(projectNumber);
+			model.addAttribute("package", ProjectsFromDB);
+			model.addAttribute("info", "Projekts ar projekta numuru: " + projectNumber);
+			return "show-all-projects";
+		}
+		catch (Exception e) {
+			model.addAttribute("package", e.getMessage());
+			return "error-page";
+	}
+		
+}
+	//Specifc date
+	@GetMapping("/projectdate/{date}")
+	public String getControllerFilterByDate(@PathVariable(name = "date") LocalDate date, Model model) {
+		try {
+			ArrayList<ProjectInformation> ProjectsFromDB = filterService.filterBySpecificDate(date);
+			model.addAttribute("package", ProjectsFromDB);
+			model.addAttribute("info", "Projekts ar datumu: " + date);
+			return "show-all-projects";
+		}
+		catch (Exception e) {
+			model.addAttribute("package", e.getMessage());
+			return "error-page";
+	}
+	}
+	
 }
