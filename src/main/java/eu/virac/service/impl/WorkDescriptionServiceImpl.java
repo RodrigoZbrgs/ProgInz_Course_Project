@@ -61,12 +61,20 @@ public class WorkDescriptionServiceImpl implements IWorkDescriptionService, IWor
 		if (workDescription.getDate() == null) {
 			throw new Exception("Date cannot be empty");
 		}
+		LocalDate date = workDescription.getDate();
+		LocalDate today = LocalDate.now();
+	    LocalDate minDate = today.minusDays(1);
+	    LocalDate maxDate = today.plusYears(5);
+	    if (date.isBefore(minDate) || date.isAfter(maxDate)) {
+	        throw new Exception("Date must be between " + minDate + " and " + maxDate);
+	    }
 		if (workDescription.getAmount() < 1) {
 			throw new Exception("Amount must be at least 1");
 		}
 		if (workDescriptionRepo.existsByDescription(workDescription.getDescription())) {
 			throw new Exception("Work description with this name already exists");
 		}
+		
 		return workDescriptionRepo.save(workDescription);
 
 	}

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import java.util.Collection;
 
+import eu.virac.model.security.MyAuthority;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
