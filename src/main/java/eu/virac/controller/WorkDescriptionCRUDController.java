@@ -109,7 +109,7 @@ public class WorkDescriptionCRUDController {
 			Model model) {
 		try {
 			workDescriptionService.updateWorkDescription(id, workDescription.getDescription(),
-					workDescription.getDate(), workDescription.getAmount());
+					workDescription.getDate(), workDescription.getPriority());
 			return "redirect:/workdescriptions/crud/list";
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());

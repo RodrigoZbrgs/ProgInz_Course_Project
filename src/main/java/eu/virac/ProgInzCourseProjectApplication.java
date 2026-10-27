@@ -6,6 +6,7 @@ import eu.virac.model.ProjectContribution;
 import eu.virac.model.ProjectInformation;
 import eu.virac.model.Users;
 import eu.virac.model.enums.EmployeePositions;
+import eu.virac.model.enums.Priority;
 import eu.virac.model.security.MyAuthority;
 import eu.virac.repo.IKPICategoriesRepo;
 import eu.virac.repo.IKPIRealisationRepo;
@@ -83,35 +84,35 @@ public class ProgInzCourseProjectApplication {
                             "still don't think it's 100% right but I'm leaving it");
                     kpiRealisationRepo.saveAll(Arrays.asList(kpir1, kpir2, kpir3));
 					
-					KPIWorkDescription wd1 = new KPIWorkDescription(LocalDate.of(2026, 6, 24), 10,
+					KPIWorkDescription wd1 = new KPIWorkDescription(LocalDate.of(2026, 6, 24),Priority.High,
 							"Debugging my toaster");
-					KPIWorkDescription wd2 = new KPIWorkDescription(LocalDate.of(2026, 6, 25), 2,
+					KPIWorkDescription wd2 = new KPIWorkDescription(LocalDate.of(2026, 6, 25), Priority.Low,
 							"Writting documentations");
-					KPIWorkDescription wd3 = new KPIWorkDescription(LocalDate.of(2026, 6, 26), 6,
+					KPIWorkDescription wd3 = new KPIWorkDescription(LocalDate.of(2026, 6, 26), Priority.Medium,
 							"Meeting with client");
-					KPIWorkDescription wd4 = new KPIWorkDescription(LocalDate.of(2026, 6, 27), 4,
+					KPIWorkDescription wd4 = new KPIWorkDescription(LocalDate.of(2026, 6, 27), Priority.High,
 					        "Refactored a method so clean even I don't recognize it");
-					KPIWorkDescription wd5 = new KPIWorkDescription(LocalDate.of(2026, 6, 28), 8,
+					KPIWorkDescription wd5 = new KPIWorkDescription(LocalDate.of(2026, 6, 28), Priority.High,
 					        "Hunted a bug for six hours, turned out to be a typo");
-					KPIWorkDescription wd6 = new KPIWorkDescription(LocalDate.of(2026, 6, 29), 3,
+					KPIWorkDescription wd6 = new KPIWorkDescription(LocalDate.of(2026, 6, 29), Priority.High,
 					        "Wrote unit tests that I will probably never run again");
-					KPIWorkDescription wd7 = new KPIWorkDescription(LocalDate.of(2026, 6, 30), 7,
+					KPIWorkDescription wd7 = new KPIWorkDescription(LocalDate.of(2026, 6, 30), Priority.Low,
 					        "Argued with the compiler and lost gracefully");
-					KPIWorkDescription wd8 = new KPIWorkDescription(LocalDate.of(2026, 7, 1), 5,
+					KPIWorkDescription wd8 = new KPIWorkDescription(LocalDate.of(2026, 7, 1), Priority.Medium,
 					        "Renamed variables until the code looked professional");
-					KPIWorkDescription wd9 = new KPIWorkDescription(LocalDate.of(2026, 7, 2), 2,
+					KPIWorkDescription wd9 = new KPIWorkDescription(LocalDate.of(2026, 7, 2), Priority.Medium,
 					        "Reviewed a pull request and left 47 comments");
-					KPIWorkDescription wd10 = new KPIWorkDescription(LocalDate.of(2026, 7, 3), 9,
+					KPIWorkDescription wd10 = new KPIWorkDescription(LocalDate.of(2026, 7, 3), Priority.Medium,
 					        "Optimized a query that nobody was complaining about");
-					KPIWorkDescription wd11 = new KPIWorkDescription(LocalDate.of(2026, 7, 4), 6,
+					KPIWorkDescription wd11 = new KPIWorkDescription(LocalDate.of(2026, 7, 4), Priority.Low,
 					        "Deleted 300 lines of dead code and felt alive");
-					KPIWorkDescription wd12 = new KPIWorkDescription(LocalDate.of(2026, 7, 5), 1,
+					KPIWorkDescription wd12 = new KPIWorkDescription(LocalDate.of(2026, 7, 5), Priority.Low,
 					        "Attended a meeting that could have been an email");
-					KPIWorkDescription wd13 = new KPIWorkDescription(LocalDate.of(2026, 7, 6), 4,
+					KPIWorkDescription wd13 = new KPIWorkDescription(LocalDate.of(2026, 7, 6), Priority.Low,
 					        "Fixed the bug, introduced two new ones, called it progress");
-					KPIWorkDescription wd14 = new KPIWorkDescription(LocalDate.of(2026, 7, 7), 10,
+					KPIWorkDescription wd14 = new KPIWorkDescription(LocalDate.of(2026, 7, 7), Priority.Low,
 					        "Deployed on a Friday and prayed");
-					KPIWorkDescription wd15 = new KPIWorkDescription(LocalDate.of(2026, 7, 8), 3,
+					KPIWorkDescription wd15 = new KPIWorkDescription(LocalDate.of(2026, 7, 8), Priority.High,
 					        "Updated the README and pretended that counts as coding");
 
 					kpiWorkDescRepo.saveAll(Arrays.asList(wd1, wd2, wd3, wd4, wd5,wd6, wd7, wd8, wd9, wd10,wd11, wd12, wd13, wd14, wd15));

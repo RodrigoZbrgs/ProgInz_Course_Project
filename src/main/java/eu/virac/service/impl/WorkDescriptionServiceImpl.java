@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import eu.virac.model.KPIWorkDescription;
+import eu.virac.model.enums.Priority;
 import eu.virac.repo.IKPIWorkDescriptionRepo;
 import eu.virac.service.IWorkDescriptionService;
 import eu.virac.service.IWorkDescriptionsFilter;
@@ -33,13 +34,13 @@ public class WorkDescriptionServiceImpl implements IWorkDescriptionService, IWor
 		return workDescriptionRepo.findByDate(date);
 	}
 
-	@Override
-	public ArrayList<KPIWorkDescription> filterByAmountGreaterThan(int amount) throws Exception {
-		if (amount < 1 || amount > 10) {
-			throw new Exception("Amount must be at least 1 and lesser than 10");
-		}
-		return workDescriptionRepo.findByAmountGreaterThan(amount);
-	}
+//	@Override
+//	public ArrayList<KPIWorkDescription> filterByAmountGreaterThan(int amount) throws Exception {
+//		if (amount < 1 || amount > 10) {
+//			throw new Exception("Amount must be at least 1 and lesser than 10");
+//		}
+//		return workDescriptionRepo.findByAmountGreaterThan(amount);
+//	}
 
 	@Override
 	public ArrayList<KPIWorkDescription> findAllWorkDescriptions() throws Exception {
@@ -68,9 +69,6 @@ public class WorkDescriptionServiceImpl implements IWorkDescriptionService, IWor
 	    if (date.isBefore(minDate) || date.isAfter(maxDate)) {
 	        throw new Exception("Date must be between " + minDate + " and " + maxDate);
 	    }
-		if (workDescription.getAmount() < 1) {
-			throw new Exception("Amount must be at least 1");
-		}
 		if (workDescriptionRepo.existsByDescription(workDescription.getDescription())) {
 			throw new Exception("Work description with this name already exists");
 		}
@@ -80,11 +78,11 @@ public class WorkDescriptionServiceImpl implements IWorkDescriptionService, IWor
 	}
 
 	@Override
-	public KPIWorkDescription updateWorkDescription(long id, String description, LocalDate date, int amount)
+	public KPIWorkDescription updateWorkDescription(long id, String description, LocalDate date, Priority priority)
 			throws Exception {
 		KPIWorkDescription workDescriptionToUpdate = findWorkDescriptionById(id);
 
-		if (description == null || description.isEmpty() || date == null || amount < 1) {
+		if (description == null || description.isEmpty() || date == null) {
 			throw new Exception("Invalid input data");
 		}
 
@@ -101,9 +99,6 @@ public class WorkDescriptionServiceImpl implements IWorkDescriptionService, IWor
 	    if (date.isBefore(minDate) || date.isAfter(maxDate)) {
 	        throw new Exception("Date must be between " + minDate + " and " + maxDate);
 	    }
-		if (amount >= 1) {
-			workDescriptionToUpdate.setAmount(amount);
-		}
 		
 
 		return workDescriptionRepo.save(workDescriptionToUpdate);
@@ -130,13 +125,13 @@ public class WorkDescriptionServiceImpl implements IWorkDescriptionService, IWor
 
 	}
 
-	@Override
-	public ArrayList<KPIWorkDescription> filterAmountLessThan(int amount) throws Exception {
-		if (amount < 1) {
-			throw new Exception("Amount must be at least 1");
-		}
-		return workDescriptionRepo.findByAmountLessThan(amount);
-	}
+//	@Override
+//	public ArrayList<KPIWorkDescription> filterAmountLessThan(int amount) throws Exception {
+//		if (amount < 1) {
+//			throw new Exception("Amount must be at least 1");
+//		}
+//		return workDescriptionRepo.findByAmountLessThan(amount);
+//	}
 
 	@Override
 	public Page<KPIWorkDescription> findAllWorkDescriptionsPaginated(Pageable pageable) throws Exception {
@@ -146,4 +141,11 @@ public class WorkDescriptionServiceImpl implements IWorkDescriptionService, IWor
 		return workDescriptionRepo.findAll(pageable);
 	}
 
-}
+	@Override
+	public ArrayList<KPIWorkDescription> filterByPriority(Priority priority) throws Exception {
+	    if (priority == null) {
+	        throw new Exception("Priority cannot be empty");
+	    }
+	    return workDescriptionRepo.findByPriority(priority);
+	}
+	}
