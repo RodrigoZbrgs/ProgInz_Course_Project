@@ -86,9 +86,17 @@ public class WorkDescriptionServiceImpl implements IWorkDescriptionService, IWor
 		if (date != null) {
 			workDescriptionToUpdate.setDate(date);
 		}
+
+	    LocalDate today = LocalDate.now();
+	    LocalDate minDate = today.minusDays(1);
+	    LocalDate maxDate = today.plusYears(5);
+	    if (date.isBefore(minDate) || date.isAfter(maxDate)) {
+	        throw new Exception("Date must be between " + minDate + " and " + maxDate);
+	    }
 		if (amount >= 1) {
 			workDescriptionToUpdate.setAmount(amount);
 		}
+		
 
 		return workDescriptionRepo.save(workDescriptionToUpdate);
 	}

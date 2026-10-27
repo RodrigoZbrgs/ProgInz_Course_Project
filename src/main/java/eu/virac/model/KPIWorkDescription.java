@@ -7,6 +7,9 @@ import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -37,6 +40,7 @@ public class KPIWorkDescription {
 	
     @Column(name = "date")
     @NotNull
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate date;
 //severity
     @Column(name = "amount")
