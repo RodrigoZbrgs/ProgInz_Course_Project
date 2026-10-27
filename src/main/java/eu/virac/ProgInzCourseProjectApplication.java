@@ -15,6 +15,8 @@ import eu.virac.repo.IKPI_StatusRepo;
 import eu.virac.repo.IProjectContributionRepo;
 import eu.virac.repo.IProjectInformationRepo;
 import eu.virac.repo.IUsersRepo;
+import eu.virac.repo.security.IMyAuthorityRepo;
+import eu.virac.model.MyAuthority;
 
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -23,6 +25,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootApplication
 public class ProgInzCourseProjectApplication {
@@ -35,7 +39,8 @@ public class ProgInzCourseProjectApplication {
 	public CommandLineRunner saveDatainDB(IKPI_StatusRepo kpiStatusRepo, IKPICategoriesRepo kpiCatRepo,
 			IKPIRealisationRepo kpiRealisationRepo, IKPISubcategoriesRepo kpisubCatRepo,
 			IKPIWorkDescriptionRepo kpiWorkDescRepo, IProjectInformationRepo prInfoRepo,
-			IProjectContributionRepo prContrRepo, IUsersRepo usersRepo) {
+			IProjectContributionRepo prContrRepo, IUsersRepo usersRepo,IMyAuthorityRepo authRepo)
+	{
 
 		return new CommandLineRunner() {
 			@Override
@@ -50,11 +55,25 @@ public class ProgInzCourseProjectApplication {
 							LocalDate.of(2026, 6, 26), LocalDate.of(2027, 6, 26));
 
 					prInfoRepo.saveAll(Arrays.asList(p1, p2, p3));
-
-					Users u1 = new Users("Rodrigo", "Zandbergs", "rodrigo.zandbergs@gmail.com", "********");
-					Users u2 = new Users("Maris", "Maize", "maris.maize@inbox.com", "rootadmin");
-					Users u3 = new Users("Marcis", "Rupmaize", "marcis.rupmaize@gmail.com", "adminroot");
+					MyAuthority auth1 = new MyAuthority("ADMIN");
+					MyAuthority auth2 = new MyAuthority("USER");
+					authRepo.saveAll(Arrays.asList(auth1,auth2));
+					PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+					Users u1 = new Users("Rodrigo", "Zandbergs", "rodrigo.zandbergs@gmail.com");
+					u1.setUsername("Rodrigo");
+					u1.setPassword(encoder.encode("123"));
+					Users u2 = new Users("Maris", "Maize", "maris.maize@inbox.com");
+					u2.setUsername("Maris");
+					u2.setPassword(encoder.encode("321"));
+					Users u3 = new Users("Marcis", "Rupmaize", "marcis.rupmaize@gmail.com");
+					u3.setUsername("Marics");
+					u3.setPassword(encoder.encode("999"));
 					usersRepo.saveAll(Arrays.asList(u1, u2, u3));
+					auth1.addUser(u1);
+					auth2.addUser(u1);
+					auth2.addUser(u2);
+					auth2.addUser(u3);
+					authRepo.saveAll(Arrays.asList(auth1,auth2));
 
 					KPIRealisation kpir1 = new KPIRealisation(LocalDate.of(2026, 3, 24), "Fixed up the telescope",
                             "wasnt easy :(");
@@ -70,8 +89,35 @@ public class ProgInzCourseProjectApplication {
 							"Writting documentations");
 					KPIWorkDescription wd3 = new KPIWorkDescription(LocalDate.of(2026, 6, 26), 6,
 							"Meeting with client");
+					KPIWorkDescription wd4 = new KPIWorkDescription(LocalDate.of(2026, 6, 27), 4,
+					        "Refactored a method so clean even I don't recognize it");
+					KPIWorkDescription wd5 = new KPIWorkDescription(LocalDate.of(2026, 6, 28), 8,
+					        "Hunted a bug for six hours, turned out to be a typo");
+					KPIWorkDescription wd6 = new KPIWorkDescription(LocalDate.of(2026, 6, 29), 3,
+					        "Wrote unit tests that I will probably never run again");
+					KPIWorkDescription wd7 = new KPIWorkDescription(LocalDate.of(2026, 6, 30), 7,
+					        "Argued with the compiler and lost gracefully");
+					KPIWorkDescription wd8 = new KPIWorkDescription(LocalDate.of(2026, 7, 1), 5,
+					        "Renamed variables until the code looked professional");
+					KPIWorkDescription wd9 = new KPIWorkDescription(LocalDate.of(2026, 7, 2), 2,
+					        "Reviewed a pull request and left 47 comments");
+					KPIWorkDescription wd10 = new KPIWorkDescription(LocalDate.of(2026, 7, 3), 9,
+					        "Optimized a query that nobody was complaining about");
+					KPIWorkDescription wd11 = new KPIWorkDescription(LocalDate.of(2026, 7, 4), 6,
+					        "Deleted 300 lines of dead code and felt alive");
+					KPIWorkDescription wd12 = new KPIWorkDescription(LocalDate.of(2026, 7, 5), 1,
+					        "Attended a meeting that could have been an email");
+					KPIWorkDescription wd13 = new KPIWorkDescription(LocalDate.of(2026, 7, 6), 4,
+					        "Fixed the bug, introduced two new ones, called it progress");
+					KPIWorkDescription wd14 = new KPIWorkDescription(LocalDate.of(2026, 7, 7), 10,
+					        "Deployed on a Friday and prayed");
+					KPIWorkDescription wd15 = new KPIWorkDescription(LocalDate.of(2026, 7, 8), 3,
+					        "Updated the README and pretended that counts as coding");
 
-					kpiWorkDescRepo.saveAll(Arrays.asList(wd1, wd2, wd3));
+					kpiWorkDescRepo.saveAll(Arrays.asList(wd1, wd2, wd3, wd4, wd5,wd6, wd7, wd8, wd9, wd10,wd11, wd12, wd13, wd14, wd15));
+					
+					
+					
 
 				}
 			}

@@ -3,6 +3,8 @@ package eu.virac.service.impl;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import eu.virac.model.KPIWorkDescription;
@@ -18,11 +20,10 @@ public class WorkDescriptionServiceImpl implements IWorkDescriptionService, IWor
 	@Override
 	public ArrayList<KPIWorkDescription> filterByDescription(String keyword) throws Exception {
 		if (keyword == null || keyword.isEmpty()) {
-            throw new Exception("keyword cannot be empty");
-        }
+			throw new Exception("keyword cannot be empty");
+		}
 		return workDescriptionRepo.findByDescriptionContainingIgnoreCase(keyword);
-    }
-	
+	}
 
 	@Override
 	public ArrayList<KPIWorkDescription> filterByDate(LocalDate date) throws Exception {
@@ -34,10 +35,10 @@ public class WorkDescriptionServiceImpl implements IWorkDescriptionService, IWor
 
 	@Override
 	public ArrayList<KPIWorkDescription> filterByAmountGreaterThan(int amount) throws Exception {
-		if (amount < 1 || amount>10) {
-	        throw new Exception("Amount must be at least 1 and lesser than 10");
-	    }
-	    return workDescriptionRepo.findByAmountGreaterThan(amount);
+		if (amount < 1 || amount > 10) {
+			throw new Exception("Amount must be at least 1 and lesser than 10");
+		}
+		return workDescriptionRepo.findByAmountGreaterThan(amount);
 	}
 
 	@Override
@@ -121,7 +122,12 @@ public class WorkDescriptionServiceImpl implements IWorkDescriptionService, IWor
 		return workDescriptionRepo.findByAmountLessThan(amount);
 	}
 
-
-	
+	@Override
+	public Page<KPIWorkDescription> findAllWorkDescriptionsPaginated(Pageable pageable) throws Exception {
+		if (workDescriptionRepo.count() == 0) {
+			throw new Exception("no work descriptions");
+		}
+		return workDescriptionRepo.findAll(pageable);
+	}
 
 }
