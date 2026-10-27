@@ -6,6 +6,7 @@ import eu.virac.model.ProjectContribution;
 import eu.virac.model.ProjectInformation;
 import eu.virac.model.Users;
 import eu.virac.model.enums.EmployeePositions;
+import eu.virac.model.security.MyAuthority;
 import eu.virac.repo.IKPICategoriesRepo;
 import eu.virac.repo.IKPIRealisationRepo;
 import eu.virac.repo.IKPIRealisationRepo;
@@ -16,7 +17,6 @@ import eu.virac.repo.IProjectContributionRepo;
 import eu.virac.repo.IProjectInformationRepo;
 import eu.virac.repo.IUsersRepo;
 import eu.virac.repo.security.IMyAuthorityRepo;
-import eu.virac.model.MyAuthority;
 
 import java.time.LocalDate;
 import java.util.Arrays;

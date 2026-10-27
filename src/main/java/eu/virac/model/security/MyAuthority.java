@@ -1,4 +1,4 @@
-package eu.virac.model;
+package eu.virac.model.security;
 
 import java.util.ArrayList;
 import java.util.Collection;

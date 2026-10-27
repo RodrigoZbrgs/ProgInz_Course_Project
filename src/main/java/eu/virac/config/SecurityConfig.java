@@ -1,5 +1,6 @@
 package eu.virac.config;
 
+import eu.virac.repo.security.IMyAuthorityRepo;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -13,6 +14,10 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+	private final IMyAuthorityRepo IMyAuthorityRepo;
+	SecurityConfig(IMyAuthorityRepo IMyAuthorityRepo) {
+		this.IMyAuthorityRepo = IMyAuthorityRepo;
+	}
 	public PasswordEncoder getEncoder() {
 		PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 		return encoder;
@@ -32,7 +37,12 @@ public class SecurityConfig {
 		public SecurityFilterChain httpPremisions(HttpSecurity http) {
 			http.authorizeHttpRequests(auth->auth
 					.requestMatchers("/workdescriptions/crud/**").hasAuthority("ADMIN")
-					.requestMatchers("/workdescriptions/filter/**").hasAuthority("USER"));
+					.requestMatchers("/workdescriptions/filter/**").hasAuthority("USER")
+					.requestMatchers("/project/crud/**").hasAuthority("ADMIN")
+					.requestMatchers("/project/filter/**").hasAuthority("USER")
+					.requestMatchers("/kpireal/crud/**").hasAuthority("ADMIN")
+					.requestMatchers("/user/crud/**").hasAuthority("ADMIN")
+					.requestMatchers("/user/filter/**").hasAuthority("USER"));
 			http.formLogin(auth->auth.permitAll());
 			return http.build();
 		}

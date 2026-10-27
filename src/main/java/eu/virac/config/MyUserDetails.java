@@ -8,8 +8,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import eu.virac.model.MyAuthority;
 import eu.virac.model.Users;
+import eu.virac.model.security.MyAuthority;
 
 public class MyUserDetails implements UserDetails {
 	private Users user;
