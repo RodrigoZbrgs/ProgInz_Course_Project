@@ -10,13 +10,17 @@
             <td>ID</td>
             <td th:text="${package.idkpiwd}"></td>
         </tr>
+		<tr>
+		    <td>User</td>
+		    <td th:text="${package.User.name+' '+package.User.surname}"></td>
+		</tr>
         <tr>
             <td>Date</td>
             <td th:text="${package.date}"></td>
         </tr>
         <tr>
-            <td>Amount</td>
-            <td th:text="${package.amount}"></td>
+            <td>Priority</td>
+            <td th:text="${package.priority}"></td>
         </tr>
         <tr>
             <td>Description</td>
