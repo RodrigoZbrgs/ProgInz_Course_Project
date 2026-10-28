@@ -67,4 +67,5 @@ public class ProjectInformation {
 		setStartingDate(startingDate);
 		setEndingDate(endingDate);
 	}
+
 }

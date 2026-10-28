@@ -16,6 +16,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -59,6 +60,7 @@ public class Users {
 	@Column(name = "email")
 	@NotNull
 	@NotEmpty
+	@Email
 	private String email;
 
 	@Column(name = "Password")
@@ -96,14 +98,18 @@ public class Users {
 	@ToString.Exclude
 	private Collection<KPI_Statuss> kpiStatuss = new ArrayList<KPI_Statuss>();
 
-	public Users(String name, String surname, String email) {
+
+	public Users(String name, String surname, String email, String password, Department department) {
 		setName(name);
 		setSurname(surname);
 		setEmail(email);
+		setPassword(password);
+		setDepartment(department);
 	}
-	public Users(String username,String password, MyAuthority ...inputAuthorities) {
+	public Users(String username,String password, MyAuthority ...inputAuthorities) { // idk kp te bija deparment bet ja vajades var pievienot(martins)
 		setUsername(username);
 		setPassword(password);
+		
 		for(MyAuthority tempA:inputAuthorities) {
 			addAuthority(tempA);
 		}

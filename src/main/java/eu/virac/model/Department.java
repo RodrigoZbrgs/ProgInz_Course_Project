@@ -24,7 +24,6 @@ import lombok.ToString;
 @Entity
 @NoArgsConstructor
 @Table(name = "DepartmentTable")
-
 public class Department {
 
 	@Column(name = "Did")
@@ -49,7 +48,7 @@ public class Department {
 	@OneToMany(mappedBy = "department")
 	private Collection<KPIWorkDescription> workDescription = new ArrayList<>();
 
-	public Department(long did, String description, String goals) {
+	public Department(String description, String goals) {
 		setDescription(description);
 		setGoals(goals);
 	}

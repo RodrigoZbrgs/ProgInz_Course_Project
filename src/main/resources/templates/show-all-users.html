@@ -11,7 +11,6 @@
 			<td>Name</td>
 			<td>Surname</td>
 			<td>Email</td>
-			<td>Password</td>
 			<td>Department</td>
 		</tr>
 
@@ -21,7 +20,7 @@
 				<td th:text="${user.name}"></td>
 				<td th:text="${user.surname}"></td>
 				<td th:text="${user.email}"></td>
-				<td th:text="${user.password}"></td>
+				<td th:text="${user.department.description}"></td>
 			</tr>
 		</th:block>
 

@@ -3,6 +3,10 @@ package eu.virac.service.impl;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -15,11 +19,13 @@ import eu.virac.service.IWorkDescriptionService;
 import eu.virac.service.IWorkDescriptionsFilter;
 
 @Service
+@EnableCaching
 public class WorkDescriptionServiceImpl implements IWorkDescriptionService, IWorkDescriptionsFilter {
 	@Autowired
 	private IKPIWorkDescriptionRepo workDescriptionRepo;
 
 	@Override
+	@Cacheable(value="WorkDescription", key="#keyword")
 	public ArrayList<KPIWorkDescription> filterByDescription(String keyword) throws Exception {
 		if (keyword == null || keyword.isEmpty()) {
 			throw new Exception("keyword cannot be empty");
@@ -28,6 +34,7 @@ public class WorkDescriptionServiceImpl implements IWorkDescriptionService, IWor
 	}
 
 	@Override
+	@Cacheable(value="WorkDescription",key="#date")
 	public ArrayList<KPIWorkDescription> filterByDate(LocalDate date) throws Exception {
 		if (date == null) {
 			throw new Exception("Date cannot be empty");
@@ -80,6 +87,7 @@ public class WorkDescriptionServiceImpl implements IWorkDescriptionService, IWor
 
 	@Override
 	public KPIWorkDescription updateWorkDescription(long id, String description, LocalDate date, Priority priority, Users user)
+
 			throws Exception {
 		KPIWorkDescription workDescriptionToUpdate = findWorkDescriptionById(id);
 
@@ -121,6 +129,7 @@ public class WorkDescriptionServiceImpl implements IWorkDescriptionService, IWor
 	}
 
 	@Override
+	@Cacheable(value="WorkDescription", key="#id")
 	public KPIWorkDescription findWorkDescriptionById(long id) throws Exception {
 
 		if (!workDescriptionRepo.existsById(id)) {
@@ -129,7 +138,6 @@ public class WorkDescriptionServiceImpl implements IWorkDescriptionService, IWor
 		return workDescriptionRepo.findById(id).get();
 
 	}
-
 //	@Override
 //	public ArrayList<KPIWorkDescription> filterAmountLessThan(int amount) throws Exception {
 //		if (amount < 1) {
