@@ -24,7 +24,6 @@ import lombok.ToString;
 @Entity
 @NoArgsConstructor
 @Table(name = "DepartmentTable")
-@NoArgsConstructor
 public class Department {
 
 	@Column(name = "Did")
