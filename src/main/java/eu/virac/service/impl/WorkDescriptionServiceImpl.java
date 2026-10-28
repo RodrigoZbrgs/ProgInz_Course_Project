@@ -94,7 +94,7 @@ public class WorkDescriptionServiceImpl implements IWorkDescriptionService, IWor
 		}
 
 	    LocalDate today = LocalDate.now();
-	    LocalDate minDate = today.minusDays(1);
+	    LocalDate minDate = today.minusDays(5);
 	    LocalDate maxDate = today.plusYears(5);
 	    if (date.isBefore(minDate) || date.isAfter(maxDate)) {
 	        throw new Exception("Date must be between " + minDate + " and " + maxDate);
