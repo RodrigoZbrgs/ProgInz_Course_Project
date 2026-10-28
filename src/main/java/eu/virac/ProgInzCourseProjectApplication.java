@@ -1,5 +1,6 @@
 package eu.virac;
 
+import eu.virac.model.Department;
 import eu.virac.model.KPIRealisation;
 import eu.virac.model.KPIWorkDescription;
 import eu.virac.model.ProjectContribution;
@@ -7,8 +8,8 @@ import eu.virac.model.ProjectInformation;
 import eu.virac.model.Users;
 import eu.virac.model.enums.EmployeePositions;
 import eu.virac.model.security.MyAuthority;
+import eu.virac.repo.IDepartmentRepo;
 import eu.virac.repo.IKPICategoriesRepo;
-import eu.virac.repo.IKPIRealisationRepo;
 import eu.virac.repo.IKPIRealisationRepo;
 import eu.virac.repo.IKPISubcategoriesRepo;
 import eu.virac.repo.IKPIWorkDescriptionRepo;
@@ -39,7 +40,7 @@ public class ProgInzCourseProjectApplication {
 	public CommandLineRunner saveDatainDB(IKPI_StatusRepo kpiStatusRepo, IKPICategoriesRepo kpiCatRepo,
 			IKPIRealisationRepo kpiRealisationRepo, IKPISubcategoriesRepo kpisubCatRepo,
 			IKPIWorkDescriptionRepo kpiWorkDescRepo, IProjectInformationRepo prInfoRepo,
-			IProjectContributionRepo prContrRepo, IUsersRepo usersRepo,IMyAuthorityRepo authRepo)
+			IProjectContributionRepo prContrRepo, IUsersRepo usersRepo,IMyAuthorityRepo authRepo,  IDepartmentRepo depRepo)
 	{
 
 		return new CommandLineRunner() {
@@ -53,19 +54,24 @@ public class ProgInzCourseProjectApplication {
 							LocalDate.of(2026, 6, 25), LocalDate.of(2027, 6, 25));
 					ProjectInformation p3 = new ProjectInformation(true, "P125", "ProjectEcho",
 							LocalDate.of(2026, 6, 26), LocalDate.of(2027, 6, 26));
+					Department dep1 = new Department( "Programming", "Clean coding");
+					Department dep2 = new Department("Manegment", "Ower seers");
+					Department dep3 = new Department( "Workers", "Work hard");
+					
+					depRepo.saveAll(Arrays.asList(dep1,dep2, dep3));
 
 					prInfoRepo.saveAll(Arrays.asList(p1, p2, p3));
 					MyAuthority auth1 = new MyAuthority("ADMIN");
 					MyAuthority auth2 = new MyAuthority("USER");
 					authRepo.saveAll(Arrays.asList(auth1,auth2));
 					PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-					Users u1 = new Users("Rodrigo", "Zandbergs", "rodrigo.zandbergs@gmail.com");
+					Users u1 = new Users("Rodrigo", "Zandbergs", "rodrigo.zandbergs@gmail.com", "********", dep1);
 					u1.setUsername("Rodrigo");
 					u1.setPassword(encoder.encode("123"));
-					Users u2 = new Users("Maris", "Maize", "maris.maize@inbox.com");
+					Users u2 = new Users("Maris", "Maize", "maris.maize@inbox.com", "rootadmin", dep2);
 					u2.setUsername("Maris");
 					u2.setPassword(encoder.encode("321"));
-					Users u3 = new Users("Marcis", "Rupmaize", "marcis.rupmaize@gmail.com");
+					Users u3 = new Users("Marcis", "Rupmaize", "marcis.rupmaize@gmail.com", "adminroot", dep3);
 					u3.setUsername("Marics");
 					u3.setPassword(encoder.encode("999"));
 					usersRepo.saveAll(Arrays.asList(u1, u2, u3));

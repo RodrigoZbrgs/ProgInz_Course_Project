@@ -3,6 +3,10 @@ package eu.virac.service.impl;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -13,11 +17,13 @@ import eu.virac.service.IWorkDescriptionService;
 import eu.virac.service.IWorkDescriptionsFilter;
 
 @Service
+@EnableCaching
 public class WorkDescriptionServiceImpl implements IWorkDescriptionService, IWorkDescriptionsFilter {
 	@Autowired
 	private IKPIWorkDescriptionRepo workDescriptionRepo;
 
 	@Override
+	@Cacheable(value="WorkDescription", key="#keyword")
 	public ArrayList<KPIWorkDescription> filterByDescription(String keyword) throws Exception {
 		if (keyword == null || keyword.isEmpty()) {
 			throw new Exception("keyword cannot be empty");
@@ -26,6 +32,7 @@ public class WorkDescriptionServiceImpl implements IWorkDescriptionService, IWor
 	}
 
 	@Override
+	@Cacheable(value="WorkDescription",key="#date")
 	public ArrayList<KPIWorkDescription> filterByDate(LocalDate date) throws Exception {
 		if (date == null) {
 			throw new Exception("Date cannot be empty");
@@ -34,6 +41,7 @@ public class WorkDescriptionServiceImpl implements IWorkDescriptionService, IWor
 	}
 
 	@Override
+	@Cacheable(value="WorkDescription", key="#amount")
 	public ArrayList<KPIWorkDescription> filterByAmountGreaterThan(int amount) throws Exception {
 		if (amount < 1 || amount > 10) {
 			throw new Exception("Amount must be at least 1 and lesser than 10");
@@ -42,6 +50,7 @@ public class WorkDescriptionServiceImpl implements IWorkDescriptionService, IWor
 	}
 
 	@Override
+	@Cacheable("WorkDescription")
 	public ArrayList<KPIWorkDescription> findAllWorkDescriptions() throws Exception {
 		if (workDescriptionRepo.count() == 0) {
 			throw new Exception("Work description amount is empty");
@@ -72,6 +81,7 @@ public class WorkDescriptionServiceImpl implements IWorkDescriptionService, IWor
 	}
 
 	@Override
+	@CachePut(value="WorkDescription", key="#id")
 	public KPIWorkDescription updateWorkDescription(long id, String description, LocalDate date, int amount)
 			throws Exception {
 		KPIWorkDescription workDescriptionToUpdate = findWorkDescriptionById(id);
@@ -94,6 +104,7 @@ public class WorkDescriptionServiceImpl implements IWorkDescriptionService, IWor
 	}
 
 	@Override
+	@CacheEvict(value="WorkDescription", key="#id")
 	public void deleteWorkDescription(long id) throws Exception {
 		if (id < 1) {
 			throw new Exception("Id cannot be negative or 0");
@@ -105,6 +116,7 @@ public class WorkDescriptionServiceImpl implements IWorkDescriptionService, IWor
 	}
 
 	@Override
+	@Cacheable(value="WorkDescription", key="#id")
 	public KPIWorkDescription findWorkDescriptionById(long id) throws Exception {
 
 		if (!workDescriptionRepo.existsById(id)) {
@@ -115,6 +127,7 @@ public class WorkDescriptionServiceImpl implements IWorkDescriptionService, IWor
 	}
 
 	@Override
+	@Cacheable(value="WorkDescription", key="#amount")
 	public ArrayList<KPIWorkDescription> filterAmountLessThan(int amount) throws Exception {
 		if (amount < 1) {
 			throw new Exception("Amount must be at least 1");
@@ -123,6 +136,7 @@ public class WorkDescriptionServiceImpl implements IWorkDescriptionService, IWor
 	}
 
 	@Override
+	@Cacheable(value="WorkDescription", key="#pageable")
 	public Page<KPIWorkDescription> findAllWorkDescriptionsPaginated(Pageable pageable) throws Exception {
 		if (workDescriptionRepo.count() == 0) {
 			throw new Exception("no work descriptions");
