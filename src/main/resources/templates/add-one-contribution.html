@@ -1,0 +1,27 @@
+f<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+	<h1>Input new contribution:</h1>
+	<form method="post" th:object="${projectcontribution}" th:action="@{/contributions/crud/add}">
+
+		<p>Input employee position</p>
+		<select th:field="*{employeePosition}">
+			<option th:each="pos : ${T(eu.virac.model.enums.EmployeePositions).values()}"
+				th:value="${pos}" th:text="${pos}"></option>
+		</select>
+		<p th:if="${#fields.hasErrors('employeePosition')}" th:errors="*{employeePosition}"></p>
+
+		<p>Input starting date</p>
+		<input type="date" th:field="*{startingDate}" />
+		<p th:if="${#fields.hasErrors('startingDate')}" th:errors="*{startingDate}"></p>
+
+		<p>Input ending date</p>
+		<input type="date" th:field="*{endingDate}" />
+		<p th:if="${#fields.hasErrors('endingDate')}" th:errors="*{endingDate}"></p>
+
+		<button type="submit">Save project</button>
+	</form>
+
+</body>
+
+</html>

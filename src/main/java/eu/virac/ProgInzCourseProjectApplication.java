@@ -12,7 +12,6 @@ import eu.virac.model.security.MyAuthority;
 import eu.virac.repo.IDepartmentRepo;
 import eu.virac.repo.IKPICategoriesRepo;
 import eu.virac.repo.IKPIRealisationRepo;
-import eu.virac.repo.IKPIRealisationRepo;
 import eu.virac.repo.IKPISubcategoriesRepo;
 import eu.virac.repo.IKPIWorkDescriptionRepo;
 import eu.virac.repo.IKPI_StatusRepo;
@@ -121,6 +120,17 @@ public class ProgInzCourseProjectApplication {
 					        "Deployed on a Friday and prayed",u1);
 					KPIWorkDescription wd15 = new KPIWorkDescription(LocalDate.of(2026, 7, 8), Priority.High,
 					        "Updated the README and pretended that counts as coding",u1);
+                    ProjectContribution pc1 = new ProjectContribution(EmployeePositions.Darbinieks, LocalDate.of(2026, 6, 24), LocalDate.of(2027, 6, 24));
+                    ProjectContribution pc2 = new ProjectContribution(EmployeePositions.Novada_Vaditajs, LocalDate.of(2026, 6, 25), LocalDate.of(2027, 6, 25));
+                    ProjectContribution pc3 = new ProjectContribution(EmployeePositions.Novada_Vaditajs, LocalDate.of(2026, 6, 26), LocalDate.of(2027, 6, 26));
+                    		
+                    pc1.setUser(u1);
+                    pc2.setUser(u2);
+                    pc3.setUser(u3);
+                    pc1.setProjectInformation(p1);
+                    pc2.setProjectInformation(p2);
+                    pc3.setProjectInformation(p3);
+                    prContrRepo.saveAll(Arrays.asList(pc1, pc2, pc3));
 
 					kpiWorkDescRepo.saveAll(Arrays.asList(wd1, wd2, wd3, wd4, wd5,wd6, wd7, wd8, wd9, wd10,wd11, wd12, wd13, wd14, wd15));
 					

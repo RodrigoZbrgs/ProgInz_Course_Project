@@ -1,0 +1,23 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+	<h1>Edit contribution:</h1>
+	<form method="post" th:object="${contribution}" th:action="@{/contributions/crud/update/__${id}__}">
+
+		<p>Input employee position</p>
+		<select th:field="*{employeePosition}">
+			<option th:each="pos : ${T(eu.virac.model.enums.EmployeePositions).values()}"
+				th:value="${pos}" th:text="${pos}"></option>
+		</select>
+
+		<p>Input starting date</p>
+		<input type="date" th:field="*{startingDate}" />
+
+		<p>Input ending date</p>
+		<input type="date" th:field="*{endingDate}" />
+
+		<button type="submit">Save contribution</button>
+	</form>
+</body>
+
+</html>
