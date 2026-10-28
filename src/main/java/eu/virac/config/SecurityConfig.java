@@ -42,7 +42,10 @@ public class SecurityConfig {
 					.requestMatchers("/project/filter/**").hasAuthority("USER")
 					.requestMatchers("/kpireal/crud/**").hasAuthority("ADMIN")
 					.requestMatchers("/user/crud/**").hasAuthority("ADMIN")
-					.requestMatchers("/user/filter/**").hasAuthority("USER"));
+					.requestMatchers("/user/filter/**").hasAuthority("USER")
+					.requestMatchers("/contributions/crud/**").hasAuthority("ADMIN")
+					.requestMatchers("/contributions/filter/**").hasAuthority("USER"));
+			
 			http.formLogin(auth->auth.permitAll());
 			return http.build();
 		}

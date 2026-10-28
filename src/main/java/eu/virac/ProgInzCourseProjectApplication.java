@@ -83,6 +83,18 @@ public class ProgInzCourseProjectApplication {
                             "still don't think it's 100% right but I'm leaving it");
                     kpiRealisationRepo.saveAll(Arrays.asList(kpir1, kpir2, kpir3));
 					
+                    ProjectContribution pc1 = new ProjectContribution(EmployeePositions.Darbinieks, LocalDate.of(2026, 6, 24), LocalDate.of(2027, 6, 24));
+                    ProjectContribution pc2 = new ProjectContribution(EmployeePositions.Novada_Vaditajs, LocalDate.of(2026, 6, 25), LocalDate.of(2027, 6, 25));
+                    ProjectContribution pc3 = new ProjectContribution(EmployeePositions.Novada_Vaditajs, LocalDate.of(2026, 6, 26), LocalDate.of(2027, 6, 26));
+                    		
+                    pc1.setUser(u1);
+                    pc2.setUser(u2);
+                    pc3.setUser(u3);
+                    pc1.setProjectInformation(p1);
+                    pc2.setProjectInformation(p2);
+                    pc3.setProjectInformation(p3);
+                    prContrRepo.saveAll(Arrays.asList(pc1, pc2, pc3));
+                    
 					KPIWorkDescription wd1 = new KPIWorkDescription(LocalDate.of(2026, 6, 24), 10,
 							"Debugging my toaster");
 					KPIWorkDescription wd2 = new KPIWorkDescription(LocalDate.of(2026, 6, 25), 2,

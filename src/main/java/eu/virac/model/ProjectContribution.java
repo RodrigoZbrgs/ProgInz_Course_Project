@@ -7,6 +7,8 @@ import java.util.Collection;
 import eu.virac.model.enums.EmployeePositions;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -37,6 +39,7 @@ public class ProjectContribution {
 	private long idpc;
 
 	@NotNull
+	@Enumerated(EnumType.STRING)
 	@Column(name = "Position_name")
 	private EmployeePositions employeePosition;
 

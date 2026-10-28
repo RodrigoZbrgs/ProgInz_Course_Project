@@ -1,0 +1,35 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+	<h1>Project data:</h1>
+	<h2 th:text="${info}"></h2>
+	<table border="1px">
+		<tr>
+			<th>Idpc</th>
+			<th>Position</th>
+			<th>Starting date</th>
+			<th>Ending date</th>
+			<th>Project id</th>
+			<th>User id</th>
+
+		</tr>
+		<th:block th:each="projectcontribution : ${package}">
+			<tr>
+				<td th:text="${projectcontribution.idpc}"></td>
+				<td th:text="${projectcontribution.employeePosition}"></td>
+				<td th:text="${projectcontribution.startingDate}"></td>
+				<td th:text="${projectcontribution.endingDate}"></td>
+				<td th:text="${projectcontribution.projectInformation.idpi}"></td>
+				<td th:text="${projectcontribution.user.uid}"></td>
+			</tr>
+		</th:block>
+	</table>
+
+
+
+</body>
+
+
+
+</html>
