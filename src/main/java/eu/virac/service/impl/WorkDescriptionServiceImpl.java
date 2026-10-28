@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import eu.virac.model.KPIWorkDescription;
+import eu.virac.model.Users;
 import eu.virac.model.enums.Priority;
 import eu.virac.repo.IKPIWorkDescriptionRepo;
 import eu.virac.service.IWorkDescriptionService;
@@ -78,7 +79,7 @@ public class WorkDescriptionServiceImpl implements IWorkDescriptionService, IWor
 	}
 
 	@Override
-	public KPIWorkDescription updateWorkDescription(long id, String description, LocalDate date, Priority priority)
+	public KPIWorkDescription updateWorkDescription(long id, String description, LocalDate date, Priority priority, Users user)
 			throws Exception {
 		KPIWorkDescription workDescriptionToUpdate = findWorkDescriptionById(id);
 
@@ -92,15 +93,19 @@ public class WorkDescriptionServiceImpl implements IWorkDescriptionService, IWor
 		if (date != null) {
 			workDescriptionToUpdate.setDate(date);
 		}
-
+		if (priority != null) {
+			workDescriptionToUpdate.setPriority(priority);
+		}
+		if (user != null) {
+			workDescriptionToUpdate.setUser(user);
+		}
 	    LocalDate today = LocalDate.now();
-	    LocalDate minDate = today.minusDays(5);
+	    LocalDate minDate = today.minusYears(5);
 	    LocalDate maxDate = today.plusYears(5);
 	    if (date.isBefore(minDate) || date.isAfter(maxDate)) {
 	        throw new Exception("Date must be between " + minDate + " and " + maxDate);
 	    }
 		
-
 		return workDescriptionRepo.save(workDescriptionToUpdate);
 	}
 

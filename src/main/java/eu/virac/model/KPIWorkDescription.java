@@ -75,10 +75,11 @@ public class KPIWorkDescription {
 	@OneToMany(mappedBy = "workDescription")
 	private Collection<KPIRealisation> kpiRealisation = new ArrayList<KPIRealisation>();
 
-	public KPIWorkDescription(LocalDate date, Priority priority, String description) {
+	public KPIWorkDescription(LocalDate date, Priority priority, String description, Users user) {
 		setDate(date);
 		setPriority(priority);
 		setDescription(description);
+		setUser(user);
 	}
 
 }
