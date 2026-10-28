@@ -99,15 +99,15 @@ public class Users {
 
 
 	public Users(String name, String surname, String email, String password, Department department) {
-
 		setName(name);
 		setSurname(surname);
 		setEmail(email);
-	}
-	public Users(String username,String password, MyAuthority ...inputAuthorities) {
-		setUsername(username);
 		setPassword(password);
 		setDepartment(department);
+	}
+	public Users(String username,String password, MyAuthority ...inputAuthorities) { // idk kp te bija deparment bet ja vajades var pievienot(martins)
+		setUsername(username);
+		setPassword(password);
 		
 		for(MyAuthority tempA:inputAuthorities) {
 			addAuthority(tempA);

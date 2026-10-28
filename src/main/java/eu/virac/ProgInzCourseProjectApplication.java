@@ -7,7 +7,7 @@ import eu.virac.model.ProjectContribution;
 import eu.virac.model.ProjectInformation;
 import eu.virac.model.Users;
 import eu.virac.model.enums.EmployeePositions;
-import eu.virac.repo.IDeparmentRepo;
+import eu.virac.repo.IDepartmentRepo;
 import eu.virac.repo.IKPICategoriesRepo;
 import eu.virac.repo.IKPIRealisationRepo;
 import eu.virac.repo.IKPIRealisationRepo;
@@ -41,7 +41,7 @@ public class ProgInzCourseProjectApplication {
 	public CommandLineRunner saveDatainDB(IKPI_StatusRepo kpiStatusRepo, IKPICategoriesRepo kpiCatRepo,
 			IKPIRealisationRepo kpiRealisationRepo, IKPISubcategoriesRepo kpisubCatRepo,
 			IKPIWorkDescriptionRepo kpiWorkDescRepo, IProjectInformationRepo prInfoRepo,
-			IProjectContributionRepo prContrRepo, IUsersRepo usersRepo,IMyAuthorityRepo authRepo,  IDeparmentRepo depRepo)
+			IProjectContributionRepo prContrRepo, IUsersRepo usersRepo,IMyAuthorityRepo authRepo,  IDepartmentRepo depRepo)
 	{
 
 		return new CommandLineRunner() {

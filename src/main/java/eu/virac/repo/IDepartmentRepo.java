@@ -4,6 +4,6 @@ import org.springframework.data.repository.CrudRepository;
 
 import eu.virac.model.Department;
 
-public interface IDeparmentRepo extends CrudRepository<Department, Long> {
+public interface IDepartmentRepo extends CrudRepository<Department, Long> {
 
 }

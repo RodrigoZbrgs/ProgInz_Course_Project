@@ -3,6 +3,10 @@ package eu.virac.service.impl;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.stereotype.Service;
 
 import eu.virac.model.Department;
@@ -11,12 +15,14 @@ import eu.virac.repo.IUsersRepo;
 import eu.virac.service.IUserService;
 
 @Service
+@EnableCaching
 public class UserServiceImpl implements IUserService {
 
 	@Autowired
 	private IUsersRepo userRepo;
 
 	@Override
+	@Cacheable("users")
 	public ArrayList<Users> selectAllUser() throws Exception {
 		if (userRepo.count() == 0) {
 			throw new Exception("User tabula ir tukša");
@@ -25,6 +31,7 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	@Override
+	@Cacheable(value="users", key="#id")
 	public Users selectUsersByUid(int id) throws Exception {
 		if (userRepo.count() == 0) {
 			throw new Exception("Users tabula ir tukša un nevar atgriezt id");
@@ -42,6 +49,7 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	@Override
+	@CacheEvict(value="users", key="#id")
 	public void deleteUserByUid(int id) throws Exception {
 		Users UserForDeleting = selectUsersByUid(id);
 		userRepo.delete(UserForDeleting);
@@ -49,6 +57,7 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	@Override
+	@CachePut(value="users", key="#id")
 	public void updateUserByUid(int id, String name, String surname, String email, String password ,Department department) throws Exception {
 	    Users userToUpdate = selectUsersByUid(id);
 	    if (name == null || surname == null || email == null || password == null || department == null ) {

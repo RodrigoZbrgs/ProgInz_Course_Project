@@ -35,6 +35,7 @@ public class ProjectInformationServiceImpl implements IProjectService {
 	}
 
 	@Override
+	@Cacheable(value="projects", key="#id") // bez # cache doma ka tas ir ka parasta string funkcija!!!!!
 	public ProjectInformation selectProjectById(long id) throws Exception {
 		if (prInfoRepo.count() == 0) {
 			throw new Exception("Projekta tabula ir tukša un nevar atgriezt id");
