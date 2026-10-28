@@ -11,11 +11,11 @@ import eu.virac.repo.IUsersRepo;
 import eu.virac.service.IUserService;
 
 @Service
-public class UserServiceImpl implements IUserService{
-	
+public class UserServiceImpl implements IUserService {
+
 	@Autowired
 	private IUsersRepo userRepo;
-	
+
 	@Override
 	public ArrayList<Users> selectAllUser() throws Exception {
 		if (userRepo.count() == 0) {
@@ -43,9 +43,9 @@ public class UserServiceImpl implements IUserService{
 
 	@Override
 	public void deleteUserByUid(int id) throws Exception {
-		Users UserForDeleting  = selectUsersByUid(id);
+		Users UserForDeleting = selectUsersByUid(id);
 		userRepo.delete(UserForDeleting);
-		
+
 	}
 
 	@Override

@@ -35,31 +35,31 @@ public class ProjectContribution {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Setter(value = AccessLevel.NONE)
 	private long idpc;
-	
+
 	@NotNull
 	@Column(name = "Position_name")
 	private EmployeePositions employeePosition;
-	
+
 	@NotNull
 	@Column(name = "Starting_date")
 	private LocalDate startingDate;
-	
+
 	@NotNull
 	@Column(name = "Ending_date")
 	private LocalDate endingDate;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "idpi")
 	private ProjectInformation projectInformation;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "uid")
 	@NotNull
 	private Users user;
-	
+
 	@OneToMany(mappedBy = "contributions")
 	private Collection<KPIWorkDescription> workDescription = new ArrayList<>();
-	
+
 	public ProjectContribution(EmployeePositions employeePosition, LocalDate startingDate, LocalDate endingDate) {
 		setEmployeePosition(employeePosition);
 		setStartingDate(startingDate);

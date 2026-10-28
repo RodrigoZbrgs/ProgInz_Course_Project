@@ -10,23 +10,24 @@ import eu.virac.repo.IUsersRepo;
 import eu.virac.service.IUserFilter;
 
 @Service
-public class UserFilterServiceImpl implements IUserFilter{
+public class UserFilterServiceImpl implements IUserFilter {
 	@Autowired
 	private IUsersRepo userRepo;
 
 	@Override
-	public ArrayList<Users> filterByEmail(String Emailkeyword) throws Exception {
-		if (Emailkeyword == null || Emailkeyword.isEmpty()) {
-            throw new Exception("Email keyword cannot be empty");
-        }
-        return userRepo.findByEmail(Emailkeyword);
-    }
+	public ArrayList<Users> filterByStartingWith(String letter) throws Exception {
+		if (letter == null || letter.isEmpty()) {
+			throw new Exception("Letter cannot be empty");
+		}
+		return userRepo.findByNameStartingWith(letter);
+	}
 
 	@Override
-	public ArrayList<Users> filterByNameStartingWith(String letter) throws Exception {
-		if (letter == null || letter.isEmpty()) {
-            throw new Exception("Letter cannot be empty");
-        }
-        return userRepo.findByNameStartingWith(letter);
+	public ArrayList<Users> filterByEmail(String Emailkeyword) throws Exception {
+		if (Emailkeyword == null || Emailkeyword.isEmpty()) {
+			throw new Exception("Email keyword cannot be empty");
+		}
+		return userRepo.findByEmail(Emailkeyword);
+
 	}
 }

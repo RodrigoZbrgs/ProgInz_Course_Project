@@ -3,6 +3,7 @@ package eu.virac.service.impl;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import org.antlr.v4.runtime.atn.SemanticContext.AND;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,15 +16,15 @@ public class ProjectFilterServiceImpl implements IProjectFIlter {
 
 	@Autowired
 	private IProjectInformationRepo projRepo;
-	
-	//Filter by starting date
-	public ArrayList<ProjectInformation> filterByStartingDate(LocalDate startingDate) throws Exception {
-		if (startingDate == null) {
-			throw new Exception("Incorrect parameters");
-		}
 
+	// Filter by starting date
+	public ArrayList<ProjectInformation> filterByStartingDate(LocalDate startingDate) throws Exception {
 		if (projRepo.count() == 0) {
 			throw new Exception("DB has no projects, so can not be filtered");
+		}
+		
+		if (startingDate == null) {
+			throw new Exception("Incorrect parameters");
 		}
 
 		ArrayList<ProjectInformation> filteredProjects = projRepo.findByStartingDate(startingDate);
@@ -33,15 +34,16 @@ public class ProjectFilterServiceImpl implements IProjectFIlter {
 		}
 		return filteredProjects;
 	}
-	
-	//Filter by ending date
-	public ArrayList<ProjectInformation> filterByEndingDate(LocalDate endingDate) throws Exception {
-		if (endingDate == null) {
-			throw new Exception("Incorrect parameters");
-		}
 
+	// Filter by ending date
+	public ArrayList<ProjectInformation> filterByEndingDate(LocalDate endingDate) throws Exception {
+		
 		if (projRepo.count() == 0) {
 			throw new Exception("DB has no projects, so can not be filtered");
+		}
+		
+		if (endingDate == null) {
+			throw new Exception("Incorrect parameters");
 		}
 
 		ArrayList<ProjectInformation> filteredProjects = projRepo.findByEndingDate(endingDate);
@@ -52,31 +54,35 @@ public class ProjectFilterServiceImpl implements IProjectFIlter {
 		return filteredProjects;
 	}
 	
-	//Filter by activity
+	// Filter by specific date
+
+
+	// Filter by activity
 	public ArrayList<ProjectInformation> filterByActivity(Boolean activity) throws Exception {
+		if (projRepo.count() == 0) {
+			throw new Exception("DB has no projects, so can not be filtered");
+		}
+		
 		if (activity == null) {
 			throw new Exception("Incorrect parameters");
 		}
 
-		if (projRepo.count() == 0) {
-			throw new Exception("DB has no projects, so can not be filtered");
-		}
-
-		ArrayList<ProjectInformation> filteredProjects = projRepo.findByIsActive(activity);
+		ArrayList<ProjectInformation> filteredProjects = projRepo.findByActive(activity);
 
 		if (filteredProjects.isEmpty()) {
 			throw new Exception("No project is in " + activity + "status");
 		}
 		return filteredProjects;
 	}
-	//Filter by keyword
-	public ArrayList<ProjectInformation> filterByKeyWord(String keyword) throws Exception {
-		if (keyword == null) {
-			throw new Exception("Incorrect parameters");
-		}
 
+	// Filter by keyword
+	public ArrayList<ProjectInformation> filterByKeyWord(String keyword) throws Exception {
 		if (projRepo.count() == 0) {
 			throw new Exception("DB has no projects, so can not be found");
+		}
+		
+		if (keyword == null) {
+			throw new Exception("Incorrect parameters");
 		}
 
 		ArrayList<ProjectInformation> filteredProjects = projRepo.findByProjectNameContaining(keyword);
@@ -85,5 +91,41 @@ public class ProjectFilterServiceImpl implements IProjectFIlter {
 		}
 		return filteredProjects;
 	}
+	
+	//Filter by project number
+	public ArrayList<ProjectInformation> filterByProjectNumber(String projectNumber) throws Exception {
+		if (projRepo.count() == 0) {
+			throw new Exception("DB has no projects, so can not be found");
+		}
+		
+		if (projectNumber == null) {
+			throw new Exception("Incorrect parameters");
+		}
+		
+		ArrayList<ProjectInformation> filteredProjects = projRepo.findByProjectNumberContaining(projectNumber);
+		if (filteredProjects.isEmpty()) {
+			throw new Exception("Project with project number " + projectNumber + " not found");
+		}
+		return filteredProjects;
+	}
+
+	
+	//filter by specific date
+	@Override
+	public ArrayList<ProjectInformation> filterBySpecificDate(LocalDate date) throws Exception {
+		if (projRepo.count() == 0) {
+			throw new Exception("DB has no projects, so can not be found");
+		}
+		
+		if(date == null) {
+			throw new Exception("Invalid or empty date has been entered");
+		}
+		ArrayList<ProjectInformation> filteredProjects = projRepo.findByStartingDateBeforeOrEndingDateAfter(date, date);
+		if (filteredProjects.isEmpty()) {
+			throw new Exception("Project with date " + date + " has not been found");
+		}
+		return filteredProjects;
+}
 
 }
+

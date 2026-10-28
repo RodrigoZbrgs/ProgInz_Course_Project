@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+	<h1>Edit Work Description:</h1>
+	<form method="post" th:object="${workDescription}" th:action="@{/workdescriptions/crud/update/{id}(id=${workDescription.idkpiwd})}">
+		<p>Input date</p>
+		<input type="date" th:field="*{date}" />
+		<p>Input amount</p>
+		<input type="number" th:field="*{amount}" min="1" />
+		<p>Input description</p>
+		<input type="text" th:field="*{description}" />
+		<button type="submit">Save</button>
+	</form>
+</body>
+
+</html>

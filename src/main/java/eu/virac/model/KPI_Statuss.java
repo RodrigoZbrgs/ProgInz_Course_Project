@@ -31,7 +31,7 @@ public class KPI_Statuss {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Setter(value = AccessLevel.NONE)
 	private long kpiId;
-	
+
 	@Column(name = "Status")
 	@NotEmpty
 	@NotNull
@@ -42,13 +42,13 @@ public class KPI_Statuss {
 	private LocalDate statusDate;
 
 	@ManyToOne
-    @JoinColumn(name = "idkpiwd")
-    private KPIWorkDescription workDescription;
+	@JoinColumn(name = "idkpiwd")
+	private KPIWorkDescription workDescription;
 
-    @ManyToOne
-    @JoinColumn(name = "uid")
-    private Users user;
-    
+	@ManyToOne
+	@JoinColumn(name = "uid")
+	private Users user;
+
 	public KPI_Statuss(String status, LocalDate statusDate) {
 		setStatus(status);
 		setStatusDate(statusDate);

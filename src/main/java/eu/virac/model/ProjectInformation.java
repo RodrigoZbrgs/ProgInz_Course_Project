@@ -11,7 +11,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.AccessLevel;
@@ -34,47 +33,39 @@ public class ProjectInformation {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Setter(value = AccessLevel.NONE)
 	private long idpi;
-	
+
 	@Column(name = "Is_active")
 	@NotNull
-	@Setter(value = AccessLevel.NONE)
-	@Getter(value = AccessLevel.NONE)
-	private boolean isActive;
-	
-	@Column(name = "Project_number")
+	private Boolean active;
+
 	@NotNull
 	@Pattern(regexp = "[P]{1}[0-9]{3,40}")
+	@Column(name = "Project_number", unique = true)
 	private String projectNumber;
-	
+
 	@NotNull
 	@Pattern(regexp = "[A-Ž]{1}[A-Ža-Ž]{3,40}")
-	@Column(name = "Project_name")
+	@Column(name = "Project_name", unique = true)
 	private String projectName;
-	
+
 	@NotNull
 	@Column(name = "Starting_date")
 	private LocalDate startingDate;
-	
+
 	@NotNull
 	@Column(name = "Ending_date")
 	private LocalDate endingDate;
-	
+
 	@OneToMany(mappedBy = "projectInformation")
 	private Collection<ProjectContribution> contributions = new ArrayList<>();
-	
-	public ProjectInformation(boolean isActive, String projectNumber, String projectName, LocalDate startingDate, LocalDate endingDate) {
-		setIsActive(isActive);
+
+	public ProjectInformation(boolean isActive, String projectNumber, String projectName, LocalDate startingDate,
+			LocalDate endingDate) {
+		setActive(isActive);
 		setProjectNumber(projectNumber);
 		setProjectName(projectName);
 		setStartingDate(startingDate);
 		setEndingDate(endingDate);
 	}
 
-	public boolean getIsActive() {
-		return isActive;
-	}
-
-	public void setIsActive(boolean isActive) {
-		this.isActive = isActive;
-	}
 }
