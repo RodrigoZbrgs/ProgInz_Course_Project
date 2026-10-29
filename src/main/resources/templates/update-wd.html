@@ -2,6 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <body>
+	<a th:href="@{/workdescriptions/crud/list(language='lv')}">LV</a>
+	<a th:href="@{/workdescriptions/crud/list(language='en')}">EN</a>
+	<a th:href="@{/workdescriptions/crud/list(language='ru')}">RU</a>
+
 	<h1>Edit Work Description:</h1>
 	<form method="post" th:object="${workDescription}" th:action="@{/workdescriptions/crud/update/{id}(id=${workDescription.idkpiwd})}">
 		<p>Input date</p>

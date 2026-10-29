@@ -59,4 +59,3 @@ import eu.virac.model.Users;
 			setTitle(title);
 		}
 	}
-

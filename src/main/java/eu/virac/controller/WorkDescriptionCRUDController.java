@@ -1,8 +1,6 @@
-
 package eu.virac.controller;
 
 import java.util.ArrayList;
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,130 +20,223 @@ import eu.virac.model.Users;
 import eu.virac.repo.IUsersRepo;
 import eu.virac.service.IProjectService;
 import eu.virac.service.IDepartmentService;
+import eu.virac.service.ITranslationService;
 import eu.virac.service.IUserService;
 import eu.virac.service.IWorkDescriptionService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/workdescriptions/crud")
 public class WorkDescriptionCRUDController {
 
-	@Autowired
-	private IWorkDescriptionService workDescriptionService;
-	@Autowired
-	private IUserService userService;
-	@Autowired
-	private IProjectService projectService;
-	@Autowired
-	private IDepartmentService departmentService;
+    @Autowired
+    private IWorkDescriptionService workDescriptionService;
+    @Autowired
+    private IUserService userService;
+    @Autowired
+    private IProjectService projectService;
+    @Autowired
+    private IDepartmentService departmentService;
+    @Autowired
+    private ITranslationService translationService;
 
-	@GetMapping("/list") // http://localhost:8080/workdescriptions/crud/list
-	public String getControllerWorkDescriptionList(Model model) {
-		try {
-			ArrayList<KPIWorkDescription> workDescriptions = workDescriptionService.findAllWorkDescriptions();
-			model.addAttribute("package", workDescriptions);
-			return "show-all-wd";
-		} catch (Exception e) {
-			model.addAttribute("package", e.getMessage());
-			return "error-page";
-		}
-	}
+    @GetMapping("/list")//http://localhost:8080/workdescriptions/crud/list
+    public String getControllerWorkDescriptionList(
+            @RequestParam(name = "language", required = false) String language,
+            HttpSession session,
+            Model model) {
+        try {
+            if (language != null && !language.isEmpty()) {
+                session.setAttribute("currentLanguage", language);
+            }
 
-	@GetMapping("/list/{id}") // http://localhost:8080/workdescriptions/crud/list/1
-	public String getControllerSelectWorkDescriptionById(@PathVariable(name = "id") long id, Model model) {
-		try {
-			KPIWorkDescription workDescription = workDescriptionService.findWorkDescriptionById(id);
-			model.addAttribute("package", workDescription);
-			return "show-one-wd";
-		} catch (Exception e) {
-			model.addAttribute("package", e.getMessage());
-			return "error-page";
-		}
-	}
+            String currentLanguage = (String) session.getAttribute("currentLanguage");
+            if (currentLanguage == null) {
+                currentLanguage = "lv";
+            }
 
-	@GetMapping("/remove/{id}") // http://localhost:8080/workdescriptions/crud/remove
-	public String getControllerWorkDescriptionForRemoval(@PathVariable(name = "id") long id, Model model) {
-		try {
-			workDescriptionService.deleteWorkDescription(id);
-			ArrayList<KPIWorkDescription> workDescriptions = workDescriptionService.findAllWorkDescriptions();
-			model.addAttribute("package", workDescriptions);
-			return "show-all-wd";
-		} catch (Exception e) {
-			model.addAttribute("package", e.getMessage());
-			return "error-page";
-		}
-	}
+            ArrayList<KPIWorkDescription> workDescriptions = workDescriptionService.findAllWorkDescriptions();
 
-	@GetMapping("/add") // http://localhost:8080/workdescriptions/crud/add
-	public String getControllerForWorkDescriptionAdding(Model model ) {
-		try {
-			model.addAttribute("workDescription", new KPIWorkDescription());
-			model.addAttribute("users",userService.selectAllUser());
-			model.addAttribute("projects", projectService.selectAllProjects());
-			model.addAttribute("departments", departmentService.selectAllDepartments());
-			return "add-wd";
-		} catch (Exception e) {
-			model.addAttribute("package", e.getMessage());
-			return "error-page";
-		}
-	}
+            if (!"lv".equals(currentLanguage)) {
+                for (int i = 0; i < workDescriptions.size(); i++) {
+                    KPIWorkDescription workDescription = workDescriptions.get(i);
 
-	@PostMapping("/add")
-	public String postControllerForWorkDescriptionAdding(@Valid KPIWorkDescription workDescription,
-			BindingResult result, Model model) {
-		if (result.hasErrors()) {
-			System.out.println(result.getAllErrors()); 
-			return "add-wd";
-		} else {
-			try {
-				workDescriptionService.addWorkDescription(workDescription);
-				model.addAttribute("users", userService.selectAllUser());
-				model.addAttribute("projects", projectService.selectAllProjects());
-				return "redirect:/workdescriptions/crud/list";
-			} catch (Exception e) {
-				model.addAttribute("package", e.getMessage());
-				return "error-page";
-			}
-		}
-	}
+                    String notTranslatedDescription = workDescription.getDescription();
+                    String translatedDescription = translationService.translateText(notTranslatedDescription, currentLanguage);
 
-	@GetMapping("/update/{id}") // http://localhost:8080/workdescriptions/crud/update/1
-	public String retrieveUpdateWorkDescriptionById(@PathVariable(name = "id") long id, Model model) {
-		try {
-			KPIWorkDescription workDescription = workDescriptionService.findWorkDescriptionById(id);
-			model.addAttribute("workDescription", workDescription);
-			model.addAttribute("users",userService.selectAllUser());
-			model.addAttribute("projects", projectService.selectAllProjects());
-			model.addAttribute("departments", departmentService.selectAllDepartments());
-			return "update-wd";
-		} catch (Exception e) {
-			model.addAttribute("package", e.getMessage());
-			return "error-page";
-		}
-	}
+                    workDescription.setDescription(translatedDescription);
+                }
+            }
 
-	@PostMapping("/update/{id}")
-	public String postControllerForUpdateById(@PathVariable(name = "id") long id, KPIWorkDescription workDescription,
-			Model model) {
-		try {
-			workDescriptionService.updateWorkDescription(id, workDescription.getDescription(),
-					workDescription.getDate(), workDescription.getPriority(),workDescription.getUser(),workDescription.getInformation()
-					,workDescription.getDepartment());
+            model.addAttribute("package", workDescriptions);
+            model.addAttribute("currentLanguage", currentLanguage);
+            return "show-all-wd";
+        } catch (Exception e) {
+            model.addAttribute("package", e.getMessage());
+            return "error-page";
+        }
+    }
 
-			return "redirect:/workdescriptions/crud/list";
-		} catch (Exception e) {
-			model.addAttribute("package", e.getMessage());
-			return "error-page";
-		}
-	}
-	@GetMapping("/paginatorTest") // http://localhost:8080/workdescriptions/paginatorTest
-//	https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/domain/Page.html#method-summary
-	public String findAllWorkDescriptionsPaginated(
-			@RequestParam(defaultValue = "0") int page,
-	        Model model) {
+    @GetMapping("/list/{id}")//http://localhost:8080/workdescriptions/crud/list/1
+    public String getControllerSelectWorkDescriptionById(@PathVariable(name = "id") long id,
+            @RequestParam(name = "language", required = false) String language,
+            HttpSession session,
+            Model model) {
+        try {
+            if (language != null && !language.isEmpty()) {
+                session.setAttribute("currentLanguage", language);
+            }
+
+            String currentLanguage = (String) session.getAttribute("currentLanguage");
+            if (currentLanguage == null) {
+                currentLanguage = "lv";
+            }
+
+            KPIWorkDescription workDescription = workDescriptionService.findWorkDescriptionById(id);
+
+            if (!"lv".equals(currentLanguage) && workDescription != null) {
+                String notTranslatedDescription = workDescription.getDescription();
+                String translatedDescription = translationService.translateText(notTranslatedDescription, currentLanguage);
+
+                workDescription.setDescription(translatedDescription);
+            }
+
+            model.addAttribute("package", workDescription);
+            model.addAttribute("currentLanguage", currentLanguage);
+            return "show-one-wd";
+        } catch (Exception e) {
+            model.addAttribute("package", e.getMessage());
+            return "error-page";
+        }
+    }
+
+    @GetMapping("/remove/{id}") //http://localhost:8080/workdescriptions/crud/remove
+    public String getControllerWorkDescriptionForRemoval(@PathVariable(name = "id") long id,
+            HttpSession session,
+            Model model) {
+        try {
+            workDescriptionService.deleteWorkDescription(id);
+
+            String currentLanguage = (String) session.getAttribute("currentLanguage");
+            if (currentLanguage == null) {
+                currentLanguage = "lv";
+            }
+
+            ArrayList<KPIWorkDescription> workDescriptions = workDescriptionService.findAllWorkDescriptions();
+
+            if (!"lv".equals(currentLanguage)) {
+                for (int i = 0; i < workDescriptions.size(); i++) {
+                    KPIWorkDescription workDescription = workDescriptions.get(i);
+
+                    String notTranslatedDescription = workDescription.getDescription();
+                    String translatedDescription = translationService.translateText(notTranslatedDescription, currentLanguage);
+
+                    workDescription.setDescription(translatedDescription);
+                }
+            }
+
+            model.addAttribute("package", workDescriptions);
+            model.addAttribute("currentLanguage", currentLanguage);
+            return "show-all-wd";
+        } catch (Exception e) {
+            model.addAttribute("package", e.getMessage());
+            return "error-page";
+        }
+    }
+
+    @GetMapping("/add")//http://localhost:8080/workdescriptions/crud/add
+    public String getControllerForWorkDescriptionAdding(HttpSession session, Model model) {
+        try {
+            String currentLanguage = (String) session.getAttribute("currentLanguage");
+            if (currentLanguage == null) {
+                currentLanguage = "lv";
+            }
+
+            model.addAttribute("workDescription", new KPIWorkDescription());
+            model.addAttribute("users", userService.selectAllUser());
+            model.addAttribute("projects", projectService.selectAllProjects());
+            model.addAttribute("departments", departmentService.selectAllDepartments());
+            model.addAttribute("currentLanguage", currentLanguage);
+            return "add-wd";
+        } catch (Exception e) {
+            model.addAttribute("package", e.getMessage());
+            return "error-page";
+        }
+    }
+
+    @PostMapping("/add")
+    public String postControllerForWorkDescriptionAdding(@Valid KPIWorkDescription workDescription, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            System.out.println(result.getAllErrors()); 
+            model.addAttribute("users", userService.selectAllUser());
+            model.addAttribute("projects", projectService.selectAllProjects());
+            model.addAttribute("departments", departmentService.selectAllDepartments());
+            return "add-wd";
+        } else {
+            try {
+                workDescriptionService.addWorkDescription(workDescription);
+                return "redirect:/workdescriptions/crud/list";
+            } catch (Exception e) {
+                model.addAttribute("package", e.getMessage());
+                return "error-page";
+            }
+        }
+    }
+
+    @GetMapping("/update/{id}")//http://localhost:8080/workdescriptions/crud/update/1
+    public String retrieveUpdateWorkDescriptionById(@PathVariable(name = "id") long id,
+            HttpSession session,
+            Model model) {
+        try {
+            String currentLanguage = (String) session.getAttribute("currentLanguage");
+            if (currentLanguage == null) {
+                currentLanguage = "lv";
+            }
+
+            KPIWorkDescription workDescription = workDescriptionService.findWorkDescriptionById(id);
+
+            if (!"lv".equals(currentLanguage) && workDescription != null) {
+                String notTranslatedDescription = workDescription.getDescription();
+                String translatedDescription = translationService.translateText(notTranslatedDescription, currentLanguage);
+
+                workDescription.setDescription(translatedDescription);
+            }
+
+            model.addAttribute("workDescription", workDescription);
+            model.addAttribute("users", userService.selectAllUser());
+            model.addAttribute("projects", projectService.selectAllProjects());
+            model.addAttribute("departments", departmentService.selectAllDepartments());
+            model.addAttribute("currentLanguage", currentLanguage);
+            return "update-wd";
+        } catch (Exception e) {
+            model.addAttribute("package", e.getMessage());
+            return "error-page";
+        }
+    }
+
+    @PostMapping("/update/{id}")
+    public String postControllerForUpdateById(@PathVariable(name = "id") long id, KPIWorkDescription workDescription,
+            Model model) {
+        try {
+            workDescriptionService.updateWorkDescription(id, workDescription.getDescription(),
+                    workDescription.getDate(), workDescription.getPriority(), workDescription.getUser(), workDescription.getInformation(),
+                    workDescription.getDepartment());
+
+            return "redirect:/workdescriptions/crud/list";
+        } catch (Exception e) {
+            model.addAttribute("package", e.getMessage());
+            return "error-page";
+        }
+    }
+
+    @GetMapping("/paginatorTest") // http://localhost:8080/workdescriptions/paginatorTest
+    public String findAllWorkDescriptionsPaginated(
+            @RequestParam(defaultValue = "0") int page,
+            Model model) {
         try {
             Pageable pageWithXElements = PageRequest.of(page, 5);
-            Page<KPIWorkDescription> pageData =workDescriptionService.findAllWorkDescriptionsPaginated(pageWithXElements);
+            Page<KPIWorkDescription> pageData = workDescriptionService.findAllWorkDescriptionsPaginated(pageWithXElements);
             model.addAttribute("package", pageData);
             return "show-all-wd-Paginator";
         } catch (Exception e) {
