@@ -14,7 +14,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 @Entry(base = "ou=users", objectClasses = { "inetOrgPerson", "person", "top" })
-public class LdapUsers {
+public final class LdapUsers {
 
 	@Id
 	private Name dn;
