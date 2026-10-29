@@ -60,14 +60,21 @@ public class KPIWorkDescription {
 	@ManyToOne
 	@JoinColumn(name = "idsc")
 	private KPI_Subcategories subCategory;
-
+	
+	@ToString.Exclude
 	@ManyToOne
-	@JoinColumn(name = "idpc")
+	@JoinColumn(name = "Idpi")
+	private ProjectInformation information;
+	
+	@ManyToOne
+	@JoinColumn(name = "Idpc")
 	private ProjectContribution contributions;
+	
 
-	@ManyToOne
-	@JoinColumn(name = "did")
-	private Department department;
+//	@ManyToOne
+//	@JoinColumn(name = "did")
+//	private Department department;
+	
 
 	@OneToMany(mappedBy = "workDescription")
 	private Collection<KPI_Statuss> kpiStatuss = new ArrayList<KPI_Statuss>();
@@ -75,11 +82,12 @@ public class KPIWorkDescription {
 	@OneToMany(mappedBy = "workDescription")
 	private Collection<KPIRealisation> kpiRealisation = new ArrayList<KPIRealisation>();
 
-	public KPIWorkDescription(LocalDate date, Priority priority, String description, Users user) {
+	public KPIWorkDescription(LocalDate date, Priority priority, String description, Users user,ProjectInformation information) {
 		setDate(date);
 		setPriority(priority);
 		setDescription(description);
 		setUser(user);
+		setInformation(information);
 	}
 
 }

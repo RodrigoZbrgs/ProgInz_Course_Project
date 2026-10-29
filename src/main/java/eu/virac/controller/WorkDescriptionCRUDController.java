@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import eu.virac.model.KPIWorkDescription;
 import eu.virac.model.Users;
 import eu.virac.repo.IUsersRepo;
+import eu.virac.service.IProjectService;
 import eu.virac.service.IUserService;
 import eu.virac.service.IWorkDescriptionService;
 import jakarta.validation.Valid;
@@ -32,6 +33,8 @@ public class WorkDescriptionCRUDController {
 	private IWorkDescriptionService workDescriptionService;
 	@Autowired
 	private IUserService userService;
+	@Autowired
+	private IProjectService projectService;
 
 	@GetMapping("/list") // http://localhost:8080/workdescriptions/crud/list
 	public String getControllerWorkDescriptionList(Model model) {
@@ -75,6 +78,7 @@ public class WorkDescriptionCRUDController {
 		try {
 			model.addAttribute("workDescription", new KPIWorkDescription());
 			model.addAttribute("users",userService.selectAllUser());
+			model.addAttribute("projects", projectService.selectAllProjects());
 			return "add-wd";
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
@@ -86,11 +90,13 @@ public class WorkDescriptionCRUDController {
 	public String postControllerForWorkDescriptionAdding(@Valid KPIWorkDescription workDescription,
 			BindingResult result, Model model) {
 		if (result.hasErrors()) {
+			System.out.println(result.getAllErrors()); 
 			return "add-wd";
 		} else {
 			try {
 				workDescriptionService.addWorkDescription(workDescription);
 				model.addAttribute("users", userService.selectAllUser());
+				model.addAttribute("projects", projectService.selectAllProjects());
 				return "redirect:/workdescriptions/crud/list";
 			} catch (Exception e) {
 				model.addAttribute("package", e.getMessage());
@@ -105,6 +111,7 @@ public class WorkDescriptionCRUDController {
 			KPIWorkDescription workDescription = workDescriptionService.findWorkDescriptionById(id);
 			model.addAttribute("workDescription", workDescription);
 			model.addAttribute("users",userService.selectAllUser());
+			model.addAttribute("projects", projectService.selectAllProjects());
 			return "update-wd";
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
@@ -117,7 +124,7 @@ public class WorkDescriptionCRUDController {
 			Model model) {
 		try {
 			workDescriptionService.updateWorkDescription(id, workDescription.getDescription(),
-					workDescription.getDate(), workDescription.getPriority(),workDescription.getUser());
+					workDescription.getDate(), workDescription.getPriority(),workDescription.getUser(),workDescription.getInformation());
 			return "redirect:/workdescriptions/crud/list";
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());

@@ -41,12 +41,12 @@ public class Department {
 	@NotEmpty
 	@NotNull
 	private String goals;
-
+	@ToString.Exclude
 	@OneToMany(mappedBy = "department")
 	private Collection<Users> user = new ArrayList<Users>();
 
-	@OneToMany(mappedBy = "department")
-	private Collection<KPIWorkDescription> workDescription = new ArrayList<>();
+//	@OneToMany(mappedBy = "department")
+//	private Collection<KPIWorkDescription> workDescription = new ArrayList<>();
 
 	public Department(String description, String goals) {
 		setDescription(description);

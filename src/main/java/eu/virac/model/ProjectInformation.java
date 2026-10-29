@@ -55,7 +55,10 @@ public class ProjectInformation {
 	@NotNull
 	@Column(name = "Ending_date")
 	private LocalDate endingDate;
-
+	@ToString.Exclude
+	@OneToMany(mappedBy = "information")
+	private Collection<KPIWorkDescription> workDescription = new ArrayList<>();
+	@ToString.Exclude
 	@OneToMany(mappedBy = "projectInformation")
 	private Collection<ProjectContribution> contributions = new ArrayList<>();
 

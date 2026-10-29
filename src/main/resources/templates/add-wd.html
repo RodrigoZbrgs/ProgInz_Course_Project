@@ -13,6 +13,12 @@
 		            th:text="${u.name + ' ' + u.surname}">
 		    </option>
 		</select>
+		<p>Project name</p>
+		<select th:field="*{information}">
+		    <option th:each="p : ${projects}"
+		            th:value="${p.idpi}"
+		            th:text="${p.projectName}"></option>
+		</select>
 		<p>Input priority</p>
 		<select th:field="*{priority}">
 			<option value="Low">LOW</option>

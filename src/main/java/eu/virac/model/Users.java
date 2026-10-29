@@ -79,7 +79,7 @@ public class Users {
 			authorities.remove(authority);
 		}
 	}
-
+	@ToString.Exclude
 	@ManyToOne
 	@JoinColumn(name = "did")
 	private Department department;
