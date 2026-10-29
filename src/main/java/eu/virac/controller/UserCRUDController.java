@@ -3,6 +3,8 @@ package eu.virac.controller;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +28,9 @@ public class UserCRUDController {
     @Autowired
     private ITranslationService translationService;
 
+    @Autowired
+    private CacheManager cacheManager;
+
     @GetMapping("/all") // localhost:8080/user/crud/all
     public String getControllerRetrievAllUsers(
             @RequestParam(name = "language", required = false) String language,
@@ -39,6 +44,11 @@ public class UserCRUDController {
             String currentLanguage = (String) session.getAttribute("currentLanguage");
             if (currentLanguage == null) {
                 currentLanguage = "en";
+            }
+
+            Cache cache = cacheManager.getCache("users");
+            if (cache != null) {
+                cache.clear();
             }
 
             ArrayList<Users> usersFromDB = userService.selectAllUser();
@@ -83,6 +93,11 @@ public class UserCRUDController {
                 currentLanguage = "en";
             }
 
+            Cache cache = cacheManager.getCache("users");
+            if (cache != null) {
+                cache.clear();
+            }
+
             Users usersFromDB = userService.selectUsersByUid(id);
 
             if (!"en".equals(currentLanguage) && usersFromDB != null) {
@@ -117,6 +132,11 @@ public class UserCRUDController {
             String currentLanguage = (String) session.getAttribute("currentLanguage");
             if (currentLanguage == null) {
                 currentLanguage = "en";
+            }
+
+            Cache cache = cacheManager.getCache("users");
+            if (cache != null) {
+                cache.clear();
             }
 
             ArrayList<Users> usersFromDB = userService.selectAllUser();
@@ -171,6 +191,11 @@ public class UserCRUDController {
             String currentLanguage = (String) session.getAttribute("currentLanguage");
             if (currentLanguage == null) {
                 currentLanguage = "en";
+            }
+
+            Cache cache = cacheManager.getCache("users");
+            if (cache != null) {
+                cache.clear();
             }
 
             Users usersFromDB = userService.selectUsersByUid(id);

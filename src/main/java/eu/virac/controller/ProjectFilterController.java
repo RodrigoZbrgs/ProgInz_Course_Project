@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +28,9 @@ public class ProjectFilterController {
 	@Autowired
 	private ITranslationService translationService;
 
+	@Autowired
+	private CacheManager cacheManager;
+
 	// starting date
 	@GetMapping("/startingdate/{startingdate}") // localhost:8080/project/filter/startingdate/{startingdate}
 	public String getControllerFilterByStartingDate(@PathVariable(name = "startingdate") LocalDate StartingDate,
@@ -40,6 +45,11 @@ public class ProjectFilterController {
 			String currentLanguage = (String) session.getAttribute("currentLanguage");
 			if (currentLanguage == null) {
 				currentLanguage = "en";
+			}
+
+			Cache cache = cacheManager.getCache("projects");
+			if (cache != null) {
+				cache.clear();
 			}
 
 			ArrayList<ProjectInformation> ProjectsFromDB = filterService.filterByStartingDate(StartingDate);
@@ -81,6 +91,11 @@ public class ProjectFilterController {
 				currentLanguage = "en";
 			}
 
+			Cache cache = cacheManager.getCache("projects");
+			if (cache != null) {
+				cache.clear();
+			}
+
 			ArrayList<ProjectInformation> ProjectsFromDB = filterService.filterByEndingDate(endingDate);
 
 			if (!"en".equals(currentLanguage)) {
@@ -118,6 +133,11 @@ public class ProjectFilterController {
 			String currentLanguage = (String) session.getAttribute("currentLanguage");
 			if (currentLanguage == null) {
 				currentLanguage = "en";
+			}
+
+			Cache cache = cacheManager.getCache("projects");
+			if (cache != null) {
+				cache.clear();
 			}
 
 			ArrayList<ProjectInformation> ProjectsFromDB = filterService.filterByActivity(activity);
@@ -159,6 +179,11 @@ public class ProjectFilterController {
 				currentLanguage = "en";
 			}
 
+			Cache cache = cacheManager.getCache("projects");
+			if (cache != null) {
+				cache.clear();
+			}
+
 			ArrayList<ProjectInformation> ProjectsFromDB = filterService.filterByKeyWord(keyword);
 
 			if (!"en".equals(currentLanguage)) {
@@ -198,6 +223,11 @@ public class ProjectFilterController {
 				currentLanguage = "en";
 			}
 
+			Cache cache = cacheManager.getCache("projects");
+			if (cache != null) {
+				cache.clear();
+			}
+
 			ArrayList<ProjectInformation> ProjectsFromDB = filterService.filterByProjectNumber(projectNumber);
 
 			if (!"en".equals(currentLanguage)) {
@@ -235,6 +265,11 @@ public class ProjectFilterController {
 			String currentLanguage = (String) session.getAttribute("currentLanguage");
 			if (currentLanguage == null) {
 				currentLanguage = "en";
+			}
+
+			Cache cache = cacheManager.getCache("projects");
+			if (cache != null) {
+				cache.clear();
 			}
 
 			ArrayList<ProjectInformation> ProjectsFromDB = filterService.filterBySpecificDate(date);

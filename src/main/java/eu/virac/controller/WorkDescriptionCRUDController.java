@@ -3,6 +3,8 @@ package eu.virac.controller;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -41,6 +43,9 @@ public class WorkDescriptionCRUDController {
     @Autowired
     private ITranslationService translationService;
 
+    @Autowired
+    private CacheManager cacheManager;
+
     @GetMapping("/list")//http://localhost:8080/workdescriptions/crud/list
     public String getControllerWorkDescriptionList(
             @RequestParam(name = "language", required = false) String language,
@@ -54,6 +59,11 @@ public class WorkDescriptionCRUDController {
             String currentLanguage = (String) session.getAttribute("currentLanguage");
             if (currentLanguage == null) {
                 currentLanguage = "en";
+            }
+
+            Cache cache = cacheManager.getCache("WorkDescription");
+            if (cache != null) {
+                cache.clear();
             }
 
             ArrayList<KPIWorkDescription> workDescriptions = workDescriptionService.findAllWorkDescriptions();
@@ -93,6 +103,11 @@ public class WorkDescriptionCRUDController {
                 currentLanguage = "en";
             }
 
+            Cache cache = cacheManager.getCache("WorkDescription");
+            if (cache != null) {
+                cache.clear();
+            }
+
             KPIWorkDescription workDescription = workDescriptionService.findWorkDescriptionById(id);
 
             if (!"en".equals(currentLanguage) && workDescription != null) {
@@ -121,6 +136,11 @@ public class WorkDescriptionCRUDController {
             String currentLanguage = (String) session.getAttribute("currentLanguage");
             if (currentLanguage == null) {
                 currentLanguage = "en";
+            }
+
+            Cache cache = cacheManager.getCache("WorkDescription");
+            if (cache != null) {
+                cache.clear();
             }
 
             ArrayList<KPIWorkDescription> workDescriptions = workDescriptionService.findAllWorkDescriptions();
@@ -194,6 +214,11 @@ public class WorkDescriptionCRUDController {
                 currentLanguage = "en";
             }
 
+            Cache cache = cacheManager.getCache("WorkDescription");
+            if (cache != null) {
+                cache.clear();
+            }
+
             KPIWorkDescription workDescription = workDescriptionService.findWorkDescriptionById(id);
 
             if (!"en".equals(currentLanguage) && workDescription != null) {
@@ -247,6 +272,12 @@ public class WorkDescriptionCRUDController {
             }
 
             Pageable pageWithXElements = PageRequest.of(page, 5);
+
+            Cache cache = cacheManager.getCache("WorkDescription");
+            if (cache != null) {
+                cache.clear();
+            }
+
             Page<KPIWorkDescription> pageData = workDescriptionService.findAllWorkDescriptionsPaginated(pageWithXElements);
 
             if (!"en".equals(currentLanguage)) {

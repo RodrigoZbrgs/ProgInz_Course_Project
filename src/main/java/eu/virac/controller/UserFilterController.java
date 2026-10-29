@@ -3,6 +3,8 @@ package eu.virac.controller;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +27,9 @@ public class UserFilterController {
     @Autowired
     private ITranslationService translationService;
 
+    @Autowired
+    private CacheManager cacheManager;
+
     @GetMapping("/name/{letter}") // localhost:8080/user/filter/name/M
     public String getUsersByFirstLetter(@PathVariable(name = "letter") String letter,
             @RequestParam(name = "language", required = false) String language,
@@ -38,6 +43,11 @@ public class UserFilterController {
             String currentLanguage = (String) session.getAttribute("currentLanguage");
             if (currentLanguage == null) {
                 currentLanguage = "en";
+            }
+
+            Cache cache = cacheManager.getCache("users");
+            if (cache != null) {
+                cache.clear();
             }
 
             ArrayList<Users> usersFromDB = Ufilterservice.filterByStartingWith(letter);
@@ -82,6 +92,11 @@ public class UserFilterController {
             String currentLanguage = (String) session.getAttribute("currentLanguage");
             if (currentLanguage == null) {
                 currentLanguage = "en";
+            }
+
+            Cache cache = cacheManager.getCache("users");
+            if (cache != null) {
+                cache.clear();
             }
 
             ArrayList<Users> usersFromDB = Ufilterservice.filterByEmail(Emailkeyword);

@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +28,9 @@ public class WorkDescriptionFilterController {
     @Autowired
     private ITranslationService translationService;
 
+    @Autowired
+    private CacheManager cacheManager;
+
     //filter by keyword
     @GetMapping("/description/{keyword}") //
     public String getWorkDescriptionsByDescription(@PathVariable(name = "keyword") String keyword,
@@ -40,6 +45,11 @@ public class WorkDescriptionFilterController {
             String currentLanguage = (String) session.getAttribute("currentLanguage");
             if (currentLanguage == null) {
                 currentLanguage = "en";
+            }
+
+            Cache cache = cacheManager.getCache("WorkDescription");
+            if (cache != null) {
+                cache.clear();
             }
 
             ArrayList<KPIWorkDescription> workDescriptionFromDB = filterService.filterByDescription(keyword);
@@ -80,6 +90,12 @@ public class WorkDescriptionFilterController {
             }
 
             LocalDate localDate = LocalDate.parse(date);
+
+            Cache cache = cacheManager.getCache("WorkDescription");
+            if (cache != null) {
+                cache.clear();
+            }
+
             ArrayList<KPIWorkDescription> workDescriptionFromDB = filterService.filterByDate(localDate);
 
             if (!"en".equals(currentLanguage)) {
@@ -115,6 +131,11 @@ public class WorkDescriptionFilterController {
             String currentLanguage = (String) session.getAttribute("currentLanguage");
             if (currentLanguage == null) {
                 currentLanguage = "en";
+            }
+
+            Cache cache = cacheManager.getCache("WorkDescription");
+            if (cache != null) {
+                cache.clear();
             }
 
             ArrayList<KPIWorkDescription> workDescriptionFromDB = filterService.filterByPriority(priority);

@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +31,9 @@ public class ProjectCRUDController {
     @Autowired
     private ITranslationService translationService;
 
+    @Autowired
+    private CacheManager cacheManager;
+
     @GetMapping("/all") // localhost:8080/project/crud/all
     public String getControllerRetrievAllProjects(
             @RequestParam(name = "language", required = false) String language, 
@@ -42,6 +47,11 @@ public class ProjectCRUDController {
             String currentLanguage = (String) session.getAttribute("currentLanguage");
             if (currentLanguage == null) {
                 currentLanguage = "en";
+            }
+
+            Cache cache = cacheManager.getCache("projects");
+            if (cache != null) {
+                cache.clear();
             }
 
             ArrayList<ProjectInformation> projectsArray = projService.selectAllProjects();
@@ -83,6 +93,11 @@ public class ProjectCRUDController {
                 currentLanguage = "en";
             }
 
+            Cache cache = cacheManager.getCache("projects");
+            if (cache != null) {
+                cache.clear();
+            }
+
             ProjectInformation projects = projService.selectProjectById(id);
 
             if (!"en".equals(currentLanguage) && projects != null) {
@@ -112,6 +127,11 @@ public class ProjectCRUDController {
             String currentLanguage = (String) session.getAttribute("currentLanguage");
             if (currentLanguage == null) {
                 currentLanguage = "en";
+            }
+
+            Cache cache = cacheManager.getCache("projects");
+            if (cache != null) {
+                cache.clear();
             }
 
             ArrayList<ProjectInformation> projectsArray = projService.selectAllProjects();
@@ -179,6 +199,11 @@ public class ProjectCRUDController {
             String currentLanguage = (String) session.getAttribute("currentLanguage");
             if (currentLanguage == null) {
                 currentLanguage = "en";
+            }
+
+            Cache cache = cacheManager.getCache("projects");
+            if (cache != null) {
+                cache.clear();
             }
 
             ProjectInformation projects = projService.selectProjectById(id);

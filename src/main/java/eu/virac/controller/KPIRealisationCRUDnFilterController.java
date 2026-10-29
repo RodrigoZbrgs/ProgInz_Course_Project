@@ -3,6 +3,8 @@ package eu.virac.controller;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +27,9 @@ public class KPIRealisationCRUDnFilterController {
 	@Autowired
 	private ITranslationService translationService;
 
+	@Autowired
+	private CacheManager cacheManager;
+
 	@GetMapping("/all") // localhost:8080/kpireal/crud/all
 	public String getControllerRetrievAllRealisations(
 			@RequestParam(name = "language", required = false) String language,
@@ -38,6 +43,11 @@ public class KPIRealisationCRUDnFilterController {
 			String currentLanguage = (String) session.getAttribute("currentLanguage");
 			if (currentLanguage == null) {
 				currentLanguage = "en";
+			}
+
+			Cache cache = cacheManager.getCache("KPI_Realisations");
+			if (cache != null) {
+				cache.clear();
 			}
 
 			ArrayList<KPIRealisation> kpiRealisationFromDB = realService.findAllRealisations();
@@ -81,6 +91,11 @@ public class KPIRealisationCRUDnFilterController {
 				currentLanguage = "en";
 			}
 
+			Cache cache = cacheManager.getCache("KPI_Realisations");
+			if (cache != null) {
+				cache.clear();
+			}
+
 			KPIRealisation kpiRealisationFromDB = realService.findRealisationById(id);
 
 			if (!"en".equals(currentLanguage) && kpiRealisationFromDB != null) {
@@ -115,6 +130,11 @@ public class KPIRealisationCRUDnFilterController {
 			String currentLanguage = (String) session.getAttribute("currentLanguage");
 			if (currentLanguage == null) {
 				currentLanguage = "en";
+			}
+
+			Cache cache = cacheManager.getCache("KPI_Realisations");
+			if (cache != null) {
+				cache.clear();
 			}
 
 			ArrayList<KPIRealisation> kpiRealisationFromDB = realService.findAllRealisations();
@@ -169,6 +189,11 @@ public class KPIRealisationCRUDnFilterController {
 			String currentLanguage = (String) session.getAttribute("currentLanguage");
 			if (currentLanguage == null) {
 				currentLanguage = "en";
+			}
+
+			Cache cache = cacheManager.getCache("KPI_Realisations");
+			if (cache != null) {
+				cache.clear();
 			}
 
 			KPIRealisation kpiRealisationFromDB = realService.findRealisationById(id);

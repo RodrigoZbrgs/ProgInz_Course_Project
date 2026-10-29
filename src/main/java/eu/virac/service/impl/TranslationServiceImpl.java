@@ -26,7 +26,7 @@ public class TranslationServiceImpl implements ITranslationService {
                 );
                 return translation.getTranslatedText();
             } catch (Exception e) {
-            	
+                System.out.println("Translation failed for '" + text + "' to '" + targetLang + "': " + e.getMessage());
                 return text;
             }
         }
