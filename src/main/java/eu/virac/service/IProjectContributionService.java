@@ -19,5 +19,4 @@ public interface IProjectContributionService extends ICrudBaseService<ProjectCon
 	public abstract void updateByIdpc(long id, EmployeePositions employeePosition, LocalDate startingDate, LocalDate endingDate)
 			throws Exception;
 
-	
 }
