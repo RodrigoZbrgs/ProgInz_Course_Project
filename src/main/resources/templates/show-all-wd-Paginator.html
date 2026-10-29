@@ -11,6 +11,7 @@
 			<td>User</td>
             <td>Date</td>
             <td>Priority</td>
+			<td>Department</td>
             <td>Description</td>
         </tr>
 
@@ -20,6 +21,7 @@
 				<td th:text="${wd.user.name+' '+wd.user.surname}"></td>
                 <td th:text="${wd.date}"></td>
                 <td th:text="${wd.priority}"></td>
+				<td th:text="${wd.department.description}"></td>
                 <td th:text="${wd.description}"></td>
             </tr>
 			

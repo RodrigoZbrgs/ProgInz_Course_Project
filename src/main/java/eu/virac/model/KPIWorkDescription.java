@@ -71,9 +71,9 @@ public class KPIWorkDescription {
 	private ProjectContribution contributions;
 	
 
-//	@ManyToOne
-//	@JoinColumn(name = "did")
-//	private Department department;
+	@ManyToOne
+	@JoinColumn(name = "did")
+	private Department department;
 	
 
 	@OneToMany(mappedBy = "workDescription")
@@ -82,12 +82,15 @@ public class KPIWorkDescription {
 	@OneToMany(mappedBy = "workDescription")
 	private Collection<KPIRealisation> kpiRealisation = new ArrayList<KPIRealisation>();
 
-	public KPIWorkDescription(LocalDate date, Priority priority, String description, Users user,ProjectInformation information) {
+	public KPIWorkDescription(LocalDate date, Priority priority, String description,
+			Users user,ProjectInformation information, Department department) {
 		setDate(date);
 		setPriority(priority);
 		setDescription(description);
 		setUser(user);
 		setInformation(information);
+		setDepartment(department);
+
 	}
 
 }

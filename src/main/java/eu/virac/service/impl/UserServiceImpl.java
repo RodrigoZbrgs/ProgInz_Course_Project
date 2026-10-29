@@ -49,7 +49,7 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	@Override
-	@CacheEvict(value="users", key="#id")
+	@CacheEvict(value="users", allEntries = true)
 	public void deleteUserByUid(int id) throws Exception {
 		Users UserForDeleting = selectUsersByUid(id);
 		userRepo.delete(UserForDeleting);

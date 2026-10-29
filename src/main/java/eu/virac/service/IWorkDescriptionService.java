@@ -2,6 +2,8 @@ package eu.virac.service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+
+import eu.virac.model.Department;
 import eu.virac.model.KPIWorkDescription;
 import eu.virac.model.ProjectInformation;
 import eu.virac.model.Users;
@@ -17,9 +19,12 @@ public interface IWorkDescriptionService {
 
 	public abstract KPIWorkDescription addWorkDescription(KPIWorkDescription workDescription) throws Exception;
 
-	public abstract KPIWorkDescription updateWorkDescription(long id, String description, LocalDate date, Priority priority, Users user,ProjectInformation information)
+
+	public abstract KPIWorkDescription updateWorkDescription(long id, String description, LocalDate date,
+			Priority priority, Users user, ProjectInformation information,Department department)
 			throws Exception;
 
 	public abstract void deleteWorkDescription(long id) throws Exception;
 	public abstract Page<KPIWorkDescription> findAllWorkDescriptionsPaginated(Pageable pageable) throws Exception;
+
 }

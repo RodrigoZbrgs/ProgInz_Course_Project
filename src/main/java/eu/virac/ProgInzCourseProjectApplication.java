@@ -98,35 +98,36 @@ public class ProgInzCourseProjectApplication {
                     kpiRealisationRepo.saveAll(Arrays.asList(kpir1, kpir2, kpir3));
 					
 					KPIWorkDescription wd1 = new KPIWorkDescription(LocalDate.of(2026, 6, 24),Priority.High,
-							"Debugging my toaster",u3,p1);
+
+							"Debugging my toaster",u3,p1, dep1);
 					KPIWorkDescription wd2 = new KPIWorkDescription(LocalDate.of(2026, 6, 25), Priority.Low,
-							"Writting documentations",u2,p2);
+							"Writting documentations",u2,p2, dep1);
 					KPIWorkDescription wd3 = new KPIWorkDescription(LocalDate.of(2026, 6, 26), Priority.Medium,
-							"Meeting with client",u3,p3);
+							"Meeting with client",u3,p3, dep2);
 					KPIWorkDescription wd4 = new KPIWorkDescription(LocalDate.of(2026, 6, 27), Priority.High,
-					        "Refactored a method so clean even I don't recognize it",u3,p1);
+					        "Refactored a method so clean even I don't recognize it",u3,p1, dep1);
 					KPIWorkDescription wd5 = new KPIWorkDescription(LocalDate.of(2026, 6, 28), Priority.High,
-					        "Hunted a bug for six hours, turned out to be a typo",u1,p1);
+					        "Hunted a bug for six hours, turned out to be a typo",u1,p1, dep1);
 					KPIWorkDescription wd6 = new KPIWorkDescription(LocalDate.of(2026, 6, 29), Priority.High,
-					        "Wrote unit tests that I will probably never run again",u2,p2);
+					        "Wrote unit tests that I will probably never run again",u2,p2, dep1);
 					KPIWorkDescription wd7 = new KPIWorkDescription(LocalDate.of(2026, 6, 30), Priority.Low,
-					        "Argued with the compiler and lost gracefully",u2,p1);
+					        "Argued with the compiler and lost gracefully",u2,p1, dep1);
 					KPIWorkDescription wd8 = new KPIWorkDescription(LocalDate.of(2026, 7, 1), Priority.Medium,
-					        "Renamed variables until the code looked professional",u2,p3);
+					        "Renamed variables until the code looked professional",u2,p3, dep1);
 					KPIWorkDescription wd9 = new KPIWorkDescription(LocalDate.of(2026, 7, 2), Priority.Medium,
-					        "Reviewed a pull request and left 47 comments",u2,p1);
+					        "Reviewed a pull request and left 47 comments",u2,p1, dep2);
 					KPIWorkDescription wd10 = new KPIWorkDescription(LocalDate.of(2026, 7, 3), Priority.Medium,
-					        "Optimized a query that nobody was complaining about",u2,p2);
+					        "Optimized a query that nobody was complaining about",u2,p2, dep1);
 					KPIWorkDescription wd11 = new KPIWorkDescription(LocalDate.of(2026, 7, 4), Priority.Low,
-					        "Deleted 300 lines of dead code and felt alive",u1,p3);
+					        "Deleted 300 lines of dead code and felt alive",u1,p3, dep1);
 					KPIWorkDescription wd12 = new KPIWorkDescription(LocalDate.of(2026, 7, 5), Priority.Low,
-					        "Attended a meeting that could have been an email",u1,p1);
+					        "Attended a meeting that could have been an email",u1,p1, dep2);
 					KPIWorkDescription wd13 = new KPIWorkDescription(LocalDate.of(2026, 7, 6), Priority.Low,
-					        "Fixed the bug, introduced two new ones, called it progress",u1,p2);
+					        "Fixed the bug, introduced two new ones, called it progress",u1,p2, dep1);
 					KPIWorkDescription wd14 = new KPIWorkDescription(LocalDate.of(2026, 7, 7), Priority.Low,
-					        "Deployed on a Friday and prayed",u1,p3);
+					        "Deployed on a Friday and prayed",u1,p3, dep1);
 					KPIWorkDescription wd15 = new KPIWorkDescription(LocalDate.of(2026, 7, 8), Priority.High,
-					        "Updated the README and pretended that counts as coding",u1,p1);
+					        "Updated the README and pretended that counts as coding",u1,p1, dep1);
                     ProjectContribution pc1 = new ProjectContribution(EmployeePositions.Darbinieks, LocalDate.of(2026, 6, 24), LocalDate.of(2027, 6, 24));
                     ProjectContribution pc2 = new ProjectContribution(EmployeePositions.Novada_Vaditajs, LocalDate.of(2026, 6, 25), LocalDate.of(2027, 6, 25));
                     ProjectContribution pc3 = new ProjectContribution(EmployeePositions.Novada_Vaditajs, LocalDate.of(2026, 6, 26), LocalDate.of(2027, 6, 26));

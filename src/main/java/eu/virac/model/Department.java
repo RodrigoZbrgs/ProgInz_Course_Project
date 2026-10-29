@@ -3,6 +3,7 @@ package eu.virac.model;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -45,8 +46,10 @@ public class Department {
 	@OneToMany(mappedBy = "department")
 	private Collection<Users> user = new ArrayList<Users>();
 
-//	@OneToMany(mappedBy = "department")
-//	private Collection<KPIWorkDescription> workDescription = new ArrayList<>();
+
+	@OneToMany(mappedBy = "department")
+	private Collection<KPIWorkDescription> workDescription = new ArrayList<>();
+
 
 	public Department(String description, String goals) {
 		setDescription(description);
