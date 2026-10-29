@@ -4,6 +4,10 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.stereotype.Service;
 
 import eu.virac.model.ProjectContribution;
@@ -16,6 +20,7 @@ import eu.virac.repo.IUsersRepo;
 import eu.virac.service.IProjectContributionService;
 
 @Service
+@EnableCaching
 public class ProjectContributionServiceImpl implements IProjectContributionService {
 
 	@Autowired
@@ -28,6 +33,7 @@ public class ProjectContributionServiceImpl implements IProjectContributionServi
 	private IProjectInformationRepo projRepo;
 	
 	@Override
+	@Cacheable("projectContribution")
 	public ArrayList<ProjectContribution> selectAllContributions() throws Exception {
 		if (projConRepo.count() == 0) {
 			throw new Exception("Projekta ieguldījuma tabula ir tukša");
@@ -36,6 +42,7 @@ public class ProjectContributionServiceImpl implements IProjectContributionServi
 	}
 	
 	@Override
+	@Cacheable(value="projectContribution", key="#id")
 	public ProjectContribution selectContributionById(long id) throws Exception {
 		if (projConRepo.count() == 0) {
 			throw new Exception("Projekta ieguldījuma tabula ir tukša un nevar atgriezt id");
@@ -53,6 +60,7 @@ public class ProjectContributionServiceImpl implements IProjectContributionServi
 	}
 
 	@Override
+	@CacheEvict(value="projectContribution", key="#id")
 	public void deleteContributionById(int id) throws Exception {
 		ProjectContribution contributionForDeleting = selectContributionById(id);
 		projConRepo.delete(contributionForDeleting);
@@ -89,6 +97,7 @@ public class ProjectContributionServiceImpl implements IProjectContributionServi
 	}
 	
 	@Override
+	@CachePut(value="projectContribution", key="#id")
 	public void updateByIdpc(long id, EmployeePositions employeePosition, LocalDate startingDate, LocalDate endingDate) throws Exception{
 		ProjectContribution contributionForUpdating = selectContributionById(id);
 		
