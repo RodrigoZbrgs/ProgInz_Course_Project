@@ -1,6 +1,10 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <body>
+	<a th:href="@{/kpireal/crud/all(language='lv')}">LV</a>
+	<a th:href="@{/kpireal/crud/all(language='en')}">EN</a>
+	<a th:href="@{/kpireal/crud/all(language='ru')}">RU</a>
+
 	<h1>Input new project:</h1>
 	<form method="post" th:object="${realisation}" th:action="@{/kpireal/crud/add}">
 

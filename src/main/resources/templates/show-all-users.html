@@ -2,6 +2,10 @@
 
 <body>
 
+	<a th:href="@{/user/crud/all(language='lv')}">LV</a>
+	<a th:href="@{/user/crud/all(language='en')}">EN</a>
+	<a th:href="@{/user/crud/all(language='ru')}">RU</a>
+
 	<h1>User data:</h1>
 	<h2 th:text="${info}"></h2>
 

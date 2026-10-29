@@ -1,6 +1,7 @@
 package eu.virac.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.google.cloud.translate.Translate;
@@ -15,6 +16,7 @@ public class TranslationServiceImpl implements ITranslationService {
     private Translate translate;
 
     @Override
+    @Cacheable("translations")
     public String translateText(String text, String targetLang) throws Exception {
         if (text != null && !text.isEmpty()) {
             try {
