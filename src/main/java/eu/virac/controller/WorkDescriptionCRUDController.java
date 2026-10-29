@@ -21,6 +21,7 @@ import eu.virac.model.KPIWorkDescription;
 import eu.virac.model.Users;
 import eu.virac.repo.IUsersRepo;
 import eu.virac.service.IProjectService;
+import eu.virac.service.IDepartmentService;
 import eu.virac.service.IUserService;
 import eu.virac.service.IWorkDescriptionService;
 import jakarta.validation.Valid;
@@ -35,6 +36,8 @@ public class WorkDescriptionCRUDController {
 	private IUserService userService;
 	@Autowired
 	private IProjectService projectService;
+	@Autowired
+	private IDepartmentService departmentService;
 
 	@GetMapping("/list") // http://localhost:8080/workdescriptions/crud/list
 	public String getControllerWorkDescriptionList(Model model) {
@@ -79,6 +82,7 @@ public class WorkDescriptionCRUDController {
 			model.addAttribute("workDescription", new KPIWorkDescription());
 			model.addAttribute("users",userService.selectAllUser());
 			model.addAttribute("projects", projectService.selectAllProjects());
+			model.addAttribute("departments", departmentService.selectAllDepartments());
 			return "add-wd";
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
@@ -112,6 +116,7 @@ public class WorkDescriptionCRUDController {
 			model.addAttribute("workDescription", workDescription);
 			model.addAttribute("users",userService.selectAllUser());
 			model.addAttribute("projects", projectService.selectAllProjects());
+			model.addAttribute("departments", departmentService.selectAllDepartments());
 			return "update-wd";
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
@@ -124,7 +129,9 @@ public class WorkDescriptionCRUDController {
 			Model model) {
 		try {
 			workDescriptionService.updateWorkDescription(id, workDescription.getDescription(),
-					workDescription.getDate(), workDescription.getPriority(),workDescription.getUser(),workDescription.getInformation());
+					workDescription.getDate(), workDescription.getPriority(),workDescription.getUser(),workDescription.getInformation()
+					,workDescription.getDepartment());
+
 			return "redirect:/workdescriptions/crud/list";
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());

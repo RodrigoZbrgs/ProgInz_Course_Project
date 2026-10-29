@@ -12,7 +12,9 @@
 			<td>Project name</td>
             <td>Date</td>
             <td>Priority</td>
+			<td>Department</td>
             <td>Description</td>
+			
         </tr>
 
         <th:block th:each="wd : ${package}">
@@ -22,6 +24,7 @@
 				<td th:text="${wd.information.projectName}"></td>
                 <td th:text="${wd.date}"></td>
                 <td th:text="${wd.priority}"></td>
+				<td th:text="${wd.department.description}"></td>
                 <td th:text="${wd.description}"></td>
             </tr>
 			

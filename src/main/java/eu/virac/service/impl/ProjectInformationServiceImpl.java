@@ -53,7 +53,7 @@ public class ProjectInformationServiceImpl implements IProjectService {
 	}
 
 	@Override
-	@CacheEvict(value = "projects", key = "#id")
+	@CacheEvict(value = "projects", allEntries = true)
 	public void deleteProjectById(int id) throws Exception {
 		ProjectInformation projectForDeleting = selectProjectById(id);
 		prInfoRepo.delete(projectForDeleting);

@@ -47,7 +47,7 @@ public class UserCRUDController {
 
 	}
 	
-	@GetMapping("/remove/{id}")// localhost:8080/user/crud/all/1
+	@GetMapping("/remove/{id}")// localhost:8080/user/crud/remove/1
 	public String getControllerUserForRemoval(@PathVariable(name = "id") int id, Model model) {
 		try {
 			userService.deleteUserByUid(id);
