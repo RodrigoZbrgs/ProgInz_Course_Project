@@ -11,7 +11,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import eu.virac.model.Department;
 import eu.virac.model.KPIWorkDescription;
+import eu.virac.model.ProjectInformation;
 import eu.virac.model.Users;
 import eu.virac.model.enums.Priority;
 import eu.virac.repo.IKPIWorkDescriptionRepo;
@@ -88,17 +90,10 @@ public class WorkDescriptionServiceImpl implements IWorkDescriptionService, IWor
 
 	@Override
 	@CachePut(value="WorkDescription", key="#id")
-	public KPIWorkDescription updateWorkDescription(long id, String description, LocalDate date, Priority priority, Users user)
+	public KPIWorkDescription updateWorkDescription(long id, LocalDate date, 
+			Priority priority, Users user,Department department)
 			throws Exception {
 		KPIWorkDescription workDescriptionToUpdate = findWorkDescriptionById(id);
-
-		if (description == null || description.isEmpty() || date == null) {
-			throw new Exception("Invalid input data");
-		}
-
-		if (description != null) {
-			workDescriptionToUpdate.setDescription(description);
-		}
 		if (date != null) {
 			workDescriptionToUpdate.setDate(date);
 		}
@@ -107,6 +102,9 @@ public class WorkDescriptionServiceImpl implements IWorkDescriptionService, IWor
 		}
 		if (user != null) {
 			workDescriptionToUpdate.setUser(user);
+		}
+		if (department !=null) {
+			workDescriptionToUpdate.setDepartment(department);
 		}
 	    LocalDate today = LocalDate.now();
 	    LocalDate minDate = today.minusYears(5);
@@ -166,4 +164,4 @@ public class WorkDescriptionServiceImpl implements IWorkDescriptionService, IWor
 	    }
 	    return workDescriptionRepo.findByPriority(priority);
 	}
-	}
+}

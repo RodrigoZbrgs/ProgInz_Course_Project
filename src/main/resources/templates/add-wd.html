@@ -19,6 +19,12 @@
 			<option value="Medium">MEDIUM</option>
 			<option value="High">HIGH</option>
 		</select>
+		<p>Input department</p>
+		<select th:field="*{department}">
+			<option value="Programming">Programming</option>
+			<option value="Manegment">Manegment</option>
+			<option value="Workers">Workers</option>
+		</select>
 		<p>Input description</p>
 		<input type="text" th:field="*{description}" />
 		<button type="submit">Save</button>
