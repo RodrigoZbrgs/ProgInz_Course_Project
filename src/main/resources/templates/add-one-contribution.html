@@ -1,6 +1,10 @@
 f<html xmlns:th="http://www.thymeleaf.org">
 
 <body>
+	<a th:href="@{/contributions/crud/all(language='lv')}">LV</a>
+	<a th:href="@{/contributions/crud/all(language='en')}">EN</a>
+	<a th:href="@{/contributions/crud/all(language='ru')}">RU</a>
+
 	<h1>Input new contribution:</h1>
 	<form method="post" th:object="${projectcontribution}" th:action="@{/contributions/crud/add}">
 

@@ -37,12 +37,12 @@ public class KPIRealisationCRUDnFilterController {
 
 			String currentLanguage = (String) session.getAttribute("currentLanguage");
 			if (currentLanguage == null) {
-				currentLanguage = "lv";
+				currentLanguage = "en";
 			}
 
 			ArrayList<KPIRealisation> kpiRealisationFromDB = realService.findAllRealisations();
 
-			if (!"lv".equals(currentLanguage)) {
+			if (!"en".equals(currentLanguage)) {
 				for (int i = 0; i < kpiRealisationFromDB.size(); i++) {
 					KPIRealisation kpiRealisation = kpiRealisationFromDB.get(i);
 
@@ -78,12 +78,12 @@ public class KPIRealisationCRUDnFilterController {
 
 			String currentLanguage = (String) session.getAttribute("currentLanguage");
 			if (currentLanguage == null) {
-				currentLanguage = "lv";
+				currentLanguage = "en";
 			}
 
 			KPIRealisation kpiRealisationFromDB = realService.findRealisationById(id);
 
-			if (!"lv".equals(currentLanguage) && kpiRealisationFromDB != null) {
+			if (!"en".equals(currentLanguage) && kpiRealisationFromDB != null) {
 				String notTranslatedText = kpiRealisationFromDB.getTextvalue();
 				String translatedText = translationService.translateText(notTranslatedText, currentLanguage);
 
@@ -114,12 +114,12 @@ public class KPIRealisationCRUDnFilterController {
 
 			String currentLanguage = (String) session.getAttribute("currentLanguage");
 			if (currentLanguage == null) {
-				currentLanguage = "lv";
+				currentLanguage = "en";
 			}
 
 			ArrayList<KPIRealisation> kpiRealisationFromDB = realService.findAllRealisations();
 
-			if (!"lv".equals(currentLanguage)) {
+			if (!"en".equals(currentLanguage)) {
 				for (int i = 0; i < kpiRealisationFromDB.size(); i++) {
 					KPIRealisation kpiRealisation = kpiRealisationFromDB.get(i);
 
@@ -148,7 +148,7 @@ public class KPIRealisationCRUDnFilterController {
 		try {
 			String currentLanguage = (String) session.getAttribute("currentLanguage");
 			if (currentLanguage == null) {
-				currentLanguage = "lv";
+				currentLanguage = "en";
 			}
 
 			model.addAttribute("realisation", new KPIRealisation());
@@ -168,12 +168,12 @@ public class KPIRealisationCRUDnFilterController {
 		try {
 			String currentLanguage = (String) session.getAttribute("currentLanguage");
 			if (currentLanguage == null) {
-				currentLanguage = "lv";
+				currentLanguage = "en";
 			}
 
 			KPIRealisation kpiRealisationFromDB = realService.findRealisationById(id);
 
-			if (!"lv".equals(currentLanguage) && kpiRealisationFromDB != null) {
+			if (!"en".equals(currentLanguage) && kpiRealisationFromDB != null) {
 				String notTranslatedText = kpiRealisationFromDB.getTextvalue();
 				String translatedText = translationService.translateText(notTranslatedText, currentLanguage);
 

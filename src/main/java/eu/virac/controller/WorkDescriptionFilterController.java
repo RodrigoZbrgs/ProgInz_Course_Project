@@ -39,12 +39,12 @@ public class WorkDescriptionFilterController {
 
             String currentLanguage = (String) session.getAttribute("currentLanguage");
             if (currentLanguage == null) {
-                currentLanguage = "lv";
+                currentLanguage = "en";
             }
 
             ArrayList<KPIWorkDescription> workDescriptionFromDB = filterService.filterByDescription(keyword);
 
-            if (!"lv".equals(currentLanguage)) {
+            if (!"en".equals(currentLanguage)) {
                 for (int i = 0; i < workDescriptionFromDB.size(); i++) {
                     KPIWorkDescription workDescription = workDescriptionFromDB.get(i);
 
@@ -76,13 +76,13 @@ public class WorkDescriptionFilterController {
 
             String currentLanguage = (String) session.getAttribute("currentLanguage");
             if (currentLanguage == null) {
-                currentLanguage = "lv";
+                currentLanguage = "en";
             }
 
             LocalDate localDate = LocalDate.parse(date);
             ArrayList<KPIWorkDescription> workDescriptionFromDB = filterService.filterByDate(localDate);
 
-            if (!"lv".equals(currentLanguage)) {
+            if (!"en".equals(currentLanguage)) {
                 for (int i = 0; i < workDescriptionFromDB.size(); i++) {
                     KPIWorkDescription workDescription = workDescriptionFromDB.get(i);
 
@@ -114,12 +114,12 @@ public class WorkDescriptionFilterController {
 
             String currentLanguage = (String) session.getAttribute("currentLanguage");
             if (currentLanguage == null) {
-                currentLanguage = "lv";
+                currentLanguage = "en";
             }
 
             ArrayList<KPIWorkDescription> workDescriptionFromDB = filterService.filterByPriority(priority);
 
-            if (!"lv".equals(currentLanguage)) {
+            if (!"en".equals(currentLanguage)) {
                 for (int i = 0; i < workDescriptionFromDB.size(); i++) {
                     KPIWorkDescription workDescription = workDescriptionFromDB.get(i);
 
@@ -139,78 +139,78 @@ public class WorkDescriptionFilterController {
             return "error-page";
         }
     }
-    @GetMapping("/greater/{amount}")  //http://localhost:8080/workdescriptions/filter/greater/8
-    public String filterByAmountGreaterThan(@PathVariable(name = "amount") int amount,
-            @RequestParam(name = "language", required = false) String language,
-            HttpSession session,
-            Model model) {
-        try {
-            if (language != null && !language.isEmpty()) {
-                session.setAttribute("currentLanguage", language);
-            }
-
-            String currentLanguage = (String) session.getAttribute("currentLanguage");
-            if (currentLanguage == null) {
-                currentLanguage = "lv";
-            }
-
-            ArrayList<KPIWorkDescription> workDescriptionFromDB = filterService.filterByAmountGreaterThan(amount);
-
-            if (!"lv".equals(currentLanguage)) {
-                for (int i = 0; i < workDescriptionFromDB.size(); i++) {
-                    KPIWorkDescription workDescription = workDescriptionFromDB.get(i);
-
-                    String notTranslatedDescription = workDescription.getDescription();
-                    String translatedDescription = translationService.translateText(notTranslatedDescription, currentLanguage);
-
-                    workDescription.setDescription(translatedDescription);
-                }
-            }
-
-            model.addAttribute("package", workDescriptionFromDB);
-            model.addAttribute("info", "Filter by amount greater than: " + amount);
-            model.addAttribute("currentLanguage", currentLanguage);
-            return "show-all-wd";
-        } catch (Exception e) {
-            model.addAttribute("package", e.getMessage());
-            return "error-page";
-        }
-    }
-    @GetMapping("/lesser/{amount}") //http://localhost:8080/workdescriptions/filter/lesser/8
-    public String filterByAmountLessThan(@PathVariable(name = "amount") int amount,
-            @RequestParam(name = "language", required = false) String language,
-            HttpSession session,
-            Model model) {
-        try {
-            if (language != null && !language.isEmpty()) {
-                session.setAttribute("currentLanguage", language);
-            }
-
-            String currentLanguage = (String) session.getAttribute("currentLanguage");
-            if (currentLanguage == null) {
-                currentLanguage = "lv";
-            }
-
-            ArrayList<KPIWorkDescription> workDescriptionFromDB = filterService.filterAmountLessThan(amount);
-
-            if (!"lv".equals(currentLanguage)) {
-                for (int i = 0; i < workDescriptionFromDB.size(); i++) {
-                    KPIWorkDescription workDescription = workDescriptionFromDB.get(i);
-
-                    String notTranslatedDescription = workDescription.getDescription();
-                    String translatedDescription = translationService.translateText(notTranslatedDescription, currentLanguage);
-
-                    workDescription.setDescription(translatedDescription);
-                }
-            }
-
-            model.addAttribute("package", workDescriptionFromDB);
-            model.addAttribute("info", "Filter by amount lesser than: " + amount);
-            model.addAttribute("currentLanguage", currentLanguage);
-            return "show-all-wd";
-        } catch (Exception e) {
-            model.addAttribute("package", e.getMessage());
-            return "error-page";
-        }
-    }
+//    @GetMapping("/greater/{amount}")  //http://localhost:8080/workdescriptions/filter/greater/8
+//    public String filterByAmountGreaterThan(@PathVariable(name = "amount") int amount,
+//            @RequestParam(name = "language", required = false) String language,
+//            HttpSession session,
+//            Model model) {
+//        try {
+//            if (language != null && !language.isEmpty()) {
+//                session.setAttribute("currentLanguage", language);
+//            }
+//
+//            String currentLanguage = (String) session.getAttribute("currentLanguage");
+//            if (currentLanguage == null) {
+//                currentLanguage = "en";
+//            }
+//
+//            ArrayList<KPIWorkDescription> workDescriptionFromDB = filterService.filterByAmountGreaterThan(amount);
+//
+//            if (!"en".equals(currentLanguage)) {
+//                for (int i = 0; i < workDescriptionFromDB.size(); i++) {
+//                    KPIWorkDescription workDescription = workDescriptionFromDB.get(i);
+//
+//                    String notTranslatedDescription = workDescription.getDescription();
+//                    String translatedDescription = translationService.translateText(notTranslatedDescription, currentLanguage);
+//
+//                    workDescription.setDescription(translatedDescription);
+//                }
+//            }
+//
+//            model.addAttribute("package", workDescriptionFromDB);
+//            model.addAttribute("info", "Filter by amount greater than: " + amount);
+//            model.addAttribute("currentLanguage", currentLanguage);
+//            return "show-all-wd";
+//        } catch (Exception e) {
+//            model.addAttribute("package", e.getMessage());
+//            return "error-page";
+//        }
+//    }
+//    @GetMapping("/lesser/{amount}") //http://localhost:8080/workdescriptions/filter/lesser/8
+//    public String filterByAmountLessThan(@PathVariable(name = "amount") int amount,
+//            @RequestParam(name = "language", required = false) String language,
+//            HttpSession session,
+//            Model model) {
+//        try {
+//            if (language != null && !language.isEmpty()) {
+//                session.setAttribute("currentLanguage", language);
+//            }
+//
+//            String currentLanguage = (String) session.getAttribute("currentLanguage");
+//            if (currentLanguage == null) {
+//                currentLanguage = "en";
+//            }
+//
+//            ArrayList<KPIWorkDescription> workDescriptionFromDB = filterService.filterAmountLessThan(amount);
+//
+//            if (!"en".equals(currentLanguage)) {
+//                for (int i = 0; i < workDescriptionFromDB.size(); i++) {
+//                    KPIWorkDescription workDescription = workDescriptionFromDB.get(i);
+//
+//                    String notTranslatedDescription = workDescription.getDescription();
+//                    String translatedDescription = translationService.translateText(notTranslatedDescription, currentLanguage);
+//
+//                    workDescription.setDescription(translatedDescription);
+//                }
+//            }
+//
+//            model.addAttribute("package", workDescriptionFromDB);
+//            model.addAttribute("info", "Filter by amount lesser than: " + amount);
+//            model.addAttribute("currentLanguage", currentLanguage);
+//            return "show-all-wd";
+//        } catch (Exception e) {
+//            model.addAttribute("package", e.getMessage());
+//            return "error-page";
+//        }
+//    }
 }

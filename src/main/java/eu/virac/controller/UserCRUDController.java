@@ -38,12 +38,12 @@ public class UserCRUDController {
 
             String currentLanguage = (String) session.getAttribute("currentLanguage");
             if (currentLanguage == null) {
-                currentLanguage = "lv";
+                currentLanguage = "en";
             }
 
             ArrayList<Users> usersFromDB = userService.selectAllUser();
 
-            if (!"lv".equals(currentLanguage)) {
+            if (!"en".equals(currentLanguage)) {
                 for (int i = 0; i < usersFromDB.size(); i++) {
                     Users user = usersFromDB.get(i);
 
@@ -80,12 +80,12 @@ public class UserCRUDController {
 
             String currentLanguage = (String) session.getAttribute("currentLanguage");
             if (currentLanguage == null) {
-                currentLanguage = "lv";
+                currentLanguage = "en";
             }
 
             Users usersFromDB = userService.selectUsersByUid(id);
 
-            if (!"lv".equals(currentLanguage) && usersFromDB != null) {
+            if (!"en".equals(currentLanguage) && usersFromDB != null) {
                 String notTranslatedName = usersFromDB.getName();
                 String translatedName = translationService.translateText(notTranslatedName, currentLanguage);
 
@@ -116,12 +116,12 @@ public class UserCRUDController {
 
             String currentLanguage = (String) session.getAttribute("currentLanguage");
             if (currentLanguage == null) {
-                currentLanguage = "lv";
+                currentLanguage = "en";
             }
 
             ArrayList<Users> usersFromDB = userService.selectAllUser();
 
-            if (!"lv".equals(currentLanguage)) {
+            if (!"en".equals(currentLanguage)) {
                 for (int i = 0; i < usersFromDB.size(); i++) {
                     Users user = usersFromDB.get(i);
 
@@ -150,7 +150,7 @@ public class UserCRUDController {
         try {
             String currentLanguage = (String) session.getAttribute("currentLanguage");
             if (currentLanguage == null) {
-                currentLanguage = "lv";
+                currentLanguage = "en";
             }
 
             model.addAttribute("user", new Users());
@@ -170,12 +170,12 @@ public class UserCRUDController {
         try {
             String currentLanguage = (String) session.getAttribute("currentLanguage");
             if (currentLanguage == null) {
-                currentLanguage = "lv";
+                currentLanguage = "en";
             }
 
             Users usersFromDB = userService.selectUsersByUid(id);
 
-            if (!"lv".equals(currentLanguage) && usersFromDB != null) {
+            if (!"en".equals(currentLanguage) && usersFromDB != null) {
                 String notTranslatedName = usersFromDB.getName();
                 String translatedName = translationService.translateText(notTranslatedName, currentLanguage);
 

@@ -37,12 +37,12 @@ public class UserFilterController {
 
             String currentLanguage = (String) session.getAttribute("currentLanguage");
             if (currentLanguage == null) {
-                currentLanguage = "lv";
+                currentLanguage = "en";
             }
 
             ArrayList<Users> usersFromDB = Ufilterservice.filterByStartingWith(letter);
 
-            if (!"lv".equals(currentLanguage)) {
+            if (!"en".equals(currentLanguage)) {
                 for (int i = 0; i < usersFromDB.size(); i++) {
                     Users user = usersFromDB.get(i);
 
@@ -81,12 +81,12 @@ public class UserFilterController {
 
             String currentLanguage = (String) session.getAttribute("currentLanguage");
             if (currentLanguage == null) {
-                currentLanguage = "lv";
+                currentLanguage = "en";
             }
 
             ArrayList<Users> usersFromDB = Ufilterservice.filterByEmail(Emailkeyword);
 
-            if (!"lv".equals(currentLanguage)) {
+            if (!"en".equals(currentLanguage)) {
                 for (int i = 0; i < usersFromDB.size(); i++) {
                     Users user = usersFromDB.get(i);
 

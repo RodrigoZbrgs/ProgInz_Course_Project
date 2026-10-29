@@ -13,6 +13,8 @@ import eu.virac.model.ProjectContribution;
 import eu.virac.model.enums.EmployeePositions;
 import eu.virac.service.IProjectContributionFilter;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping("contributions/filter")
 public class ProjectContributionFilterController {
@@ -21,11 +23,19 @@ public class ProjectContributionFilterController {
 	private IProjectContributionFilter conFilter;
 	
 	@GetMapping("/position/{position}") // localhost:8080/contributions/filter/position/{position}
-	public String getControllerFilterByPosition(@PathVariable(name = "position") EmployeePositions position, Model model) {
+	public String getControllerFilterByPosition(@PathVariable(name = "position") EmployeePositions position,
+			HttpSession session,
+			Model model) {
 		try {
+			String currentLanguage = (String) session.getAttribute("currentLanguage");
+			if (currentLanguage == null) {
+				currentLanguage = "en";
+			}
+
 			ArrayList<ProjectContribution> contributionsFromDB = conFilter.filterByPosition(position);
 			model.addAttribute("package", contributionsFromDB);
 			model.addAttribute("info", "Contributions with position " + position);
+			model.addAttribute("currentLanguage", currentLanguage);
 			return "show-all-contributions";
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());

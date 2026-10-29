@@ -2,6 +2,10 @@
 
 <body>
 
+	<a th:href="@{/contributions/crud/all(language='lv')}">LV</a>
+	<a th:href="@{/contributions/crud/all(language='en')}">EN</a>
+	<a th:href="@{/contributions/crud/all(language='ru')}">RU</a>
+
 	<h1>Project data:</h1>
 	<h2 th:text="${info}"></h2>
 	<table border="1px">

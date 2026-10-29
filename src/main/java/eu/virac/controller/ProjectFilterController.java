@@ -39,12 +39,12 @@ public class ProjectFilterController {
 
 			String currentLanguage = (String) session.getAttribute("currentLanguage");
 			if (currentLanguage == null) {
-				currentLanguage = "lv";
+				currentLanguage = "en";
 			}
 
 			ArrayList<ProjectInformation> ProjectsFromDB = filterService.filterByStartingDate(StartingDate);
 
-			if (!"lv".equals(currentLanguage)) {
+			if (!"en".equals(currentLanguage)) {
 				for (int i = 0; i < ProjectsFromDB.size(); i++) {
 					ProjectInformation project = ProjectsFromDB.get(i);
 
@@ -78,12 +78,12 @@ public class ProjectFilterController {
 
 			String currentLanguage = (String) session.getAttribute("currentLanguage");
 			if (currentLanguage == null) {
-				currentLanguage = "lv";
+				currentLanguage = "en";
 			}
 
 			ArrayList<ProjectInformation> ProjectsFromDB = filterService.filterByEndingDate(endingDate);
 
-			if (!"lv".equals(currentLanguage)) {
+			if (!"en".equals(currentLanguage)) {
 				for (int i = 0; i < ProjectsFromDB.size(); i++) {
 					ProjectInformation project = ProjectsFromDB.get(i);
 
@@ -117,12 +117,12 @@ public class ProjectFilterController {
 
 			String currentLanguage = (String) session.getAttribute("currentLanguage");
 			if (currentLanguage == null) {
-				currentLanguage = "lv";
+				currentLanguage = "en";
 			}
 
 			ArrayList<ProjectInformation> ProjectsFromDB = filterService.filterByActivity(activity);
 
-			if (!"lv".equals(currentLanguage)) {
+			if (!"en".equals(currentLanguage)) {
 				for (int i = 0; i < ProjectsFromDB.size(); i++) {
 					ProjectInformation project = ProjectsFromDB.get(i);
 
@@ -156,12 +156,12 @@ public class ProjectFilterController {
 
 			String currentLanguage = (String) session.getAttribute("currentLanguage");
 			if (currentLanguage == null) {
-				currentLanguage = "lv";
+				currentLanguage = "en";
 			}
 
 			ArrayList<ProjectInformation> ProjectsFromDB = filterService.filterByKeyWord(keyword);
 
-			if (!"lv".equals(currentLanguage)) {
+			if (!"en".equals(currentLanguage)) {
 				for (int i = 0; i < ProjectsFromDB.size(); i++) {
 					ProjectInformation project = ProjectsFromDB.get(i);
 
@@ -184,32 +184,81 @@ public class ProjectFilterController {
 	
 	//Project Number
 	@GetMapping("/projectnumber/{projectnumber}")
-	public String getControllerFilterByProjectnumber(@PathVariable(name = "projectnumber") String projectNumber, Model model) {
+	public String getControllerFilterByProjectnumber(@PathVariable(name = "projectnumber") String projectNumber,
+			@RequestParam(name = "language", required = false) String language,
+			HttpSession session,
+			Model model) {
 		try {
+			if (language != null && !language.isEmpty()) {
+				session.setAttribute("currentLanguage", language);
+			}
+
+			String currentLanguage = (String) session.getAttribute("currentLanguage");
+			if (currentLanguage == null) {
+				currentLanguage = "en";
+			}
+
 			ArrayList<ProjectInformation> ProjectsFromDB = filterService.filterByProjectNumber(projectNumber);
+
+			if (!"en".equals(currentLanguage)) {
+				for (int i = 0; i < ProjectsFromDB.size(); i++) {
+					ProjectInformation project = ProjectsFromDB.get(i);
+
+					String notTranslatedName = project.getProjectName();
+					String translatedName = translationService.translateText(notTranslatedName, currentLanguage);
+
+					project.setProjectName(translatedName);
+				}
+			}
+
 			model.addAttribute("package", ProjectsFromDB);
 			model.addAttribute("info", "Projekts ar projekta numuru: " + projectNumber);
+			model.addAttribute("currentLanguage", currentLanguage);
 			return "show-all-projects";
 		}
 		catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
 			return "error-page";
+		}
 	}
-		
-}
 	//Specifc date
 	@GetMapping("/projectdate/{date}")
-	public String getControllerFilterByDate(@PathVariable(name = "date") LocalDate date, Model model) {
+	public String getControllerFilterByDate(@PathVariable(name = "date") LocalDate date,
+			@RequestParam(name = "language", required = false) String language,
+			HttpSession session,
+			Model model) {
 		try {
+			if (language != null && !language.isEmpty()) {
+				session.setAttribute("currentLanguage", language);
+			}
+
+			String currentLanguage = (String) session.getAttribute("currentLanguage");
+			if (currentLanguage == null) {
+				currentLanguage = "en";
+			}
+
 			ArrayList<ProjectInformation> ProjectsFromDB = filterService.filterBySpecificDate(date);
+
+			if (!"en".equals(currentLanguage)) {
+				for (int i = 0; i < ProjectsFromDB.size(); i++) {
+					ProjectInformation project = ProjectsFromDB.get(i);
+
+					String notTranslatedName = project.getProjectName();
+					String translatedName = translationService.translateText(notTranslatedName, currentLanguage);
+
+					project.setProjectName(translatedName);
+				}
+			}
+
 			model.addAttribute("package", ProjectsFromDB);
 			model.addAttribute("info", "Projekts ar datumu: " + date);
+			model.addAttribute("currentLanguage", currentLanguage);
 			return "show-all-projects";
 		}
 		catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
 			return "error-page";
-	}
+		}
 	}
 	
 }

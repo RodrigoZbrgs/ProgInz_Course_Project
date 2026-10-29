@@ -53,12 +53,12 @@ public class WorkDescriptionCRUDController {
 
             String currentLanguage = (String) session.getAttribute("currentLanguage");
             if (currentLanguage == null) {
-                currentLanguage = "lv";
+                currentLanguage = "en";
             }
 
             ArrayList<KPIWorkDescription> workDescriptions = workDescriptionService.findAllWorkDescriptions();
 
-            if (!"lv".equals(currentLanguage)) {
+            if (!"en".equals(currentLanguage)) {
                 for (int i = 0; i < workDescriptions.size(); i++) {
                     KPIWorkDescription workDescription = workDescriptions.get(i);
 
@@ -90,12 +90,12 @@ public class WorkDescriptionCRUDController {
 
             String currentLanguage = (String) session.getAttribute("currentLanguage");
             if (currentLanguage == null) {
-                currentLanguage = "lv";
+                currentLanguage = "en";
             }
 
             KPIWorkDescription workDescription = workDescriptionService.findWorkDescriptionById(id);
 
-            if (!"lv".equals(currentLanguage) && workDescription != null) {
+            if (!"en".equals(currentLanguage) && workDescription != null) {
                 String notTranslatedDescription = workDescription.getDescription();
                 String translatedDescription = translationService.translateText(notTranslatedDescription, currentLanguage);
 
@@ -120,12 +120,12 @@ public class WorkDescriptionCRUDController {
 
             String currentLanguage = (String) session.getAttribute("currentLanguage");
             if (currentLanguage == null) {
-                currentLanguage = "lv";
+                currentLanguage = "en";
             }
 
             ArrayList<KPIWorkDescription> workDescriptions = workDescriptionService.findAllWorkDescriptions();
 
-            if (!"lv".equals(currentLanguage)) {
+            if (!"en".equals(currentLanguage)) {
                 for (int i = 0; i < workDescriptions.size(); i++) {
                     KPIWorkDescription workDescription = workDescriptions.get(i);
 
@@ -150,7 +150,7 @@ public class WorkDescriptionCRUDController {
         try {
             String currentLanguage = (String) session.getAttribute("currentLanguage");
             if (currentLanguage == null) {
-                currentLanguage = "lv";
+                currentLanguage = "en";
             }
 
             model.addAttribute("workDescription", new KPIWorkDescription());
@@ -166,7 +166,7 @@ public class WorkDescriptionCRUDController {
     }
 
     @PostMapping("/add")
-    public String postControllerForWorkDescriptionAdding(@Valid KPIWorkDescription workDescription, BindingResult result, Model model) {
+    public String postControllerForWorkDescriptionAdding(@Valid KPIWorkDescription workDescription, BindingResult result, Model model) throws Exception {
         if (result.hasErrors()) {
             System.out.println(result.getAllErrors()); 
             model.addAttribute("users", userService.selectAllUser());
@@ -191,12 +191,12 @@ public class WorkDescriptionCRUDController {
         try {
             String currentLanguage = (String) session.getAttribute("currentLanguage");
             if (currentLanguage == null) {
-                currentLanguage = "lv";
+                currentLanguage = "en";
             }
 
             KPIWorkDescription workDescription = workDescriptionService.findWorkDescriptionById(id);
 
-            if (!"lv".equals(currentLanguage) && workDescription != null) {
+            if (!"en".equals(currentLanguage) && workDescription != null) {
                 String notTranslatedDescription = workDescription.getDescription();
                 String translatedDescription = translationService.translateText(notTranslatedDescription, currentLanguage);
 
@@ -233,11 +233,35 @@ public class WorkDescriptionCRUDController {
     @GetMapping("/paginatorTest") // http://localhost:8080/workdescriptions/paginatorTest
     public String findAllWorkDescriptionsPaginated(
             @RequestParam(defaultValue = "0") int page,
+            @RequestParam(name = "language", required = false) String language,
+            HttpSession session,
             Model model) {
         try {
+            if (language != null && !language.isEmpty()) {
+                session.setAttribute("currentLanguage", language);
+            }
+
+            String currentLanguage = (String) session.getAttribute("currentLanguage");
+            if (currentLanguage == null) {
+                currentLanguage = "en";
+            }
+
             Pageable pageWithXElements = PageRequest.of(page, 5);
             Page<KPIWorkDescription> pageData = workDescriptionService.findAllWorkDescriptionsPaginated(pageWithXElements);
+
+            if (!"en".equals(currentLanguage)) {
+                for (int i = 0; i < pageData.getContent().size(); i++) {
+                    KPIWorkDescription workDescription = pageData.getContent().get(i);
+
+                    String notTranslatedDescription = workDescription.getDescription();
+                    String translatedDescription = translationService.translateText(notTranslatedDescription, currentLanguage);
+
+                    workDescription.setDescription(translatedDescription);
+                }
+            }
+
             model.addAttribute("package", pageData);
+            model.addAttribute("currentLanguage", currentLanguage);
             return "show-all-wd-Paginator";
         } catch (Exception e) {
             model.addAttribute("package", e.getMessage());

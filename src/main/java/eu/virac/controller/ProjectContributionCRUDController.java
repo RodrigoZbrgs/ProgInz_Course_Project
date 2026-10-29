@@ -10,11 +10,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import eu.virac.model.ProjectContribution;
 import eu.virac.repo.IUsersRepo;
 import eu.virac.service.IProjectContributionService;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 @Controller
@@ -26,10 +28,23 @@ public class ProjectContributionCRUDController {
 	@Autowired IUsersRepo userRepo;
 
 	@GetMapping("/all") 
-	public String getControllerRetrievAllContributions(Model model) {
+	public String getControllerRetrievAllContributions(
+			@RequestParam(name = "language", required = false) String language,
+			HttpSession session,
+			Model model) {
 		try {
+			if (language != null && !language.isEmpty()) {
+				session.setAttribute("currentLanguage", language);
+			}
+
+			String currentLanguage = (String) session.getAttribute("currentLanguage");
+			if (currentLanguage == null) {
+				currentLanguage = "en";
+			}
+
 			ArrayList<ProjectContribution> contributionsFromDB = projConService.selectAllContributions();
 			model.addAttribute("package", contributionsFromDB);
+			model.addAttribute("currentLanguage", currentLanguage);
 			return "show-all-contributions";
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
@@ -38,10 +53,23 @@ public class ProjectContributionCRUDController {
 	}
 
 	@GetMapping("/all/{id}")
-	public String getControllerSelectContributionById(@PathVariable(name = "id") int id, Model model) {
+	public String getControllerSelectContributionById(@PathVariable(name = "id") int id,
+			@RequestParam(name = "language", required = false) String language,
+			HttpSession session,
+			Model model) {
 		try {
+			if (language != null && !language.isEmpty()) {
+				session.setAttribute("currentLanguage", language);
+			}
+
+			String currentLanguage = (String) session.getAttribute("currentLanguage");
+			if (currentLanguage == null) {
+				currentLanguage = "en";
+			}
+
 			ProjectContribution contributionsFromDB = projConService.selectContributionById(id);
 			model.addAttribute("package", contributionsFromDB);
+			model.addAttribute("currentLanguage", currentLanguage);
 			return "show-one-contribution";
 
 		} catch (Exception e) {
@@ -52,11 +80,20 @@ public class ProjectContributionCRUDController {
 	}
 
 	@GetMapping("/remove/{id}")
-	public String getControllerContributionForRemoval(@PathVariable(name = "id") int id, Model model) {
+	public String getControllerContributionForRemoval(@PathVariable(name = "id") int id,
+			HttpSession session,
+			Model model) {
 		try {
 			projConService.deleteContributionById(id);
+
+			String currentLanguage = (String) session.getAttribute("currentLanguage");
+			if (currentLanguage == null) {
+				currentLanguage = "en";
+			}
+
 			ArrayList<ProjectContribution> contributionsFromDB = projConService.selectAllContributions();
 			model.addAttribute("package", contributionsFromDB);
+			model.addAttribute("currentLanguage", currentLanguage);
 			return "show-all-contributions";
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
@@ -65,10 +102,15 @@ public class ProjectContributionCRUDController {
 	}
 
 	@GetMapping("/add")
-	public String getControllerForContributionAdding(Model model) {
+	public String getControllerForContributionAdding(HttpSession session, Model model) {
 		try {
+			String currentLanguage = (String) session.getAttribute("currentLanguage");
+			if (currentLanguage == null) {
+				currentLanguage = "en";
+			}
 
 			model.addAttribute("projectcontribution", new ProjectContribution());
+			model.addAttribute("currentLanguage", currentLanguage);
 			return "add-one-contribution";
 
 		} catch (Exception e) {
@@ -97,10 +139,18 @@ public class ProjectContributionCRUDController {
 	}
 
 	@GetMapping("/update/{id}")
-	public String retrieveUpdateContributionById(@PathVariable(name = "id") int id, Model model) {
+	public String retrieveUpdateContributionById(@PathVariable(name = "id") int id,
+			HttpSession session,
+			Model model) {
 		try {
+			String currentLanguage = (String) session.getAttribute("currentLanguage");
+			if (currentLanguage == null) {
+				currentLanguage = "en";
+			}
+
 			ProjectContribution contributionsFromDB = projConService.selectContributionById(id);
 			model.addAttribute("contribution", contributionsFromDB);
+			model.addAttribute("currentLanguage", currentLanguage);
 			return "update-one-contribution";
 
 		} catch (Exception e) {

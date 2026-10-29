@@ -41,12 +41,12 @@ public class ProjectCRUDController {
 
             String currentLanguage = (String) session.getAttribute("currentLanguage");
             if (currentLanguage == null) {
-                currentLanguage = "lv";
+                currentLanguage = "en";
             }
 
             ArrayList<ProjectInformation> projectsArray = projService.selectAllProjects();
 
-            if (!"lv".equals(currentLanguage)) {
+            if (!"en".equals(currentLanguage)) {
                 for (int i = 0; i < projectsArray.size(); i++) {
                     ProjectInformation proj = projectsArray.get(i);
                     
@@ -80,12 +80,12 @@ public class ProjectCRUDController {
 
             String currentLanguage = (String) session.getAttribute("currentLanguage");
             if (currentLanguage == null) {
-                currentLanguage = "lv";
+                currentLanguage = "en";
             }
 
             ProjectInformation projects = projService.selectProjectById(id);
 
-            if (!"lv".equals(currentLanguage) && projects != null) {
+            if (!"en".equals(currentLanguage) && projects != null) {
                 String notTranslatedName = projects.getProjectName();
                 String translatedName = translationService.translateText(notTranslatedName, currentLanguage);
                 projects.setProjectName(translatedName);
@@ -111,12 +111,12 @@ public class ProjectCRUDController {
 
             String currentLanguage = (String) session.getAttribute("currentLanguage");
             if (currentLanguage == null) {
-                currentLanguage = "lv";
+                currentLanguage = "en";
             }
 
             ArrayList<ProjectInformation> projectsArray = projService.selectAllProjects();
 
-            if (!"lv".equals(currentLanguage)) {
+            if (!"en".equals(currentLanguage)) {
                 for (int i = 0; i < projectsArray.size(); i++) {
                     ProjectInformation proj = projectsArray.get(i);
                     
@@ -141,7 +141,7 @@ public class ProjectCRUDController {
         try {
             String currentLanguage = (String) session.getAttribute("currentLanguage");
             if (currentLanguage == null) {
-                currentLanguage = "lv";
+                currentLanguage = "en";
             }
 
             model.addAttribute("project", new ProjectInformation());
@@ -178,12 +178,12 @@ public class ProjectCRUDController {
         try {
             String currentLanguage = (String) session.getAttribute("currentLanguage");
             if (currentLanguage == null) {
-                currentLanguage = "lv";
+                currentLanguage = "en";
             }
 
             ProjectInformation projects = projService.selectProjectById(id);
 
-            if (!"lv".equals(currentLanguage) && projects != null) {
+            if (!"en".equals(currentLanguage) && projects != null) {
                 String notTranslatedName = projects.getProjectName();
                 String translatedName = translationService.translateText(notTranslatedName, currentLanguage);
                 projects.setProjectName(translatedName);
