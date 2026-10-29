@@ -78,7 +78,7 @@ public class KPIRealisationServiceImpl implements IKPIRealisationService, IKPIRe
 	}
 
 	@Override
-	@CacheEvict(value="KPI_Realisations", key="#id")
+	@CacheEvict(value="KPI_Realisations", allEntries = true) // allEntries = true means: "Delete everything from this cache, not just one key."
 	public void deleteRealisationById(long id) throws Exception {
 		if (id < 1) {
 			throw new Exception("Id cannot be negative or 0");

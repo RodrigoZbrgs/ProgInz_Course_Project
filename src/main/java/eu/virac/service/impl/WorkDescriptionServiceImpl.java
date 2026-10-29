@@ -117,7 +117,7 @@ public class WorkDescriptionServiceImpl implements IWorkDescriptionService, IWor
 	}
 
 	@Override
-	@CacheEvict(value="WorkDescription", key="#id")
+	@CacheEvict(value="WorkDescription", allEntries = true)
 	public void deleteWorkDescription(long id) throws Exception {
 		if (id < 1) {
 			throw new Exception("Id cannot be negative or 0");

@@ -60,7 +60,7 @@ public class ProjectContributionServiceImpl implements IProjectContributionServi
 	}
 
 	@Override
-	@CacheEvict(value="projectContribution", key="#id")
+	@CacheEvict(value="projectContribution", allEntries = true)
 	public void deleteContributionById(int id) throws Exception {
 		ProjectContribution contributionForDeleting = selectContributionById(id);
 		projConRepo.delete(contributionForDeleting);

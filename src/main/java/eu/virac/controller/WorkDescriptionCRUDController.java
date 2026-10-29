@@ -78,6 +78,7 @@ public class WorkDescriptionCRUDController {
 		try {
 			model.addAttribute("workDescription", new KPIWorkDescription());
 			model.addAttribute("users",userService.selectAllUser());
+			model.addAttribute("departments", departmentService.selectAllDepartments());
 			return "add-wd";
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
