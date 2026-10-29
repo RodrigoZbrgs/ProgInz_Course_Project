@@ -9,6 +9,6 @@ import eu.virac.model.KPIRealisation;
 
 public interface IKPIRealisationRepo extends CrudRepository<KPIRealisation, Long> {
 
-	ArrayList<KPIRealisation> findByDate(LocalDate realisationdate);
+	ArrayList<KPIRealisation> findByRealisationdate(LocalDate realisationdate);
 
 }

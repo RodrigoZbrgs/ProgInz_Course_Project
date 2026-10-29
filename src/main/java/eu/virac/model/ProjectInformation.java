@@ -36,16 +36,16 @@ public class ProjectInformation {
 
 	@Column(name = "Is_active")
 	@NotNull
-	private boolean active;
+	private Boolean active;
 
-	@Column(name = "Project_number")
 	@NotNull
 	@Pattern(regexp = "[P]{1}[0-9]{3,40}")
+	@Column(name = "Project_number", unique = true)
 	private String projectNumber;
 
 	@NotNull
 	@Pattern(regexp = "[A-Ž]{1}[A-Ža-Ž]{3,40}")
-	@Column(name = "Project_name")
+	@Column(name = "Project_name", unique = true)
 	private String projectName;
 
 	@NotNull
@@ -55,7 +55,10 @@ public class ProjectInformation {
 	@NotNull
 	@Column(name = "Ending_date")
 	private LocalDate endingDate;
-
+	@ToString.Exclude
+	@OneToMany(mappedBy = "information")
+	private Collection<KPIWorkDescription> workDescription = new ArrayList<>();
+	@ToString.Exclude
 	@OneToMany(mappedBy = "projectInformation")
 	private Collection<ProjectContribution> contributions = new ArrayList<>();
 
@@ -67,4 +70,5 @@ public class ProjectInformation {
 		setStartingDate(startingDate);
 		setEndingDate(endingDate);
 	}
+
 }

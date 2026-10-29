@@ -2,19 +2,25 @@ package eu.virac.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import eu.virac.model.enums.Priority;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,14 +41,21 @@ public class KPIWorkDescription {
 	@Setter(value = AccessLevel.NONE)
 	private long idkpiwd;
 
-	@Column(name = "date")
-	@NotNull
-	private LocalDate date;
 //severity
 	@Column(name = "amount")
 	@Min(1)
 	@Max(10)
 	private int amount;
+
+	@Column(name = "date")
+	@NotNull
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+	private LocalDate date;
+//severity
+	@Column(name = "priority")
+	@Enumerated(EnumType.STRING)
+	@NotNull
+	private Priority priority;
 
 	@Column(name = "description", unique = true)
 	@NotNull
@@ -56,13 +69,18 @@ public class KPIWorkDescription {
 	@JoinColumn(name = "idsc")
 	private KPI_Subcategories subCategory;
 
+	@ToString.Exclude
 	@ManyToOne
-	@JoinColumn(name = "idpc")
-	private ProjectContribution contributions;
+	@JoinColumn(name = "Idpi")
+	private ProjectInformation information;
 
 	@ManyToOne
-	@JoinColumn(name = "did")
-	private Department department;
+	@JoinColumn(name = "Idpc")
+	private ProjectContribution contributions;
+
+//	@ManyToOne
+//	@JoinColumn(name = "did")
+//	private Department department;
 
 	@OneToMany(mappedBy = "workDescription")
 	private Collection<KPI_Statuss> kpiStatuss = new ArrayList<KPI_Statuss>();
@@ -70,10 +88,13 @@ public class KPIWorkDescription {
 	@OneToMany(mappedBy = "workDescription")
 	private Collection<KPIRealisation> kpiRealisation = new ArrayList<KPIRealisation>();
 
-	public KPIWorkDescription(LocalDate date, int amount, String description) {
+	public KPIWorkDescription(LocalDate date, Priority priority, String description, Users user,
+			ProjectInformation information) {
 		setDate(date);
-		setAmount(amount);
+		setPriority(priority);
 		setDescription(description);
+		setUser(user);
+		setInformation(information);
 	}
 
 }

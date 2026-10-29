@@ -2,10 +2,10 @@
 
 <body>
 	<h1>Input new project:</h1>
-	<form method="post" th:object="${project}" th:action="@{/kpireal/crud/add}">
+	<form method="post" th:object="${realisation}" th:action="@{/kpireal/crud/add}">
 
 		<p>Input realisation date</p>
-		<input type="text" th:field="*{realisationdate}" />
+		<input type="date" th:field="*{realisationdate}" />
 		<p th:if="${#fields.hasErrors('realisationdate')}" th:errors="*{realisationdate}"></p>
 
 		<p>Input project text</p>
@@ -13,7 +13,7 @@
 		<p th:if="${#fields.hasErrors('textvalue')}" th:errors="*{textvalue}"></p>
 
 		<p>Input starting comment</p>
-		<input type="date" th:field="*{comment}" />
+		<input type="text" th:field="*{comment}" />
 		<p th:if="${#fields.hasErrors('comment')}" th:errors="*{comment}"></p>
 
 

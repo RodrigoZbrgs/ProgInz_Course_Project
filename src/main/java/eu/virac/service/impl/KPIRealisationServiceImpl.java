@@ -3,6 +3,10 @@ package eu.virac.service.impl;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.stereotype.Service;
 
 import eu.virac.model.KPIRealisation;
@@ -11,12 +15,14 @@ import eu.virac.service.IKPIRealisationFilter;
 import eu.virac.service.IKPIRealisationService;
 
 @Service
+@EnableCaching
 public class KPIRealisationServiceImpl implements IKPIRealisationService, IKPIRealisationFilter {
 
 	@Autowired
 	private IKPIRealisationRepo realRepo;
 
 	@Override
+	@Cacheable("KPI_Realisations")
 	public ArrayList<KPIRealisation> findAllRealisations() throws Exception {
 		if (realRepo.count() == 0) {
 			throw new Exception("Realisation amount is empty");
@@ -25,6 +31,7 @@ public class KPIRealisationServiceImpl implements IKPIRealisationService, IKPIRe
 	}
 
 	@Override
+	@Cacheable(value = "KPI_Realisations", key = "#id")
 	public KPIRealisation findRealisationById(long id) throws Exception {
 		if (realRepo.count() == 0) {
 			throw new Exception("Realisation amount is empty");
@@ -46,7 +53,7 @@ public class KPIRealisationServiceImpl implements IKPIRealisationService, IKPIRe
 		return realRepo.save(kpiRealisation);
 	}
 
-	@Override
+	@CachePut(value = "KPI_Realisations", key = "#id")
 	public KPIRealisation updateRealisation(long id, LocalDate realisationdate, String text, String comment)
 			throws Exception {
 		KPIRealisation realisationToUpdate = findRealisationById(id);
@@ -56,7 +63,7 @@ public class KPIRealisationServiceImpl implements IKPIRealisationService, IKPIRe
 		}
 
 		if (realisationdate != null) {
-			realisationToUpdate.setDate(realisationdate);
+			realisationToUpdate.setRealisationdate(realisationdate);
 			;
 		}
 		if (text != null) {
@@ -71,6 +78,7 @@ public class KPIRealisationServiceImpl implements IKPIRealisationService, IKPIRe
 	}
 
 	@Override
+	@CacheEvict(value = "KPI_Realisations", key = "#id")
 	public void deleteRealisationById(long id) throws Exception {
 		if (id < 1) {
 			throw new Exception("Id cannot be negative or 0");
@@ -83,7 +91,8 @@ public class KPIRealisationServiceImpl implements IKPIRealisationService, IKPIRe
 	}
 
 	@Override
-	public ArrayList<KPIRealisation> filterByDate(LocalDate realisationdate) throws Exception {
+	@Cacheable(value = "KPI_Realisations")
+	public ArrayList<KPIRealisation> filterByRealisationDate(LocalDate realisationdate) throws Exception {
 		if (realisationdate == null) {
 			throw new Exception("Incorrect parameters");
 		}
@@ -92,12 +101,18 @@ public class KPIRealisationServiceImpl implements IKPIRealisationService, IKPIRe
 			throw new Exception("DB has no projects, so can not be filtered");
 		}
 
-		ArrayList<KPIRealisation> filteredRealisations = realRepo.findByDate(realisationdate);
+		ArrayList<KPIRealisation> filteredRealisations = realRepo.findByRealisationdate(realisationdate);
 
 		if (filteredRealisations.isEmpty()) {
 			throw new Exception("No project on " + realisationdate);
 		}
 		return filteredRealisations;
+	}
+
+	@Override
+	public ArrayList<KPIRealisation> filterByDate(LocalDate realisationdate) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

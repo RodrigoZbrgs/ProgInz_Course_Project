@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+	<h1>Contribution data:</h1>
+
+	<table border="1px">
+		<tr>
+			<td>Idpc</td>
+			<td>Position</td>
+			<td>Starting_date</td>
+			<td>Ending_date</td>
+			<td>Project_id</td>
+			<td>User_id</td>
+		</tr>
+		<tr>
+
+			<td th:text="${package.idpc}"></td>
+			<td th:text="${package.employeePosition}"></td>
+			<td th:text="${package.startingDate}"></td>
+			<td th:text="${package.endingDate}"></td>
+			<td th:text="${package.projectInformation.idpi}"></td>
+			<td th:text="${package.user.uid}"></td>
+
+		</tr>
+	</table>
+
+</body>
+
+</html>

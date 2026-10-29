@@ -8,21 +8,25 @@
     <table border="1px">
         <tr>
             <td>ID</td>
+			<td>User</td>
+			<td>Project name</td>
             <td>Date</td>
-            <td>Amount</td>
+            <td>Priority</td>
             <td>Description</td>
         </tr>
 
         <th:block th:each="wd : ${package}">
             <tr>
                 <td th:text="${wd.idkpiwd}"></td>
+				<td th:text="${wd.user.name+' '+wd.user.surname}"></td>
+				<td th:text="${wd.information.projectName}"></td>
                 <td th:text="${wd.date}"></td>
-                <td th:text="${wd.amount}"></td>
+                <td th:text="${wd.priority}"></td>
                 <td th:text="${wd.description}"></td>
             </tr>
+			
         </th:block>
-
-    </table>
+		</table>
 
 </body>
 

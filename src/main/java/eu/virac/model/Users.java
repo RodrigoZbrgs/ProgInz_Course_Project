@@ -2,15 +2,19 @@ package eu.virac.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import eu.virac.model.security.MyAuthority;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -46,16 +50,37 @@ public class Users {
 	@Pattern(regexp = "[A-Ž]{1}[a-ž]{2,20}([ ]{1}([A-Ž]{1}[a-ž]{2,20}))?")
 	private String surname;
 
+	@Column(name = "Username", unique = true)
+	@NotNull
+	@NotEmpty
+	private String username;
+
 	@Column(name = "email")
 	@NotNull
 	@NotEmpty
+	@Email
 	private String email;
 
-	@Column(name = "password")
+	@Column(name = "Password")
 	@NotNull
 	@NotEmpty
 	private String password;
+	@ManyToMany(mappedBy = "users", fetch = FetchType.EAGER)
+	private Collection<MyAuthority> authorities = new ArrayList<MyAuthority>();
 
+	public void addAuthority(MyAuthority authority) {
+		if (!authorities.contains(authority)) {
+			authorities.add(authority);
+		}
+	}
+
+	public void removeUser(MyAuthority authority) {
+		if (authorities.contains(authority)) {
+			authorities.remove(authority);
+		}
+	}
+
+	@ToString.Exclude
 	@ManyToOne
 	@JoinColumn(name = "did")
 	private Department department;
@@ -72,10 +97,22 @@ public class Users {
 	@ToString.Exclude
 	private Collection<KPI_Statuss> kpiStatuss = new ArrayList<KPI_Statuss>();
 
-	public Users(String name, String surname, String email, String password) {
+	public Users(String name, String surname, String email, String password, Department department) {
 		setName(name);
 		setSurname(surname);
 		setEmail(email);
 		setPassword(password);
+		setDepartment(department);
+	}
+
+	public Users(String username, String password, MyAuthority... inputAuthorities) { // idk kp te bija deparment bet ja
+																						// vajades var
+																						// pievienot(martins)
+		setUsername(username);
+		setPassword(password);
+
+		for (MyAuthority tempA : inputAuthorities) {
+			addAuthority(tempA);
+		}
 	}
 }

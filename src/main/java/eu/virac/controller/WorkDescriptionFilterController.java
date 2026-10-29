@@ -12,11 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import eu.virac.model.KPIWorkDescription;
+import eu.virac.model.enums.Priority;
 import eu.virac.service.IWorkDescriptionsFilter;
 
 @Controller
 @RequestMapping("/workdescriptions/filter")
 public class WorkDescriptionFilterController {
+
 	@Autowired
 	private IWorkDescriptionsFilter filterService;
 
@@ -73,4 +75,30 @@ public class WorkDescriptionFilterController {
 			return "error-page";
 		}
 	}
+
+	@GetMapping("/priority/{priority}") // http://localhost:8080/workdescriptions/filter/greater/8
+	public String filterByPriority(@PathVariable(name = "priority") Priority priority, Model model) {
+		try {
+			ArrayList<KPIWorkDescription> WdFromDB = filterService.filterByPriority(priority);
+			model.addAttribute("package", WdFromDB);
+			model.addAttribute("info", "Filter by priority: " + priority);
+			return "show-all-wd";
+		} catch (Exception e) {
+			model.addAttribute("package", e.getMessage());
+			return "error-page";
+		}
+	}
+
+//	@GetMapping("/lesser/{amount}") //http://localhost:8080/workdescriptions/filter/lesser/8
+//	public String filterByAmountLessThan(@PathVariable(name = "amount") int amount, Model model) {
+//	    try {
+//	        ArrayList<KPIWorkDescription> WdFromDB = filterService.filterAmountLessThan(amount);
+//	        model.addAttribute("package", WdFromDB);
+//	        model.addAttribute("info", "Filter by amount lesser than: " + amount);
+//	        return "show-all-wd";
+//	    } catch (Exception e) {
+//	        model.addAttribute("package", e.getMessage());
+//	        return "error-page";
+//	    }
+//	}
 }

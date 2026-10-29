@@ -2,6 +2,7 @@ package eu.virac.service;
 
 import java.util.ArrayList;
 
+import eu.virac.model.Department;
 import eu.virac.model.Users;
 
 public interface IUserService extends ICrudBaseService<Users> {
@@ -12,7 +13,9 @@ public interface IUserService extends ICrudBaseService<Users> {
 
 	public abstract void deleteUserByUid(int id) throws Exception;
 
-	public abstract void updateUserByUid(int id, String name, String surname, String email, String password)
-			throws Exception;
+
+	public abstract void updateUserByUid(int id, String name, String surname, String email, String password, Department department)
+	        throws Exception;
+
 
 }

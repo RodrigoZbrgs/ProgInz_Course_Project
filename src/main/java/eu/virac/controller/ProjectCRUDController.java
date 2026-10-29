@@ -25,6 +25,7 @@ public class ProjectCRUDController {
 	private IProjectService projService;
 
 	@GetMapping("/all") // localhost:8080/project/crud/all
+	
 	public String getControllerRetrievAllProjects(Model model) {
 		try {
 			ArrayList<ProjectInformation> projectsFromDB = projService.selectAllProjects();
@@ -80,6 +81,7 @@ public class ProjectCRUDController {
 	public String postControllerForProjectAdding(@Valid ProjectInformation project, BindingResult result, Model model) {
 		if (result.hasErrors()) {
 			return "add-one-project";
+			
 		} else {
 			try {
 

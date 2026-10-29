@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+    <h1>Work Descriptions</h1>
+
+    <table border="1px">
+        <tr>
+            <td>ID</td>
+			<td>User</td>
+            <td>Date</td>
+            <td>Priority</td>
+            <td>Description</td>
+        </tr>
+
+        <th:block th:each="wd : ${package}">
+            <tr>
+                <td th:text="${wd.idkpiwd}"></td>
+				<td th:text="${wd.user.name+' '+wd.user.surname}"></td>
+                <td th:text="${wd.date}"></td>
+                <td th:text="${wd.priority}"></td>
+                <td th:text="${wd.description}"></td>
+            </tr>
+			
+        </th:block>
+		</table>
+		<div>
+		    <a th:if="${package.hasPrevious()}"
+			 th:href="@{/workdescriptions/crud/paginatorTest(page=${package.number - 1})}">Previous</a>
+		    <a  th:if="${package.hasNext()}"
+			 th:href="@{/workdescriptions/crud/paginatorTest(page=${package.number + 1})}">Next</a>
+		</p>
+		</div>
+
+</body>
+
+</html>

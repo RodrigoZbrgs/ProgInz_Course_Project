@@ -4,6 +4,9 @@ package eu.virac.controller;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -11,7 +14,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import eu.virac.model.KPIWorkDescription;
+import eu.virac.model.Users;
+import eu.virac.repo.IUsersRepo;
+import eu.virac.service.IProjectService;
+import eu.virac.service.IUserService;
 import eu.virac.service.IWorkDescriptionService;
 import jakarta.validation.Valid;
 
@@ -21,8 +30,12 @@ public class WorkDescriptionCRUDController {
 
 	@Autowired
 	private IWorkDescriptionService workDescriptionService;
+	@Autowired
+	private IUserService userService;
+	@Autowired
+	private IProjectService projectService;
 
-	@GetMapping("/list") // http://localhost:8080/workdescriptions/crud/list
+	@GetMapping("/list") // localhost:8080/workdescriptions/crud/list
 	public String getControllerWorkDescriptionList(Model model) {
 		try {
 			ArrayList<KPIWorkDescription> workDescriptions = workDescriptionService.findAllWorkDescriptions();
@@ -63,6 +76,8 @@ public class WorkDescriptionCRUDController {
 	public String getControllerForWorkDescriptionAdding(Model model) {
 		try {
 			model.addAttribute("workDescription", new KPIWorkDescription());
+			model.addAttribute("users", userService.selectAllUser());
+			model.addAttribute("projects", projectService.selectAllProjects());
 			return "add-wd";
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
@@ -74,10 +89,13 @@ public class WorkDescriptionCRUDController {
 	public String postControllerForWorkDescriptionAdding(@Valid KPIWorkDescription workDescription,
 			BindingResult result, Model model) {
 		if (result.hasErrors()) {
+			System.out.println(result.getAllErrors());
 			return "add-wd";
 		} else {
 			try {
 				workDescriptionService.addWorkDescription(workDescription);
+				model.addAttribute("users", userService.selectAllUser());
+				model.addAttribute("projects", projectService.selectAllProjects());
 				return "redirect:/workdescriptions/crud/list";
 			} catch (Exception e) {
 				model.addAttribute("package", e.getMessage());
@@ -91,6 +109,8 @@ public class WorkDescriptionCRUDController {
 		try {
 			KPIWorkDescription workDescription = workDescriptionService.findWorkDescriptionById(id);
 			model.addAttribute("workDescription", workDescription);
+			model.addAttribute("users", userService.selectAllUser());
+			model.addAttribute("projects", projectService.selectAllProjects());
 			return "update-wd";
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
@@ -102,9 +122,23 @@ public class WorkDescriptionCRUDController {
 	public String postControllerForUpdateById(@PathVariable(name = "id") long id, KPIWorkDescription workDescription,
 			Model model) {
 		try {
-			workDescriptionService.updateWorkDescription(id, workDescription.getDescription(),
-					workDescription.getDate(), workDescription.getAmount());
+			workDescriptionService.updateWorkDescription(id, workDescription.getDescription(),workDescription.getDate(), workDescription.getAmount());
 			return "redirect:/workdescriptions/crud/list";
+		} catch (Exception e) {
+			model.addAttribute("package", e.getMessage());
+			return "error-page";
+		}
+	}
+
+	@GetMapping("/paginatorTest") // http://localhost:8080/workdescriptions/paginatorTest
+									// https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/domain/Page.html#method-summary
+	public String findAllWorkDescriptionsPaginated(@RequestParam(defaultValue = "0") int page, Model model) {
+		try {
+			Pageable pageWithXElements = PageRequest.of(page, 5);
+			Page<KPIWorkDescription> pageData = workDescriptionService
+					.findAllWorkDescriptionsPaginated(pageWithXElements);
+			model.addAttribute("package", pageData);
+			return "show-all-wd-Paginator";
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
 			return "error-page";
