@@ -11,12 +11,8 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.stereotype.Service;
 
 import eu.virac.model.ProjectContribution;
-import eu.virac.model.ProjectInformation;
-import eu.virac.model.Users;
 import eu.virac.model.enums.EmployeePositions;
 import eu.virac.repo.IProjectContributionRepo;
-import eu.virac.repo.IProjectInformationRepo;
-import eu.virac.repo.IUsersRepo;
 import eu.virac.service.IProjectContributionService;
 
 @Service
@@ -25,12 +21,7 @@ public class ProjectContributionServiceImpl implements IProjectContributionServi
 
 	@Autowired
 	private IProjectContributionRepo projConRepo;
-	
-	@Autowired
-	private IUsersRepo userRepo;
-	
-	@Autowired
-	private IProjectInformationRepo projRepo;
+
 	
 	@Override
 	@Cacheable("projectContribution")

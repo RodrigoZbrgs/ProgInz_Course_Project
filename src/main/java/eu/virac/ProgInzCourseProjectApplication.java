@@ -55,16 +55,20 @@ public class ProgInzCourseProjectApplication {
 							LocalDate.of(2026, 6, 25), LocalDate.of(2027, 6, 25));
 					ProjectInformation p3 = new ProjectInformation(true, "P125", "ProjectEcho",
 							LocalDate.of(2026, 6, 26), LocalDate.of(2027, 6, 26));
+					prInfoRepo.saveAll(Arrays.asList(p1, p2, p3));
+					
+					
 					Department dep1 = new Department( "Programming", "Clean coding");
 					Department dep2 = new Department("Manegment", "Ower seers");
 					Department dep3 = new Department( "Workers", "Work hard");
-					
 					depRepo.saveAll(Arrays.asList(dep1,dep2, dep3));
 
-					prInfoRepo.saveAll(Arrays.asList(p1, p2, p3));
+
+					
 					MyAuthority auth1 = new MyAuthority("ADMIN");
 					MyAuthority auth2 = new MyAuthority("USER");
 					authRepo.saveAll(Arrays.asList(auth1,auth2));
+					
 					PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 					Users u1 = new Users("Rodrigo", "Zandbergs", "rodrigo.zandbergs@gmail.com", "********", dep1);
 					u1.setUsername("Rodrigo");
@@ -76,11 +80,14 @@ public class ProgInzCourseProjectApplication {
 					u3.setUsername("Marics");
 					u3.setPassword(encoder.encode("999"));
 					usersRepo.saveAll(Arrays.asList(u1, u2, u3));
+					
+					
 					auth1.addUser(u1);
 					auth2.addUser(u1);
 					auth2.addUser(u2);
 					auth2.addUser(u3);
 					authRepo.saveAll(Arrays.asList(auth1,auth2));
+
 
 					KPIRealisation kpir1 = new KPIRealisation(LocalDate.of(2026, 3, 24), "Fixed up the telescope",
                             "wasnt easy :(");

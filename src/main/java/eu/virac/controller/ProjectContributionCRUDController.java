@@ -55,9 +55,7 @@ public class ProjectContributionCRUDController {
 	public String getControllerContributionForRemoval(@PathVariable(name = "id") int id, Model model) {
 		try {
 			projConService.deleteContributionById(id);
-			ArrayList<ProjectContribution> contributionsFromDB = projConService.selectAllContributions();
-			model.addAttribute("package", contributionsFromDB);
-			return "show-all-contributions";
+			return "redirect:/contributions/crud/all";
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
 			return "error-page";
