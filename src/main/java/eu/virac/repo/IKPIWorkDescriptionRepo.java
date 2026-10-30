@@ -14,5 +14,6 @@ public interface IKPIWorkDescriptionRepo extends CrudRepository<KPIWorkDescripti
 	public abstract ArrayList<KPIWorkDescription> findByDescriptionContainingIgnoreCase(String keyword);
 	public abstract ArrayList<KPIWorkDescription> findByDate(LocalDate date);
 	public abstract ArrayList<KPIWorkDescription> findByPriority(Priority priority);
+	public abstract ArrayList<KPIWorkDescription> findByUserUsername(String username);
 //	public abstract ArrayList<KPIWorkDescription> findByAmountLessThan(Priority priority);
 }
