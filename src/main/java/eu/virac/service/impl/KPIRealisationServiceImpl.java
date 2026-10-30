@@ -23,7 +23,7 @@ public class KPIRealisationServiceImpl implements IKPIRealisationService, IKPIRe
 
 	@Override
 	@Cacheable("KPI_Realisations")
-	public ArrayList<KPIRealisation> findAllRealisations() throws Exception {
+	public ArrayList<KPIRealisation> selectAll() throws Exception {
 		if (realRepo.count() == 0) {
 			throw new Exception("Realisation amount is empty");
 		}
@@ -32,7 +32,7 @@ public class KPIRealisationServiceImpl implements IKPIRealisationService, IKPIRe
 
 	@Override
 	@Cacheable(value = "KPI_Realisations", key = "#id")
-	public KPIRealisation findRealisationById(long id) throws Exception {
+	public KPIRealisation retrieve(long id) throws Exception {
 		if (realRepo.count() == 0) {
 			throw new Exception("Realisation amount is empty");
 		}
@@ -45,18 +45,10 @@ public class KPIRealisationServiceImpl implements IKPIRealisationService, IKPIRe
 		return realRepo.findById(id).get();
 	}
 
-	@Override
-	public KPIRealisation addRealisation(KPIRealisation kpiRealisation) throws Exception {
-		if (kpiRealisation == null) {
-			throw new Exception("Realisation data is not usable");
-		}
-		return realRepo.save(kpiRealisation);
-	}
-
 	@CachePut(value = "KPI_Realisations", key = "#id")
 	public KPIRealisation updateRealisation(long id, LocalDate realisationdate, String text, String comment)
 			throws Exception {
-		KPIRealisation realisationToUpdate = findRealisationById(id);
+		KPIRealisation realisationToUpdate = retrieve(id);
 
 		if (realisationdate == null || text.isEmpty() || comment == null) {
 			throw new Exception("Invalid input data");
@@ -79,7 +71,7 @@ public class KPIRealisationServiceImpl implements IKPIRealisationService, IKPIRe
 
 	@Override
 	@CacheEvict(value = "KPI_Realisations", key = "#id")
-	public void deleteRealisationById(long id) throws Exception {
+	public void delete(long id) throws Exception {
 		if (id < 1) {
 			throw new Exception("Id cannot be negative or 0");
 		}
@@ -107,6 +99,12 @@ public class KPIRealisationServiceImpl implements IKPIRealisationService, IKPIRe
 			throw new Exception("No project on " + realisationdate);
 		}
 		return filteredRealisations;
+	}
+
+	@Override
+	public void create(KPIRealisation newObject) throws Exception {
+		realRepo.save(newObject);
+
 	}
 
 	@Override

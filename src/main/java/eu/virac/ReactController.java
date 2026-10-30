@@ -49,7 +49,7 @@ public class ReactController {
 	@GetMapping("/projects")
 	public ResponseEntity<?> retrieveAllProjects() {
 		try {
-			return new ResponseEntity<ArrayList<ProjectInformation>>(projService.selectAllProjects(),
+			return new ResponseEntity<ArrayList<ProjectInformation>>(projService.selectAll(),
 					HttpStatusCode.valueOf(200));
 
 		} catch (Exception e) {
@@ -61,8 +61,7 @@ public class ReactController {
 	@GetMapping("/projects/{id}")
 	public ResponseEntity<?> retrieveProjectById(@PathVariable long id) {
 		try {
-			return new ResponseEntity<ProjectInformation>(projService.selectProjectById(id),
-					HttpStatusCode.valueOf(200));
+			return new ResponseEntity<ProjectInformation>(projService.retrieve(id), HttpStatusCode.valueOf(200));
 		} catch (Exception e) {
 			return new ResponseEntity<String>(e.getMessage(), HttpStatusCode.valueOf(409));
 		}
@@ -75,8 +74,8 @@ public class ReactController {
 		}
 
 		try {
-			projService.insertNewProject(project);
-			return new ResponseEntity<ArrayList<ProjectInformation>>(projService.selectAllProjects(),
+			projService.create(project);
+			return new ResponseEntity<ArrayList<ProjectInformation>>(projService.selectAll(),
 					HttpStatusCode.valueOf(200));
 		} catch (Exception e) {
 			return new ResponseEntity<String>(e.getMessage(), HttpStatusCode.valueOf(409));
@@ -86,8 +85,8 @@ public class ReactController {
 	@DeleteMapping("/projects/delete/{id}")
 	public ResponseEntity<?> deleteProjectById(@PathVariable(name = "id") int id) {
 		try {
-			projService.deleteProjectById(id);
-			return new ResponseEntity<ArrayList<ProjectInformation>>(projService.selectAllProjects(),
+			projService.delete(id);
+			return new ResponseEntity<ArrayList<ProjectInformation>>(projService.selectAll(),
 					HttpStatusCode.valueOf(200));
 		} catch (Exception e) {
 			return new ResponseEntity<String>(e.getMessage(), HttpStatusCode.valueOf(409));
@@ -100,7 +99,7 @@ public class ReactController {
 		try {
 			projService.updateByidpi(id, project.getProjectNumber(), project.getProjectName(),
 					project.getStartingDate(), project.getEndingDate());
-			return new ResponseEntity<ArrayList<ProjectInformation>>(projService.selectAllProjects(),
+			return new ResponseEntity<ArrayList<ProjectInformation>>(projService.selectAll(),
 					HttpStatusCode.valueOf(200));
 		}
 

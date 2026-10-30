@@ -3,6 +3,7 @@ package eu.virac.model;
 import java.util.ArrayList;
 import java.util.Collection;
 import eu.virac.model.security.MyAuthority;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -65,6 +66,7 @@ public class Users {
 	@NotNull
 	@NotEmpty
 	private String password;
+
 	@ManyToMany(mappedBy = "users", fetch = FetchType.EAGER)
 	private Collection<MyAuthority> authorities = new ArrayList<MyAuthority>();
 
@@ -80,9 +82,8 @@ public class Users {
 		}
 	}
 
-	@ToString.Exclude
-	@ManyToOne
-	@JoinColumn(name = "did")
+	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@JoinColumn(name = "Did")
 	private Department department;
 
 	@OneToMany(mappedBy = "user")

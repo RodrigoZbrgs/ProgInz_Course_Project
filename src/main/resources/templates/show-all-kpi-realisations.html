@@ -10,6 +10,8 @@
 			<td>RealisationDate</td>
 			<td>TextValue</td>
 			<td>Comment</td>
+			<td>Project</td>
+
 
 
 		</tr>
@@ -19,6 +21,7 @@
 				<td th:text="${kpirealisation.realisationdate}"></td>
 				<td th:text="${kpirealisation.textvalue}"></td>
 				<td th:text="${kpirealisation.comment}"></td>
+				<td th:text="${kpi.projectInformation?.projectName ?: 'No Project Assigned'}">Project Name</td>
 			</tr>
 		</th:block>
 	</table>

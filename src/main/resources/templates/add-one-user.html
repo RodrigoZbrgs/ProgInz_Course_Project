@@ -1,35 +1,40 @@
 <html xmlns:th="http://www.thymeleaf.org">
-
 <body>
-    <h1>Input new user:</h1>
+	<h1>Input new user:</h1>
 
-    <form method="post"
-          th:object="${user}"
-          th:action="@{/user/crud/add}">
+	<form method="post" th:object="${user}" th:action="@{/user/crud/add}">
 
-        <p>Input name</p>
-        <input type="text" th:field="*{name}" />
-        <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+		<!-- Added missing username input -->
+		<p>Input username</p>
+		<input type="text" th:field="*{username}" />
+		<p th:if="${#fields.hasErrors('username')}" th:errors="*{username}" style="color:red;"></p>
 
-        <p>Input surname</p>
-        <input type="text" th:field="*{surname}" />
-        <p th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}"></p>
+		<p>Input name</p>
+		<input type="text" th:field="*{name}" />
+		<p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color:red;"></p>
 
-        <p>Input email</p>
-        <input type="text" th:field="*{email}" />
-        <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+		<p>Input surname</p>
+		<input type="text" th:field="*{surname}" />
+		<p th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}" style="color:red;"></p>
 
-        <p>Input password</p>
-        <input type="password" th:field="*{password}" />
-        <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+		<p>Input email</p>
+		<input type="text" th:field="*{email}" />
+		<p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color:red;"></p>
 
-        <p>Input department description</p>
-        <input type="text" th:field="*{department.description}" />
-        <p th:if="${#fields.hasErrors('department.description')}" th:errors="*{department.description}"></p>
+		<p>Input password</p>
+		<input type="password" th:field="*{password}" />
+		<p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" style="color:red;"></p>
+		
+		<p>Input department description</p>
+		<input type="text" th:field="*{department.description}" />
+		<p th:if="${#fields.hasErrors('department.description')}" th:errors="*{department.description}"></p>
 
-        <button type="submit">Save user</button>
-    </form>
+		<p>Input department goals</p>
+		<input type="text" th:field="*{department.goals}" />
+		<p th:if="${#fields.hasErrors('department.goals')}" th:errors="*{department.goals}"></p>
+
+		<button type="submit">Save user</button>
+	</form>
 
 </body>
-
 </html>

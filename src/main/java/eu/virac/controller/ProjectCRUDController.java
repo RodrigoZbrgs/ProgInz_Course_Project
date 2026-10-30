@@ -28,7 +28,7 @@ public class ProjectCRUDController {
 	
 	public String getControllerRetrievAllProjects(Model model) {
 		try {
-			ArrayList<ProjectInformation> projectsFromDB = projService.selectAllProjects();
+			ArrayList<ProjectInformation> projectsFromDB = projService.selectAll();
 			model.addAttribute("package", projectsFromDB);
 			return "show-all-projects";
 		} catch (Exception e) {
@@ -40,7 +40,7 @@ public class ProjectCRUDController {
 	@GetMapping("/all/{id}")
 	public String getControllerSelectProjectById(@PathVariable(name = "id") int id, Model model) {
 		try {
-			ProjectInformation projectsFromDB = projService.selectProjectById(id);
+			ProjectInformation projectsFromDB = projService.retrieve(id);
 			model.addAttribute("package", projectsFromDB);
 			return "show-one-project";
 
@@ -54,8 +54,8 @@ public class ProjectCRUDController {
 	@GetMapping("/remove/{id}")
 	public String getControllerProjectForRemoval(@PathVariable(name = "id") int id, Model model) {
 		try {
-			projService.deleteProjectById(id);
-			ArrayList<ProjectInformation> projectsFromDB = projService.selectAllProjects();
+			projService.delete(id);
+			ArrayList<ProjectInformation> projectsFromDB = projService.selectAll();
 			model.addAttribute("package", projectsFromDB);
 			return "show-all-projects";
 		} catch (Exception e) {
@@ -85,7 +85,7 @@ public class ProjectCRUDController {
 		} else {
 			try {
 
-				projService.insertNewProject(project);
+				projService.create(project);
 				return "redirect:/project/crud/all";
 
 			} catch (Exception e) {
@@ -98,7 +98,7 @@ public class ProjectCRUDController {
 	@GetMapping("/update/{id}")
 	public String retrieveUpdateProjectById(@PathVariable(name = "id") int id, Model model) {
 		try {
-			ProjectInformation projectsFromDB = projService.selectProjectById(id);
+			ProjectInformation projectsFromDB = projService.retrieve(id);
 			model.addAttribute("project", projectsFromDB);
 			return "update-one-project";
 

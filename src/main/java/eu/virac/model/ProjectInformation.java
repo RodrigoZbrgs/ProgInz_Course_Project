@@ -10,6 +10,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -55,12 +56,18 @@ public class ProjectInformation {
 	@NotNull
 	@Column(name = "Ending_date")
 	private LocalDate endingDate;
+	
 	@ToString.Exclude
 	@OneToMany(mappedBy = "information")
 	private Collection<KPIWorkDescription> workDescription = new ArrayList<>();
+	
 	@ToString.Exclude
 	@OneToMany(mappedBy = "projectInformation")
 	private Collection<ProjectContribution> contributions = new ArrayList<>();
+	
+	@ToString.Exclude
+	@OneToOne(mappedBy = "projectInformation")
+	private KPIRealisation kpiRealisation;
 
 	public ProjectInformation(boolean isActive, String projectNumber, String projectName, LocalDate startingDate,
 			LocalDate endingDate) {

@@ -20,7 +20,7 @@
 				<td th:text="${user.name}"></td>
 				<td th:text="${user.surname}"></td>
 				<td th:text="${user.email}"></td>
-				<td th:text="${user.department.description}"></td>
+				<td th:text="${user.department?.description}"></td>
 			</tr>
 		</th:block>
 

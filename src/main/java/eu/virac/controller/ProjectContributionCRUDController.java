@@ -22,13 +22,14 @@ import jakarta.validation.Valid;
 public class ProjectContributionCRUDController {
 	@Autowired
 	private IProjectContributionService projConService;
-	
-	@Autowired IUsersRepo userRepo;
 
-	@GetMapping("/all") 
+	@Autowired
+	IUsersRepo userRepo;
+
+	@GetMapping("/all")
 	public String getControllerRetrievAllContributions(Model model) {
 		try {
-			ArrayList<ProjectContribution> contributionsFromDB = projConService.selectAllContributions();
+			ArrayList<ProjectContribution> contributionsFromDB = projConService.selectAll();
 			model.addAttribute("package", contributionsFromDB);
 			return "show-all-contributions";
 		} catch (Exception e) {
@@ -40,7 +41,7 @@ public class ProjectContributionCRUDController {
 	@GetMapping("/all/{id}")
 	public String getControllerSelectContributionById(@PathVariable(name = "id") int id, Model model) {
 		try {
-			ProjectContribution contributionsFromDB = projConService.selectContributionById(id);
+			ProjectContribution contributionsFromDB = projConService.retrieve(id);
 			model.addAttribute("package", contributionsFromDB);
 			return "show-one-contribution";
 
@@ -54,8 +55,8 @@ public class ProjectContributionCRUDController {
 	@GetMapping("/remove/{id}")
 	public String getControllerContributionForRemoval(@PathVariable(name = "id") int id, Model model) {
 		try {
-			projConService.deleteContributionById(id);
-			ArrayList<ProjectContribution> contributionsFromDB = projConService.selectAllContributions();
+			projConService.delete(id);
+			ArrayList<ProjectContribution> contributionsFromDB = projConService.selectAll();
 			model.addAttribute("package", contributionsFromDB);
 			return "show-all-contributions";
 		} catch (Exception e) {
@@ -78,14 +79,15 @@ public class ProjectContributionCRUDController {
 	}
 
 	@PostMapping("/add")
-	public String postControllerForContributionAdding(@Valid ProjectContribution contribution, BindingResult result, Model model) {
+	public String postControllerForContributionAdding(@Valid ProjectContribution contribution, BindingResult result,
+			Model model) {
 		if (result.hasErrors()) {
 			return "add-one-contribution";
-			
+
 		} else {
 			try {
 
-				projConService.insertNewContribution(contribution);
+				projConService.create(contribution);
 				return "redirect:/contributions/crud/all";
 
 			} catch (Exception e) {
@@ -93,13 +95,13 @@ public class ProjectContributionCRUDController {
 				return "error-page";
 			}
 		}
-		
+
 	}
 
 	@GetMapping("/update/{id}")
 	public String retrieveUpdateContributionById(@PathVariable(name = "id") int id, Model model) {
 		try {
-			ProjectContribution contributionsFromDB = projConService.selectContributionById(id);
+			ProjectContribution contributionsFromDB = projConService.retrieve(id);
 			model.addAttribute("contribution", contributionsFromDB);
 			return "update-one-contribution";
 
@@ -113,7 +115,8 @@ public class ProjectContributionCRUDController {
 	public String postControllerForUpdateById(@PathVariable(name = "id") int id, ProjectContribution contribution,
 			Model model) {
 		try {
-			projConService.updateByIdpc(id, contribution.getEmployeePosition(), contribution.getStartingDate(), contribution.getEndingDate());
+			projConService.update(id, contribution.getEmployeePosition(), contribution.getStartingDate(),
+					contribution.getEndingDate());
 			return "redirect:/contributions/crud/all/" + id;
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());

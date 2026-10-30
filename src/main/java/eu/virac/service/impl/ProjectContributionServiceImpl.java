@@ -25,25 +25,25 @@ public class ProjectContributionServiceImpl implements IProjectContributionServi
 
 	@Autowired
 	private IProjectContributionRepo projConRepo;
-	
+
 	@Autowired
 	private IUsersRepo userRepo;
-	
+
 	@Autowired
 	private IProjectInformationRepo projRepo;
-	
+
 	@Override
 	@Cacheable("projectContribution")
-	public ArrayList<ProjectContribution> selectAllContributions() throws Exception {
+	public ArrayList<ProjectContribution> selectAll() throws Exception {
 		if (projConRepo.count() == 0) {
 			throw new Exception("Projekta ieguldījuma tabula ir tukša");
 		}
 		return (ArrayList<ProjectContribution>) projConRepo.findAll();
 	}
-	
+
 	@Override
-	@Cacheable(value="projectContribution", key="#id")
-	public ProjectContribution selectContributionById(long id) throws Exception {
+	@Cacheable(value = "projectContribution", key = "#id")
+	public ProjectContribution retrieve(long id) throws Exception {
 		if (projConRepo.count() == 0) {
 			throw new Exception("Projekta ieguldījuma tabula ir tukša un nevar atgriezt id");
 		}
@@ -60,81 +60,80 @@ public class ProjectContributionServiceImpl implements IProjectContributionServi
 	}
 
 	@Override
-	@CacheEvict(value="projectContribution", key="#id")
-	public void deleteContributionById(int id) throws Exception {
-		ProjectContribution contributionForDeleting = selectContributionById(id);
+	@CacheEvict(value = "projectContribution", key = "#id")
+	public void delete(long id) throws Exception {
+		ProjectContribution contributionForDeleting = retrieve(id);
 		projConRepo.delete(contributionForDeleting);
 	}
-	
-	@Override
-	public ProjectContribution insertNewContribution(ProjectContribution newContribution) throws Exception {
 
-		if(newContribution == null) {
+	@Override
+	public void create(ProjectContribution newObject) throws Exception {
+
+		if (newObject == null) {
 			throw new Exception("Dati nav pieejami, jo nav referenci");
 		}
-		if (newContribution.getEmployeePosition() == null || newContribution.getStartingDate() == null 
-				|| newContribution.getEndingDate() == null) {
+		if (newObject.getEmployeePosition() == null || newObject.getStartingDate() == null
+				|| newObject.getEndingDate() == null) {
 			throw new Exception("Nav korekti ievades dati");
 		}
-		
-		if(newContribution.getStartingDate().isAfter(newContribution.getEndingDate())) {
+
+		if (newObject.getStartingDate().isAfter(newObject.getEndingDate())) {
 			throw new Exception("Nav pareizi ievadits sakumu datums");
 		}
-		
-		if(newContribution.getEndingDate().isBefore(newContribution.getStartingDate())) {
+
+		if (newObject.getEndingDate().isBefore(newObject.getStartingDate())) {
 			throw new Exception("Nav pareizi ievadits beigu datums");
 		}
-		
-		if(newContribution.getEndingDate().isAfter(LocalDate.now().plusYears(20))) {
+
+		if (newObject.getEndingDate().isAfter(LocalDate.now().plusYears(20))) {
 			throw new Exception("Nav iespejams tik talu likt beiga datumu");
 		}
 
-		if(newContribution.getStartingDate().isAfter(LocalDate.now().plusYears(20))) {
+		if (newObject.getStartingDate().isAfter(LocalDate.now().plusYears(20))) {
 			throw new Exception("Nav iespejams tik talu likt sakuma datumu");
 		}
-		
-		return projConRepo.save(newContribution);
+
+		projConRepo.save(newObject);
 	}
-	
+
 	@Override
-	@CachePut(value="projectContribution", key="#id")
-	public void updateByIdpc(long id, EmployeePositions employeePosition, LocalDate startingDate, LocalDate endingDate) throws Exception{
-		ProjectContribution contributionForUpdating = selectContributionById(id);
-		
+	@CachePut(value = "projectContribution", key = "#id")
+	public void update(long id, EmployeePositions employeePosition, LocalDate startingDate, LocalDate endingDate)
+			throws Exception {
+		ProjectContribution contributionForUpdating = retrieve(id);
+
 		if (employeePosition == null || startingDate == null || endingDate == null) {
 			throw new Exception("Nav korekti ievades dati");
 		}
-		
-		if(endingDate.isAfter(LocalDate.now().plusYears(20))) {
+
+		if (endingDate.isAfter(LocalDate.now().plusYears(20))) {
 			throw new Exception("Nav iespejams tik talu likt beiga datumu");
 		}
 
-		if(startingDate.isAfter(LocalDate.now().plusYears(20))) {
+		if (startingDate.isAfter(LocalDate.now().plusYears(20))) {
 			throw new Exception("Nav iespejams tik talu likt sakuma datumu");
 		}
-		
-		if(startingDate.isAfter(endingDate) ) {
+
+		if (startingDate.isAfter(endingDate)) {
 			throw new Exception("Datums nav pareizi ievadits");
 		}
-		
-		if(endingDate.isBefore(startingDate)) {
+
+		if (endingDate.isBefore(startingDate)) {
 			throw new Exception("Datums nav pareizi ievadits");
 		}
-		
-		if(employeePosition != null) {
+
+		if (employeePosition != null) {
 			contributionForUpdating.setEmployeePosition(employeePosition);
 		}
-		
-		if(startingDate != null) {
+
+		if (startingDate != null) {
 			contributionForUpdating.setStartingDate(startingDate);
 		}
-		if(endingDate != null) {
+		if (endingDate != null) {
 			contributionForUpdating.setEndingDate(endingDate);
 		}
-		
+
 		projConRepo.save(contributionForUpdating);
 	}
 
 }
-	
-	

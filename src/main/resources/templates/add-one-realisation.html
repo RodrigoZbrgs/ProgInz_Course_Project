@@ -15,8 +15,7 @@
 		<p>Input starting comment</p>
 		<input type="text" th:field="*{comment}" />
 		<p th:if="${#fields.hasErrors('comment')}" th:errors="*{comment}"></p>
-
-
+		
 		<button type="submit">Save project</button>
 	</form>
 

@@ -22,7 +22,7 @@ public class KPIRealisationCRUDnFilterController {
 	@GetMapping("/all") // localhost:8080/kpireal/crud/all
 	public String getControllerRetrievAllRealisations(Model model) {
 		try {
-			ArrayList<KPIRealisation> kpiRealFromDB = realService.findAllRealisations();
+			ArrayList<KPIRealisation> kpiRealFromDB = realService.selectAll();
 			model.addAttribute("package", kpiRealFromDB);
 			return "show-all-kpi-realisations";
 		} catch (Exception e) {
@@ -34,7 +34,7 @@ public class KPIRealisationCRUDnFilterController {
 	@GetMapping("/all/{id}") // localhost:8080/kpireal/crud/all/1
 	public String getControllerSelectRealisationById(@PathVariable(name = "id") int id, Model model) {
 		try {
-			KPIRealisation kpiRealFromDB = realService.findRealisationById(id);
+			KPIRealisation kpiRealFromDB = realService.retrieve(id);
 			model.addAttribute("package", kpiRealFromDB);
 			return "show-one-kpi-realisation";
 
@@ -48,8 +48,8 @@ public class KPIRealisationCRUDnFilterController {
 	@GetMapping("/remove/{id}") // localhost:8080/kpireal/crud/all/1
 	public String getControllerRealisationForRemoval(@PathVariable(name = "id") int id, Model model) {
 		try {
-			realService.deleteRealisationById(id);
-			ArrayList<KPIRealisation> kpiRealFromDB = realService.findAllRealisations();
+			realService.delete(id);
+			ArrayList<KPIRealisation> kpiRealFromDB = realService.selectAll();
 			model.addAttribute("package", kpiRealFromDB);
 			return "show-all-kpi-realisations";
 		} catch (Exception e) {
@@ -74,7 +74,7 @@ public class KPIRealisationCRUDnFilterController {
 	@GetMapping("/update/{id}") // localhost:8080/realkpi/crud/all/2
 	public String retrieveUpdateuserById(@PathVariable(name = "id") int id, Model model) {
 		try {
-			KPIRealisation kpiRealFromDB = realService.findRealisationById(id);
+			KPIRealisation kpiRealFromDB = realService.retrieve(id);
 			model.addAttribute("realisation", kpiRealFromDB);
 			return "update-one-realisation";
 

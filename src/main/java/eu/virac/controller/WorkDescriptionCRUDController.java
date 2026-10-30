@@ -76,8 +76,8 @@ public class WorkDescriptionCRUDController {
 	public String getControllerForWorkDescriptionAdding(Model model) {
 		try {
 			model.addAttribute("workDescription", new KPIWorkDescription());
-			model.addAttribute("users", userService.selectAllUser());
-			model.addAttribute("projects", projectService.selectAllProjects());
+			model.addAttribute("users", userService.selectAll());
+			model.addAttribute("projects", projectService.selectAll());
 			return "add-wd";
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
@@ -94,8 +94,8 @@ public class WorkDescriptionCRUDController {
 		} else {
 			try {
 				workDescriptionService.addWorkDescription(workDescription);
-				model.addAttribute("users", userService.selectAllUser());
-				model.addAttribute("projects", projectService.selectAllProjects());
+				model.addAttribute("users", userService.selectAll());
+				model.addAttribute("projects", projectService.selectAll());
 				return "redirect:/workdescriptions/crud/list";
 			} catch (Exception e) {
 				model.addAttribute("package", e.getMessage());
@@ -109,8 +109,8 @@ public class WorkDescriptionCRUDController {
 		try {
 			KPIWorkDescription workDescription = workDescriptionService.findWorkDescriptionById(id);
 			model.addAttribute("workDescription", workDescription);
-			model.addAttribute("users", userService.selectAllUser());
-			model.addAttribute("projects", projectService.selectAllProjects());
+			model.addAttribute("users", userService.selectAll());
+			model.addAttribute("projects", projectService.selectAll());
 			return "update-wd";
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());

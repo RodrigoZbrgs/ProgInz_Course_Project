@@ -2,13 +2,16 @@ package eu.virac.model;
 
 import java.time.LocalDate;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
@@ -47,11 +50,16 @@ public class KPIRealisation {
 	@ManyToOne
 	@JoinColumn(name = "idkpiwd")
 	private KPIWorkDescription workDescription;
+	
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "Idpi")
+	private ProjectInformation projectInformation;
 
-	public KPIRealisation(LocalDate realisationdate, String textvalue, String comment) {
+	public KPIRealisation(LocalDate realisationdate, String textvalue, String comment, ProjectInformation projectName) {
 		setRealisationdate(realisationdate);
 		setTextvalue(textvalue);
 		setComment(comment);
+		setProjectInformation(projectName);
 	}
 
 }

@@ -27,7 +27,7 @@ public class ProjectInformationServiceImpl implements IProjectService {
 
 	@Override
 	@Cacheable("projects")
-	public ArrayList<ProjectInformation> selectAllProjects() throws Exception {
+	public ArrayList<ProjectInformation> selectAll() throws Exception {
 		if (prInfoRepo.count() == 0) {
 			throw new Exception("Projektu tabula ir tukša");
 		}
@@ -35,8 +35,8 @@ public class ProjectInformationServiceImpl implements IProjectService {
 	}
 
 	@Override
-	@Cacheable(value="projects", key="#id") // bez # cache doma ka tas ir ka parasta string funkcija!!!!!
-	public ProjectInformation selectProjectById(long id) throws Exception {
+	@Cacheable(value = "projects", key = "#id") // bez # cache doma ka tas ir ka parasta string funkcija!!!!!
+	public ProjectInformation retrieve(long id) throws Exception {
 		if (prInfoRepo.count() == 0) {
 			throw new Exception("Projekta tabula ir tukša un nevar atgriezt id");
 		}
@@ -54,61 +54,61 @@ public class ProjectInformationServiceImpl implements IProjectService {
 
 	@Override
 	@CacheEvict(value = "projects", key = "#id")
-	public void deleteProjectById(int id) throws Exception {
-		ProjectInformation projectForDeleting = selectProjectById(id);
+	public void delete(long id) throws Exception {
+		ProjectInformation projectForDeleting = retrieve(id);
 		prInfoRepo.delete(projectForDeleting);
 	}
 
 	@Override
-	public ProjectInformation insertNewProject(ProjectInformation newProject) throws Exception {
+	public void create(ProjectInformation newObject) throws Exception {
 
-		if (newProject == null) {
+		if (newObject == null) {
 			throw new Exception("Projekta dati nav pieejami, jo nav reference");
 		}
 
-		if (prInfoRepo.existsByProjectName(newProject.getProjectName())) {
+		if (prInfoRepo.existsByProjectName(newObject.getProjectName())) {
 			throw new Exception("Projekts ar tādu vārdu jau eksistē");
 		}
 
-		if (newProject.getProjectName() == null || newProject.getProjectNumber() == null
-				|| newProject.getStartingDate() == null || newProject.getEndingDate() == null) {
+		if (newObject.getProjectName() == null || newObject.getProjectNumber() == null
+				|| newObject.getStartingDate() == null || newObject.getEndingDate() == null) {
 			throw new Exception("Nav korekti ievades dati");
 		}
-		
-		if(newProject.getStartingDate().isAfter(newProject.getEndingDate())) {
+
+		if (newObject.getStartingDate().isAfter(newObject.getEndingDate())) {
 			throw new Exception("Nav pareizi ievadits sakumu datums");
 		}
-		
-		if(newProject.getEndingDate().isBefore(newProject.getStartingDate())) {
+
+		if (newObject.getEndingDate().isBefore(newObject.getStartingDate())) {
 			throw new Exception("Nav pareizi ievadits beigu datums");
 		}
-		
-		if(newProject.getEndingDate().isAfter(LocalDate.now().plusYears(20))) {
+
+		if (newObject.getEndingDate().isAfter(LocalDate.now().plusYears(20))) {
 			throw new Exception("Nav iespejams tik talu likt beiga datumu");
 		}
 
-		if(newProject.getStartingDate().isAfter(LocalDate.now().plusYears(20))) {
+		if (newObject.getStartingDate().isAfter(LocalDate.now().plusYears(20))) {
 			throw new Exception("Nav iespejams tik talu likt sakuma datumu");
 		}
-		
-		return prInfoRepo.save(newProject);
+
+		prInfoRepo.save(newObject);
 	}
 
 	@Override
 	@CachePut(value = "projects", key = "#id")
 	public void updateByidpi(long id, String projectNumber, String projectName, LocalDate startingDate,
 			LocalDate endingDate) throws Exception {
-		ProjectInformation projectToUpdate = selectProjectById(id);
+		ProjectInformation projectToUpdate = retrieve(id);
 
 		if (projectNumber == null || projectName == null || startingDate == null || endingDate == null) {
 			throw new Exception("Nav korekti ievades dati");
 		}
-		
-		if(startingDate.isAfter(endingDate) ) {
+
+		if (startingDate.isAfter(endingDate)) {
 			throw new Exception("Datums nav pareizi ievadits");
 		}
-		
-		if(endingDate.isBefore(startingDate)) {
+
+		if (endingDate.isBefore(startingDate)) {
 			throw new Exception("Datums nav pareizi ievadits");
 		}
 
@@ -125,7 +125,6 @@ public class ProjectInformationServiceImpl implements IProjectService {
 			projectToUpdate.setEndingDate(endingDate);
 		}
 
-		
 		prInfoRepo.save(projectToUpdate);
 	}
 
