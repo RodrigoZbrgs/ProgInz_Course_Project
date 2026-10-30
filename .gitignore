@@ -45,3 +45,6 @@ build/
 /frontend/public
 /frontend/package.json
 /frontend/package-lock.json
+
+### GOOGLE CLOUD KEY ###
+serviceaccount.json

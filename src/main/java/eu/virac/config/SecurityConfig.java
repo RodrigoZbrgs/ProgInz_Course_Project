@@ -44,7 +44,8 @@ public class SecurityConfig {
 					.requestMatchers("/user/crud/**").hasAuthority("ADMIN")
 					.requestMatchers("/user/filter/**").hasAuthority("USER")
 					.requestMatchers("/contributions/crud/**").hasAuthority("ADMIN")
-					.requestMatchers("/contributions/filter/**").hasAuthority("USER"));
+					.requestMatchers("/contributions/filter/**").hasAuthority("USER")
+					.requestMatchers("/reports/**").hasAnyAuthority("ADMIN"));
 			
 			http.formLogin(auth->auth.permitAll());
 			return http.build();

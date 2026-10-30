@@ -1,0 +1,33 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+	<h1>Work report for user:</h1>
+	<h2 th:text="${username}"></h2>
+
+	<a th:href="@{/reports/user/{u}(u=${username},language='lv')}">LV</a>
+	<a th:href="@{/reports/user/{u}(u=${username},language='en')}">EN</a>
+	<a th:href="@{/reports/user/{u}(u=${username},language='ru')}">RU</a>
+
+	<p>Total work descriptions: <b th:text="${count}"></b></p>
+
+	<table border="1px">
+		<tr>
+			<th>Date</th>
+			<th>Priority</th>
+			<th>Description</th>
+			<th>Project</th>
+		</tr>
+		<th:block th:each="workdescription : ${package}">
+			<tr>
+				<td th:text="${workdescription.date}"></td>
+				<td th:text="${workdescription.priority}"></td>
+				<td th:text="${workdescription.description}"></td>
+				<td th:text="${workdescription.information.projectName}"></td>
+			</tr>
+		</th:block>
+	</table>
+
+</body>
+
+</html>
