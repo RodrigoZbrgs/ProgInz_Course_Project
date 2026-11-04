@@ -48,10 +48,11 @@ public class KPIRealisation {
 	@JoinColumn(name = "idkpiwd")
 	private KPIWorkDescription workDescription;
 
-	public KPIRealisation(LocalDate realisationdate, String textvalue, String comment) {
+	public KPIRealisation(LocalDate realisationdate, String textvalue, String comment, KPIWorkDescription workDescription) {
 		setRealisationdate(realisationdate);
 		setTextvalue(textvalue);
 		setComment(comment);
+		setWorkDescription(workDescription);
 	}
 
 }

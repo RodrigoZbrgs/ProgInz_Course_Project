@@ -88,6 +88,7 @@ public class WorkDescriptionServiceImpl implements IWorkDescriptionService, IWor
 
 	}
 
+	//TODO naav nepieciesmas user iekš parametriem
 	@Override
 	@CachePut(value="WorkDescription", key="#id")
 	public KPIWorkDescription updateWorkDescription(long id, String description, LocalDate date, Priority priority,
@@ -99,9 +100,9 @@ public class WorkDescriptionServiceImpl implements IWorkDescriptionService, IWor
 		if (priority != null) {
 			workDescriptionToUpdate.setPriority(priority);
 		}
-		if (user != null) {
+		/*if (user != null) {
 			workDescriptionToUpdate.setUser(user);
-		}
+		}*/
 		if(information != null) {
 			workDescriptionToUpdate.setInformation(information);
 		if (department !=null) {

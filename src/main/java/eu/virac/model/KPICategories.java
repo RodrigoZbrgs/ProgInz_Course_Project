@@ -33,23 +33,23 @@ public class KPICategories {
 	@Setter(value = AccessLevel.NONE)
 	private long idc;
 
-	@Column(name = "Category", unique = true)
+	@Column(name = "Title", unique = true)
 	@NotNull
 	@NotEmpty
 	@Pattern(regexp = "[A-Ž]{1}[A-Ža-ž0-9 ]{3,40}")
-	private String Category;
+	private String title;
 
-	@Column(name = "Description", unique = true)
+	@Column(name = "Description")
 	@NotNull
 	@NotEmpty
 	@Pattern(regexp = "[A-Ža-ž0-9 ]{3,300}")
-	private String Description;
+	private String description;
 
 	@OneToMany(mappedBy = "category")
 	private Collection<KPI_Subcategories> subcategories = new ArrayList<>();
 
-	public KPICategories(String Category, String Description) {
-		setCategory(Category);
+	public KPICategories(String title, String Description) {
+		setTitle(title);
 		setDescription(Description);
 	}
 

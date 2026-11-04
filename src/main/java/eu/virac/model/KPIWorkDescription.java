@@ -53,12 +53,14 @@ public class KPIWorkDescription {
 	@NotNull
 	private String description;
 
+	/*
+	//lietotājs, kurš ir uzdevis šo uzdevumu
 	@ManyToOne
 	@JoinColumn(name = "uid")
 	private Users user;
-
+*/
 	@ManyToOne
-	@JoinColumn(name = "idsc")
+	@JoinColumn(name = "Idsc")
 	private KPI_Subcategories subCategory;
 	
 	@ToString.Exclude
@@ -66,6 +68,7 @@ public class KPIWorkDescription {
 	@JoinColumn(name = "Idpi")
 	private ProjectInformation information;
 	
+	//lietotāja darbinieks, kuram jāpilda šis uzdevums
 	@ManyToOne
 	@JoinColumn(name = "Idpc")
 	private ProjectContribution contributions;
@@ -83,13 +86,16 @@ public class KPIWorkDescription {
 	private Collection<KPIRealisation> kpiRealisation = new ArrayList<KPIRealisation>();
 
 	public KPIWorkDescription(LocalDate date, Priority priority, String description,
-			Users user,ProjectInformation information, Department department) {
+			/*Users user,*/ProjectInformation information, Department department, KPI_Subcategories subCategory,
+			ProjectContribution contributions) {
 		setDate(date);
 		setPriority(priority);
 		setDescription(description);
-		setUser(user);
+		//setUser(user);
 		setInformation(information);
 		setDepartment(department);
+		setSubCategory(subCategory);
+		setContributions(contributions);
 
 	}
 
