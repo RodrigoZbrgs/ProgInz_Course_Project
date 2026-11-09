@@ -31,6 +31,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootApplication
 public class ProgInzCourseProjectApplication {
@@ -67,12 +69,16 @@ public class ProgInzCourseProjectApplication {
 					MyAuthority auth1 = new MyAuthority("ADMIN");
 					MyAuthority auth2 = new MyAuthority("USER");
 					authRepo.saveAll(Arrays.asList(auth1, auth2));
+					PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 					Users u1 = new Users("Rodrigo", "Zandbergs", "rodrigo.zandbergs@gmail.com", "********", dep1);
 					u1.setUsername("Rodrigo");
+					u1.setPassword(encoder.encode("123"));
 					Users u2 = new Users("Maris", "Maize", "maris.maize@inbox.com", "rootadmin", dep2);
 					u2.setUsername("Maris");
+					u2.setPassword(encoder.encode("321"));
 					Users u3 = new Users("Marcis", "Rupmaize", "marcis.rupmaize@gmail.com", "adminroot", dep3);
 					u3.setUsername("Marics");
+					u3.setPassword(encoder.encode("999"));
 					// TODO uztaisīt, ka vns darbinieks ir divos projektos jeb piesiastīts diviem
 					// ProjectContrubution
 					usersRepo.saveAll(Arrays.asList(u1, u2, u3));

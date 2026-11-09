@@ -25,7 +25,7 @@
 				<td th:text="${kpirealisation.realisationdate}"></td>
 				<td th:text="${kpirealisation.textvalue}"></td>
 				<td th:text="${kpirealisation.comment}"></td>
-				<td th:text="${kpi.projectInformation?.projectName ?: 'No Project Assigned'}">Project Name</td>
+				<span th:text="${kpi?.projectInformation?.projectName ?: 'No Project Assigned'}"></span>
 			</tr>
 		</th:block>
 	</table>
