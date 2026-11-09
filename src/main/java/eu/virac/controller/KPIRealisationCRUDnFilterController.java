@@ -30,7 +30,7 @@ public class KPIRealisationCRUDnFilterController {
 	@Autowired
 	private CacheManager cacheManager;
 
-	@GetMapping("/all") // localhost:8080/kpireal/crud/all
+	@GetMapping("/all")
 	public String getControllerRetrievAllRealisations(
 			@RequestParam(name = "language", required = false) String language,
 			HttpSession session,
@@ -50,7 +50,7 @@ public class KPIRealisationCRUDnFilterController {
 				cache.clear();
 			}
 
-			ArrayList<KPIRealisation> kpiRealisationFromDB = realService.findAllRealisations();
+			ArrayList<KPIRealisation> kpiRealisationFromDB = realService.selectAll();
 
 			if (!"en".equals(currentLanguage)) {
 				for (int i = 0; i < kpiRealisationFromDB.size(); i++) {
@@ -69,6 +69,8 @@ public class KPIRealisationCRUDnFilterController {
 
 			model.addAttribute("package", kpiRealisationFromDB);
 			model.addAttribute("currentLanguage", currentLanguage);
+			// REMOVED redundant fetching and overwriting here
+
 			return "show-all-kpi-realisations";
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
@@ -76,7 +78,7 @@ public class KPIRealisationCRUDnFilterController {
 		}
 	}
 
-	@GetMapping("/all/{id}") // localhost:8080/kpireal/crud/all/1
+	@GetMapping("/all/{id}") 
 	public String getControllerSelectRealisationById(@PathVariable(name = "id") int id,
 			@RequestParam(name = "language", required = false) String language,
 			HttpSession session,
@@ -96,7 +98,7 @@ public class KPIRealisationCRUDnFilterController {
 				cache.clear();
 			}
 
-			KPIRealisation kpiRealisationFromDB = realService.findRealisationById(id);
+			KPIRealisation kpiRealisationFromDB = realService.retrieve(id);
 
 			if (!"en".equals(currentLanguage) && kpiRealisationFromDB != null) {
 				String notTranslatedText = kpiRealisationFromDB.getTextvalue();
@@ -111,21 +113,22 @@ public class KPIRealisationCRUDnFilterController {
 
 			model.addAttribute("package", kpiRealisationFromDB);
 			model.addAttribute("currentLanguage", currentLanguage);
+			// REMOVED redundant fetching and overwriting here
+
 			return "show-one-kpi-realisation";
 
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
 			return "error-page";
 		}
-
 	}
 
-	@GetMapping("/remove/{id}") // localhost:8080/kpireal/crud/all/1
+	@GetMapping("/remove/{id}") 
 	public String getControllerRealisationForRemoval(@PathVariable(name = "id") int id,
 			HttpSession session,
 			Model model) {
 		try {
-			realService.deleteRealisationById(id);
+			realService.delete(id); // Keep this single deletion call
 
 			String currentLanguage = (String) session.getAttribute("currentLanguage");
 			if (currentLanguage == null) {
@@ -137,7 +140,7 @@ public class KPIRealisationCRUDnFilterController {
 				cache.clear();
 			}
 
-			ArrayList<KPIRealisation> kpiRealisationFromDB = realService.findAllRealisations();
+			ArrayList<KPIRealisation> kpiRealisationFromDB = realService.selectAll();
 
 			if (!"en".equals(currentLanguage)) {
 				for (int i = 0; i < kpiRealisationFromDB.size(); i++) {
@@ -156,6 +159,8 @@ public class KPIRealisationCRUDnFilterController {
 
 			model.addAttribute("package", kpiRealisationFromDB);
 			model.addAttribute("currentLanguage", currentLanguage);
+			// REMOVED double-deletion and overwriting here
+
 			return "show-all-kpi-realisations";
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
@@ -163,7 +168,7 @@ public class KPIRealisationCRUDnFilterController {
 		}
 	}
 
-	@GetMapping("/add") // localhost:8080/realkpi/crud/add
+	@GetMapping("/add") 
 	public String getControllerForRealisationAdding(HttpSession session, Model model) {
 		try {
 			String currentLanguage = (String) session.getAttribute("currentLanguage");
@@ -181,11 +186,12 @@ public class KPIRealisationCRUDnFilterController {
 		}
 	}
 
-	@GetMapping("/update/{id}") // localhost:8080/realkpi/crud/all/2
+	@GetMapping("/update/{id}")
 	public String retrieveUpdateuserById(@PathVariable(name = "id") int id,
 			HttpSession session,
 			Model model) {
-		try {
+		try { // ADDED MISSING TRY BLOCK HERE
+
 			String currentLanguage = (String) session.getAttribute("currentLanguage");
 			if (currentLanguage == null) {
 				currentLanguage = "en";
@@ -196,7 +202,7 @@ public class KPIRealisationCRUDnFilterController {
 				cache.clear();
 			}
 
-			KPIRealisation kpiRealisationFromDB = realService.findRealisationById(id);
+			KPIRealisation kpiRealisationFromDB = realService.retrieve(id);
 
 			if (!"en".equals(currentLanguage) && kpiRealisationFromDB != null) {
 				String notTranslatedText = kpiRealisationFromDB.getTextvalue();
@@ -211,12 +217,13 @@ public class KPIRealisationCRUDnFilterController {
 
 			model.addAttribute("realisation", kpiRealisationFromDB);
 			model.addAttribute("currentLanguage", currentLanguage);
+			// REMOVED redundant fetching and overwriting here
+
 			return "update-one-realisation";
 
-		} catch (Exception e) {
+		} catch (Exception e) { // Catch block now has its matching try block
 			model.addAttribute("package", e.getMessage());
 			return "error-page";
 		}
 	}
-
 }

@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import eu.virac.model.KPIRealisation;
 
 public interface IKPIRealisationFilter {
-	
-	public abstract ArrayList<KPIRealisation> filterByRealisationDate(LocalDate realisationdate)throws Exception;
+
+	public abstract ArrayList<KPIRealisation> filterByDate(LocalDate realisationdate) throws Exception;
+
+	public abstract ArrayList<KPIRealisation> filterByRealisationDate(LocalDate realisationdate) throws Exception;
 }

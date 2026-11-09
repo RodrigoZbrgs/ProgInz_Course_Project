@@ -23,7 +23,7 @@ public class KPIRealisationServiceImpl implements IKPIRealisationService, IKPIRe
 
 	@Override
 	@Cacheable("KPI_Realisations")
-	public ArrayList<KPIRealisation> findAllRealisations() throws Exception {
+	public ArrayList<KPIRealisation> selectAll() throws Exception {
 		if (realRepo.count() == 0) {
 			throw new Exception("Realisation amount is empty");
 		}
@@ -31,8 +31,8 @@ public class KPIRealisationServiceImpl implements IKPIRealisationService, IKPIRe
 	}
 
 	@Override
-	@Cacheable(value="KPI_Realisations", key="#id")
-	public KPIRealisation findRealisationById(long id) throws Exception {
+	@Cacheable(value = "KPI_Realisations", key = "#id")
+	public KPIRealisation retrieve(long id) throws Exception {
 		if (realRepo.count() == 0) {
 			throw new Exception("Realisation amount is empty");
 		}
@@ -45,18 +45,10 @@ public class KPIRealisationServiceImpl implements IKPIRealisationService, IKPIRe
 		return realRepo.findById(id).get();
 	}
 
-	@Override
-	public KPIRealisation addRealisation(KPIRealisation kpiRealisation) throws Exception {
-		if (kpiRealisation == null) {
-			throw new Exception("Realisation data is not usable");
-		}
-		return realRepo.save(kpiRealisation);
-	}
-
-	@Override
-	@CachePut(value="KPI_Realisations", key="#id")
-	public KPIRealisation updateRealisation(long id, LocalDate realisationdate, String text, String comment) throws Exception {
-		KPIRealisation realisationToUpdate = findRealisationById(id);
+	@CachePut(value = "KPI_Realisations", key = "#id")
+	public KPIRealisation updateRealisation(long id, LocalDate realisationdate, String text, String comment)
+			throws Exception {
+		KPIRealisation realisationToUpdate = retrieve(id);
 
 		if (realisationdate == null || text.isEmpty() || comment == null) {
 			throw new Exception("Invalid input data");
@@ -78,8 +70,9 @@ public class KPIRealisationServiceImpl implements IKPIRealisationService, IKPIRe
 	}
 
 	@Override
-	@CacheEvict(value="KPI_Realisations", allEntries = true) // allEntries = true means: "Delete everything from this cache, not just one key."
-	public void deleteRealisationById(long id) throws Exception {
+	@CacheEvict(value = "KPI_Realisations", allEntries = true) // allEntries = true means: "Delete everything from this
+																// cache, not just one key."
+	public void delete(long id) throws Exception {
 		if (id < 1) {
 			throw new Exception("Id cannot be negative or 0");
 		}
@@ -91,7 +84,7 @@ public class KPIRealisationServiceImpl implements IKPIRealisationService, IKPIRe
 	}
 
 	@Override
-	@Cacheable(value="KPI_Realisations")
+	@Cacheable(value = "KPI_Realisations")
 	public ArrayList<KPIRealisation> filterByRealisationDate(LocalDate realisationdate) throws Exception {
 		if (realisationdate == null) {
 			throw new Exception("Incorrect parameters");
@@ -107,6 +100,18 @@ public class KPIRealisationServiceImpl implements IKPIRealisationService, IKPIRe
 			throw new Exception("No project on " + realisationdate);
 		}
 		return filteredRealisations;
+	}
+
+	@Override
+	public void create(KPIRealisation newObject) throws Exception {
+		realRepo.save(newObject);
+
+	}
+
+	@Override
+	public ArrayList<KPIRealisation> filterByDate(LocalDate realisationdate) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

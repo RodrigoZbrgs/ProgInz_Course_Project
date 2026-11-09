@@ -42,7 +42,7 @@ public class ProjectContributionCRUDController {
 				currentLanguage = "en";
 			}
 
-			ArrayList<ProjectContribution> contributionsFromDB = projConService.selectAllContributions();
+			ArrayList<ProjectContribution> contributionsFromDB = projConService.selectAll();
 			model.addAttribute("package", contributionsFromDB);
 			model.addAttribute("currentLanguage", currentLanguage);
 			return "show-all-contributions";
@@ -67,7 +67,7 @@ public class ProjectContributionCRUDController {
 				currentLanguage = "en";
 			}
 
-			ProjectContribution contributionsFromDB = projConService.selectContributionById(id);
+			ProjectContribution contributionsFromDB = projConService.retrieve(id);
 			model.addAttribute("package", contributionsFromDB);
 			model.addAttribute("currentLanguage", currentLanguage);
 			return "show-one-contribution";
@@ -84,14 +84,14 @@ public class ProjectContributionCRUDController {
 			HttpSession session,
 			Model model) {
 		try {
-			projConService.deleteContributionById(id);
+			projConService.delete(id);
 
 			String currentLanguage = (String) session.getAttribute("currentLanguage");
 			if (currentLanguage == null) {
 				currentLanguage = "en";
 			}
 
-			ArrayList<ProjectContribution> contributionsFromDB = projConService.selectAllContributions();
+			ArrayList<ProjectContribution> contributionsFromDB = projConService.selectAll();
 			model.addAttribute("package", contributionsFromDB);
 			model.addAttribute("currentLanguage", currentLanguage);
 			return "show-all-contributions";
@@ -127,7 +127,7 @@ public class ProjectContributionCRUDController {
 		} else {
 			try {
 
-				projConService.insertNewContribution(contribution);
+				projConService.create(contribution);
 				return "redirect:/contributions/crud/all";
 
 			} catch (Exception e) {
@@ -148,7 +148,7 @@ public class ProjectContributionCRUDController {
 				currentLanguage = "en";
 			}
 
-			ProjectContribution contributionsFromDB = projConService.selectContributionById(id);
+			ProjectContribution contributionsFromDB = projConService.retrieve(id);
 			model.addAttribute("contribution", contributionsFromDB);
 			model.addAttribute("currentLanguage", currentLanguage);
 			return "update-one-contribution";
@@ -163,7 +163,7 @@ public class ProjectContributionCRUDController {
 	public String postControllerForUpdateById(@PathVariable(name = "id") int id, ProjectContribution contribution,
 			Model model) {
 		try {
-			projConService.updateByIdpc(id, contribution.getEmployeePosition(), contribution.getStartingDate(), contribution.getEndingDate());
+			projConService.update(id, contribution.getEmployeePosition(), contribution.getStartingDate(), contribution.getEndingDate());
 			return "redirect:/contributions/crud/all/" + id;
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());

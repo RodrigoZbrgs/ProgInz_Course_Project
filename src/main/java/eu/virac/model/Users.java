@@ -89,16 +89,16 @@ public class Users {
 	@OneToMany(mappedBy = "user")
 	@ToString.Exclude
 	private Collection<ProjectContribution> contributions = new ArrayList<ProjectContribution>();
-
+/*
 	@OneToMany(mappedBy = "user")
 	@ToString.Exclude
 	private Collection<KPIWorkDescription> kpiWorkDescription = new ArrayList<KPIWorkDescription>();
-
-	@OneToMany(mappedBy = "user")
+*/
+/*	@OneToMany(mappedBy = "user")
 	@ToString.Exclude
 	private Collection<KPI_Statuss> kpiStatuss = new ArrayList<KPI_Statuss>();
 
-
+*/
 	public Users(String name, String surname, String email, String password, Department department) {
 		setName(name);
 		setSurname(surname);

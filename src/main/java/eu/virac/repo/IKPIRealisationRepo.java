@@ -11,5 +11,4 @@ public interface IKPIRealisationRepo extends CrudRepository<KPIRealisation, Long
 
 	ArrayList<KPIRealisation> findByRealisationdate(LocalDate realisationdate);
 
-
 }

@@ -54,7 +54,7 @@ public class ProjectCRUDController {
                 cache.clear();
             }
 
-            ArrayList<ProjectInformation> projectsArray = projService.selectAllProjects();
+            ArrayList<ProjectInformation> projectsArray = projService.selectAll();
 
             if (!"en".equals(currentLanguage)) {
                 for (int i = 0; i < projectsArray.size(); i++) {
@@ -98,7 +98,7 @@ public class ProjectCRUDController {
                 cache.clear();
             }
 
-            ProjectInformation projects = projService.selectProjectById(id);
+            ProjectInformation projects = projService.retrieve(id);
 
             if (!"en".equals(currentLanguage) && projects != null) {
                 String notTranslatedName = projects.getProjectName();
@@ -122,7 +122,7 @@ public class ProjectCRUDController {
             HttpSession session,
             Model model) {
         try {
-            projService.deleteProjectById(id);
+            projService.delete(id);
 
             String currentLanguage = (String) session.getAttribute("currentLanguage");
             if (currentLanguage == null) {
@@ -134,7 +134,7 @@ public class ProjectCRUDController {
                 cache.clear();
             }
 
-            ArrayList<ProjectInformation> projectsArray = projService.selectAllProjects();
+            ArrayList<ProjectInformation> projectsArray = projService.selectAll();
 
             if (!"en".equals(currentLanguage)) {
                 for (int i = 0; i < projectsArray.size(); i++) {
@@ -180,7 +180,7 @@ public class ProjectCRUDController {
             return "add-one-project";
         } else {
             try {
-                projService.insertNewProject(project);
+                projService.create(project);
                 return "redirect:/project/crud/all";
 
             } catch (Exception e) {
@@ -206,7 +206,7 @@ public class ProjectCRUDController {
                 cache.clear();
             }
 
-            ProjectInformation projects = projService.selectProjectById(id);
+            ProjectInformation projects = projService.retrieve(id);
 
             if (!"en".equals(currentLanguage) && projects != null) {
                 String notTranslatedName = projects.getProjectName();

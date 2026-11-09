@@ -3,7 +3,6 @@ package eu.virac.model;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -42,6 +41,7 @@ public class Department {
 	@NotEmpty
 	@NotNull
 	private String goals;
+	
 	@ToString.Exclude
 	@OneToMany(mappedBy = "department")
 	private Collection<Users> user = new ArrayList<Users>();

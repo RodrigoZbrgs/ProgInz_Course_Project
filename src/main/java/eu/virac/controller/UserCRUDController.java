@@ -21,214 +21,206 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 @RequestMapping("/user/crud")
 public class UserCRUDController {
-    
-    @Autowired
-    private IUserService userService;
 
-    @Autowired
-    private ITranslationService translationService;
+	@Autowired
+	private IUserService userService;
 
-    @Autowired
-    private CacheManager cacheManager;
+	@Autowired
+	private ITranslationService translationService;
 
-    @GetMapping("/all") // localhost:8080/user/crud/all
-    public String getControllerRetrievAllUsers(
-            @RequestParam(name = "language", required = false) String language,
-            HttpSession session,
-            Model model) {
-        try {
-            if (language != null && !language.isEmpty()) {
-                session.setAttribute("currentLanguage", language);
-            }
+	@Autowired
+	private CacheManager cacheManager;
 
-            String currentLanguage = (String) session.getAttribute("currentLanguage");
-            if (currentLanguage == null) {
-                currentLanguage = "en";
-            }
+	@GetMapping("/all") // localhost:8080/user/crud/all
+	public String getControllerRetrievAllUsers(@RequestParam(name = "language", required = false) String language,
+			HttpSession session, Model model) {
+		try {
+			if (language != null && !language.isEmpty()) {
+				session.setAttribute("currentLanguage", language);
+			}
 
-            Cache cache = cacheManager.getCache("users");
-            if (cache != null) {
-                cache.clear();
-            }
+			String currentLanguage = (String) session.getAttribute("currentLanguage");
+			if (currentLanguage == null) {
+				currentLanguage = "en";
+			}
 
-            ArrayList<Users> usersFromDB = userService.selectAllUser();
+			Cache cache = cacheManager.getCache("users");
+			if (cache != null) {
+				cache.clear();
+			}
 
-            if (!"en".equals(currentLanguage)) {
-                for (int i = 0; i < usersFromDB.size(); i++) {
-                    Users user = usersFromDB.get(i);
+			ArrayList<Users> usersFromDB = userService.selectAll();
 
-                    String notTranslatedName = user.getName();
-                    String translatedName = translationService.translateText(notTranslatedName, currentLanguage);
+			if (!"en".equals(currentLanguage)) {
+				for (int i = 0; i < usersFromDB.size(); i++) {
+					Users user = usersFromDB.get(i);
 
-                    String notTranslatedSurname = user.getSurname();
-                    String translatedSurname = translationService.translateText(notTranslatedSurname, currentLanguage);
+					String notTranslatedName = user.getName();
+					String translatedName = translationService.translateText(notTranslatedName, currentLanguage);
 
-                    user.setName(translatedName);
-                    user.setSurname(translatedSurname);
-                }
-            }
+					String notTranslatedSurname = user.getSurname();
+					String translatedSurname = translationService.translateText(notTranslatedSurname, currentLanguage);
 
-            model.addAttribute("package", usersFromDB);
-            model.addAttribute("currentLanguage", currentLanguage);
-            return "show-all-users";
-        } catch (Exception e) {
-            model.addAttribute("package", e.getMessage());
-            return "error-page";
-        }
-    }
+					user.setName(translatedName);
+					user.setSurname(translatedSurname);
+				}
+			}
 
-    @GetMapping("/all/{id}") // localhost:8080/user/crud/all/1
-    public String getControllerSelectUsersById(
-            @PathVariable(name = "id") int id,
-            @RequestParam(name = "language", required = false) String language,
-            HttpSession session,
-            Model model) {
-        try {
-            if (language != null && !language.isEmpty()) {
-                session.setAttribute("currentLanguage", language);
-            }
+			model.addAttribute("package", usersFromDB);
+			model.addAttribute("currentLanguage", currentLanguage);
+			return "show-all-users";
+		} catch (Exception e) {
+			model.addAttribute("package", e.getMessage());
+			return "error-page";
+		}
+	}
 
-            String currentLanguage = (String) session.getAttribute("currentLanguage");
-            if (currentLanguage == null) {
-                currentLanguage = "en";
-            }
+	@GetMapping("/all/{id}") // localhost:8080/user/crud/all/1
+	public String getControllerSelectUsersById(@PathVariable(name = "id") int id,
+			@RequestParam(name = "language", required = false) String language, HttpSession session, Model model) {
+		try {
+			if (language != null && !language.isEmpty()) {
+				session.setAttribute("currentLanguage", language);
+			}
 
-            Cache cache = cacheManager.getCache("users");
-            if (cache != null) {
-                cache.clear();
-            }
+			String currentLanguage = (String) session.getAttribute("currentLanguage");
+			if (currentLanguage == null) {
+				currentLanguage = "en";
+			}
 
-            Users usersFromDB = userService.selectUsersByUid(id);
+			Cache cache = cacheManager.getCache("users");
+			if (cache != null) {
+				cache.clear();
+			}
 
-            if (!"en".equals(currentLanguage) && usersFromDB != null) {
-                String notTranslatedName = usersFromDB.getName();
-                String translatedName = translationService.translateText(notTranslatedName, currentLanguage);
+			Users usersFromDB = userService.retrieve(id);
 
-                String notTranslatedSurname = usersFromDB.getSurname();
-                String translatedSurname = translationService.translateText(notTranslatedSurname, currentLanguage);
+			if (!"en".equals(currentLanguage) && usersFromDB != null) {
+				String notTranslatedName = usersFromDB.getName();
+				String translatedName = translationService.translateText(notTranslatedName, currentLanguage);
 
-                usersFromDB.setName(translatedName);
-                usersFromDB.setSurname(translatedSurname);
-            }
+				String notTranslatedSurname = usersFromDB.getSurname();
+				String translatedSurname = translationService.translateText(notTranslatedSurname, currentLanguage);
 
-            model.addAttribute("package", usersFromDB);
-            model.addAttribute("currentLanguage", currentLanguage);
-            return "show-one-user";
+				usersFromDB.setName(translatedName);
+				usersFromDB.setSurname(translatedSurname);
+			}
 
-        } catch (Exception e) {
-            model.addAttribute("package", e.getMessage());
-            return "error-page";
-        }
+			model.addAttribute("package", usersFromDB);
+			model.addAttribute("currentLanguage", currentLanguage);
+			return "show-one-user";
 
-    }
+		} catch (Exception e) {
+			model.addAttribute("package", e.getMessage());
+			return "error-page";
+		}
 
-    @GetMapping("/remove/{id}") // localhost:8080/user/crud/remove/1
-    public String getControllerUserForRemoval(@PathVariable(name = "id") int id,
-            HttpSession session,
-            Model model) {
-        try {
-            userService.deleteUserByUid(id);
+	}
 
-            String currentLanguage = (String) session.getAttribute("currentLanguage");
-            if (currentLanguage == null) {
-                currentLanguage = "en";
-            }
+	@GetMapping("/remove/{id}") // localhost:8080/user/crud/remove/1
+	public String getControllerUserForRemoval(@PathVariable(name = "id") int id, HttpSession session, Model model) {
+		try {
+			userService.delete(id);
 
-            Cache cache = cacheManager.getCache("users");
-            if (cache != null) {
-                cache.clear();
-            }
+			String currentLanguage = (String) session.getAttribute("currentLanguage");
+			if (currentLanguage == null) {
+				currentLanguage = "en";
+			}
 
-            ArrayList<Users> usersFromDB = userService.selectAllUser();
+			Cache cache = cacheManager.getCache("users");
+			if (cache != null) {
+				cache.clear();
+			}
 
-            if (!"en".equals(currentLanguage)) {
-                for (int i = 0; i < usersFromDB.size(); i++) {
-                    Users user = usersFromDB.get(i);
+			ArrayList<Users> usersFromDB = userService.selectAll();
 
-                    String notTranslatedName = user.getName();
-                    String translatedName = translationService.translateText(notTranslatedName, currentLanguage);
+			if (!"en".equals(currentLanguage)) {
+				for (int i = 0; i < usersFromDB.size(); i++) {
+					Users user = usersFromDB.get(i);
 
-                    String notTranslatedSurname = user.getSurname();
-                    String translatedSurname = translationService.translateText(notTranslatedSurname, currentLanguage);
+					String notTranslatedName = user.getName();
+					String translatedName = translationService.translateText(notTranslatedName, currentLanguage);
 
-                    user.setName(translatedName);
-                    user.setSurname(translatedSurname);
-                }
-            }
+					String notTranslatedSurname = user.getSurname();
+					String translatedSurname = translationService.translateText(notTranslatedSurname, currentLanguage);
 
-            model.addAttribute("package", usersFromDB);
-            model.addAttribute("currentLanguage", currentLanguage);
-            return "show-all-users";
-        } catch (Exception e) {
-            model.addAttribute("package", e.getMessage());
-            return "error-page";
-        }
-    }
+					user.setName(translatedName);
+					user.setSurname(translatedSurname);
+				}
+			}
 
-    @GetMapping("/add") // localhost:8080/user/crud/add
-    public String getControllerForUserAdding(HttpSession session, Model model) {
-        try {
-            String currentLanguage = (String) session.getAttribute("currentLanguage");
-            if (currentLanguage == null) {
-                currentLanguage = "en";
-            }
+			model.addAttribute("package", usersFromDB);
+			model.addAttribute("currentLanguage", currentLanguage);
+			return "show-all-users";
+		} catch (Exception e) {
+			model.addAttribute("package", e.getMessage());
+			return "error-page";
+		}
+	}
 
-            model.addAttribute("user", new Users());
-            model.addAttribute("currentLanguage", currentLanguage);
-            return "add-one-user";
+	@GetMapping("/add") // localhost:8080/user/crud/add
+	public String getControllerForUserAdding(HttpSession session, Model model) {
+		try {
+			String currentLanguage = (String) session.getAttribute("currentLanguage");
+			if (currentLanguage == null) {
+				currentLanguage = "en";
+			}
 
-        } catch (Exception e) {
-            model.addAttribute("package", e.getMessage());
-            return "error-page";
-        }
-    }
+			model.addAttribute("user", new Users());
+			model.addAttribute("currentLanguage", currentLanguage);
+			return "add-one-user";
 
-    @GetMapping("/update/{id}") // localhost:8080/user/crud/update/2
-    public String retrieveUpdateuserById(@PathVariable(name = "id") int id,
-            HttpSession session,
-            Model model) {
-        try {
-            String currentLanguage = (String) session.getAttribute("currentLanguage");
-            if (currentLanguage == null) {
-                currentLanguage = "en";
-            }
+		} catch (Exception e) {
+			model.addAttribute("package", e.getMessage());
+			return "error-page";
+		}
+	}
 
-            Cache cache = cacheManager.getCache("users");
-            if (cache != null) {
-                cache.clear();
-            }
+	@GetMapping("/update/{id}") // localhost:8080/user/crud/update/2
+	public String retrieveUpdateuserById(@PathVariable(name = "id") int id, HttpSession session, Model model) {
+		try {
+			String currentLanguage = (String) session.getAttribute("currentLanguage");
+			if (currentLanguage == null) {
+				currentLanguage = "en";
+			}
 
-            Users usersFromDB = userService.selectUsersByUid(id);
+			Cache cache = cacheManager.getCache("users");
+			if (cache != null) {
+				cache.clear();
+			}
 
-            if (!"en".equals(currentLanguage) && usersFromDB != null) {
-                String notTranslatedName = usersFromDB.getName();
-                String translatedName = translationService.translateText(notTranslatedName, currentLanguage);
+			Users usersFromDB = userService.retrieve(id);
 
-                String notTranslatedSurname = usersFromDB.getSurname();
-                String translatedSurname = translationService.translateText(notTranslatedSurname, currentLanguage);
+			if (!"en".equals(currentLanguage) && usersFromDB != null) {
+				String notTranslatedName = usersFromDB.getName();
+				String translatedName = translationService.translateText(notTranslatedName, currentLanguage);
 
-                usersFromDB.setName(translatedName);
-                usersFromDB.setSurname(translatedSurname);
-            }
+				String notTranslatedSurname = usersFromDB.getSurname();
+				String translatedSurname = translationService.translateText(notTranslatedSurname, currentLanguage);
 
-            model.addAttribute("user", usersFromDB);
-            model.addAttribute("currentLanguage", currentLanguage);
-            return "update-one-user";
+				usersFromDB.setName(translatedName);
+				usersFromDB.setSurname(translatedSurname);
+			}
 
-        } catch (Exception e) {
-            model.addAttribute("package", e.getMessage());
-            return "error-page";
-        }
-    }
-    
-    @PostMapping("/update/{id}")
-    public String postControllerForUpdateUser(@PathVariable(name="id") int id, Users user, Model model) {
-        try {
-            userService.updateUserByUid(id, user.getName(), user.getSurname(), user.getEmail(), user.getPassword(), user.getDepartment());
-            return "redirect:/user/crud/all/" + id;
-        } catch (Exception e) {
-            model.addAttribute("package", e.getMessage());
-            return "error-page";
-        }
-    }
+			model.addAttribute("user", usersFromDB);
+			model.addAttribute("currentLanguage", currentLanguage);
+			return "update-one-user";
+
+		} catch (Exception e) {
+			model.addAttribute("package", e.getMessage());
+			return "error-page";
+		}
+	}
+
+	@PostMapping("/update/{id}")
+	public String postControllerForUpdateUser(@PathVariable(name = "id") int id, Users user, Model model) {
+		try {
+			userService.update(id, user.getName(), user.getSurname(), user.getEmail(), user.getPassword(),
+					user.getDepartment());
+			return "redirect:/user/crud/all/" + id;
+		} catch (Exception e) {
+			model.addAttribute("package", e.getMessage());
+			return "error-page";
+		}
+	}
 }

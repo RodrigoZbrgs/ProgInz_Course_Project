@@ -16,13 +16,17 @@ public class UserWorkReportServiceImpl implements IUserWorkReportService {
 
 	@Override
 	public ArrayList<KPIWorkDescription> getUserWorkReport(String username) throws Exception {
-		if (username == null || username.isEmpty()) {
-			throw new Exception("Username cannot be empty");
-		}
-		ArrayList<KPIWorkDescription> reports = workDescriptionRepo.findByUserUsername(username);
-		if (reports.size() == 0) {
-			throw new Exception("No work descriptions were found for user: " + username);
-		}
-		return reports;
+		// TODO Auto-generated method stub
+		return null;
 	}
+
+	/*
+	 * @Override public ArrayList<KPIWorkDescription> getUserWorkReport(String
+	 * username) throws Exception { if (username == null || username.isEmpty()) {
+	 * throw new Exception("Username cannot be empty"); }
+	 * ArrayList<KPIWorkDescription> reports =
+	 * workDescriptionRepo.findByUsers_Username(username); if (reports.size() == 0)
+	 * { throw new Exception("No work descriptions were found for user: " +
+	 * username); } return reports; }
+	 */
 }
