@@ -28,7 +28,7 @@ public class Department {
 
 	@Column(name = "Did")
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Setter(value = AccessLevel.NONE)
 	private long did;
 
@@ -40,11 +40,16 @@ public class Department {
 	@Column(name = "goals")
 	@NotEmpty
 	@NotNull
-	private String goals = "Default Goal"; // Avoids non-null constraint issues on save
-
+	private String goals;
+	
 	@ToString.Exclude
 	@OneToMany(mappedBy = "department")
-	private Collection<Users> user = new ArrayList<>();
+	private Collection<Users> user = new ArrayList<Users>();
+
+
+	@OneToMany(mappedBy = "department")
+	private Collection<KPIWorkDescription> workDescription = new ArrayList<>();
+
 
 	public Department(String description, String goals) {
 		setDescription(description);

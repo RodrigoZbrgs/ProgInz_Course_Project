@@ -25,6 +25,13 @@
 			<option value="Medium">MEDIUM</option>
 			<option value="High">HIGH</option>
 		</select>
+		<p>Input department</p>
+		<select th:field="*{department}">
+				    <option th:each="u : ${departments}"
+				            th:value="${u.did}"
+				            th:text="${u.description}">
+				    </option>
+				</select>
 		<p>Input description</p>
 		<input type="text" th:field="*{description}" />
 		<button type="submit">Save</button>

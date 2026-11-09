@@ -1,10 +1,7 @@
 package eu.virac.service;
 
-import java.util.ArrayList;
-
 import eu.virac.model.Department;
 
-public interface IDepartmentService {
+public interface IDepartmentService extends ICrudBaseService<Department> {
 	
-	public abstract ArrayList<Department> selectAllDepartments() throws Exception;
 }

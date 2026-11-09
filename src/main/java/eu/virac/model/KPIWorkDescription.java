@@ -5,8 +5,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -40,47 +38,46 @@ public class KPIWorkDescription {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Setter(value = AccessLevel.NONE)
 	private long idkpiwd;
-
+	
+    @Column(name = "date")
+    @NotNull
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    private LocalDate date;
 //severity
-	@Column(name = "amount")
-	@Min(1)
-	@Max(10)
-	private int amount;
-
-	@Column(name = "date")
-	@NotNull
-	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-	private LocalDate date;
-//severity
-	@Column(name = "priority")
-	@Enumerated(EnumType.STRING)
-	@NotNull
-	private Priority priority;
+    @Column(name = "priority")
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    private Priority priority;
 
 	@Column(name = "description", unique = true)
 	@NotNull
 	private String description;
 
+	/*
+	//lietotājs, kurš ir uzdevis šo uzdevumu
 	@ManyToOne
 	@JoinColumn(name = "uid")
 	private Users user;
-
+*/
 	@ManyToOne
-	@JoinColumn(name = "idsc")
+	@JoinColumn(name = "Idsc")
 	private KPI_Subcategories subCategory;
-
+	
 	@ToString.Exclude
 	@ManyToOne
 	@JoinColumn(name = "Idpi")
 	private ProjectInformation information;
-
+	
+	//lietotāja darbinieks, kuram jāpilda šis uzdevums
 	@ManyToOne
 	@JoinColumn(name = "Idpc")
 	private ProjectContribution contributions;
+	
 
-//	@ManyToOne
-//	@JoinColumn(name = "did")
-//	private Department department;
+	@ManyToOne
+	@JoinColumn(name = "did")
+	private Department department;
+	
 
 	@OneToMany(mappedBy = "workDescription")
 	private Collection<KPI_Statuss> kpiStatuss = new ArrayList<KPI_Statuss>();
@@ -88,13 +85,18 @@ public class KPIWorkDescription {
 	@OneToMany(mappedBy = "workDescription")
 	private Collection<KPIRealisation> kpiRealisation = new ArrayList<KPIRealisation>();
 
-	public KPIWorkDescription(LocalDate date, Priority priority, String description, Users user,
-			ProjectInformation information) {
+	public KPIWorkDescription(LocalDate date, Priority priority, String description,
+			/*Users user,*/ProjectInformation information, Department department, KPI_Subcategories subCategory,
+			ProjectContribution contributions) {
 		setDate(date);
 		setPriority(priority);
 		setDescription(description);
-		setUser(user);
+		//setUser(user);
 		setInformation(information);
+		setDepartment(department);
+		setSubCategory(subCategory);
+		setContributions(contributions);
+
 	}
 
 }

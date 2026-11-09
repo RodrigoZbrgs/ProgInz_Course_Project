@@ -12,11 +12,9 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.stereotype.Service;
 
 import eu.virac.model.ProjectInformation;
 import eu.virac.repo.IProjectInformationRepo;
-import eu.virac.service.IProjectService;
 
 @Service
 @EnableCaching

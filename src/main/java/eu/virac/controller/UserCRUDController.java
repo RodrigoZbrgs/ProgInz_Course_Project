@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import eu.virac.model.Department;
 import eu.virac.model.Users;
-import eu.virac.repo.IUsersRepo;
-import eu.virac.service.ICrudBaseService;
 import eu.virac.service.IUserService;
 import jakarta.validation.Valid;
 
@@ -52,7 +50,7 @@ public class UserCRUDController {
 
 	}
 
-	@GetMapping("/remove/{id}") // localhost:8080/user/crud/all/1
+	@GetMapping("/remove/{id}") // localhost:8080/user/crud/remove/1
 	public String getControllerUserForRemoval(@PathVariable(name = "id") int id, Model model) {
 		try {
 			userService.delete(id);
@@ -68,28 +66,29 @@ public class UserCRUDController {
 	@GetMapping("/add") // localhost:8080/user/crud/add
 	public String getControllerForUserAdding(Model model) {
 		Users user = new Users();
-	    user.setDepartment(new Department());
-	    model.addAttribute("user", user);
-	    return "add-one-user";
+		user.setDepartment(new Department());
+		model.addAttribute("user", user);
+		return "add-one-user";
 
 	}
 
 	@PostMapping("/add")
-	public String postControllerForUserAdding(@Valid @ModelAttribute("user") Users user, BindingResult result, Model model) {
-	    if (result.hasErrors()) {
-	        // Log validation errors to your console/logger
-	        result.getAllErrors().forEach(error -> {
-	            System.out.println("Validation Error: " + error.toString());
-	        });
-	        return "add-one-user";
-	    }
-	    try {
-	        userService.create(user);
-	        return "redirect:/user/crud/all";
-	    } catch (Exception e) {
-	        model.addAttribute("package", e.getMessage());
-	        return "error-page";
-	    }
+	public String postControllerForUserAdding(@Valid @ModelAttribute("user") Users user, BindingResult result,
+			Model model) {
+		if (result.hasErrors()) {
+			// Log validation errors to your console/logger
+			result.getAllErrors().forEach(error -> {
+				System.out.println("Validation Error: " + error.toString());
+			});
+			return "add-one-user";
+		}
+		try {
+			userService.create(user);
+			return "redirect:/user/crud/all";
+		} catch (Exception e) {
+			model.addAttribute("package", e.getMessage());
+			return "error-page";
+		}
 	}
 
 	@GetMapping("/update/{id}") // localhost:8080/user/crud/update/2

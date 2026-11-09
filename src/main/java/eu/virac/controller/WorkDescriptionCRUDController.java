@@ -17,9 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import eu.virac.model.KPIWorkDescription;
-import eu.virac.model.Users;
-import eu.virac.repo.IUsersRepo;
 import eu.virac.service.IProjectService;
+import eu.virac.service.IDepartmentService;
 import eu.virac.service.IUserService;
 import eu.virac.service.IWorkDescriptionService;
 import jakarta.validation.Valid;
@@ -34,11 +33,13 @@ public class WorkDescriptionCRUDController {
 	private IUserService userService;
 	@Autowired
 	private IProjectService projectService;
+	@Autowired
+	private IDepartmentService departmentService;
 
 	@GetMapping("/list") // localhost:8080/workdescriptions/crud/list
 	public String getControllerWorkDescriptionList(Model model) {
 		try {
-			ArrayList<KPIWorkDescription> workDescriptions = workDescriptionService.findAllWorkDescriptions();
+			ArrayList<KPIWorkDescription> workDescriptions = workDescriptionService.selectAll();
 			model.addAttribute("package", workDescriptions);
 			return "show-all-wd";
 		} catch (Exception e) {
@@ -50,7 +51,7 @@ public class WorkDescriptionCRUDController {
 	@GetMapping("/list/{id}") // http://localhost:8080/workdescriptions/crud/list/1
 	public String getControllerSelectWorkDescriptionById(@PathVariable(name = "id") long id, Model model) {
 		try {
-			KPIWorkDescription workDescription = workDescriptionService.findWorkDescriptionById(id);
+			KPIWorkDescription workDescription = workDescriptionService.retrieve(id);
 			model.addAttribute("package", workDescription);
 			return "show-one-wd";
 		} catch (Exception e) {
@@ -62,8 +63,8 @@ public class WorkDescriptionCRUDController {
 	@GetMapping("/remove/{id}") // http://localhost:8080/workdescriptions/crud/remove
 	public String getControllerWorkDescriptionForRemoval(@PathVariable(name = "id") long id, Model model) {
 		try {
-			workDescriptionService.deleteWorkDescription(id);
-			ArrayList<KPIWorkDescription> workDescriptions = workDescriptionService.findAllWorkDescriptions();
+			workDescriptionService.delete(id);
+			ArrayList<KPIWorkDescription> workDescriptions = workDescriptionService.selectAll();
 			model.addAttribute("package", workDescriptions);
 			return "show-all-wd";
 		} catch (Exception e) {
@@ -78,6 +79,9 @@ public class WorkDescriptionCRUDController {
 			model.addAttribute("workDescription", new KPIWorkDescription());
 			model.addAttribute("users", userService.selectAll());
 			model.addAttribute("projects", projectService.selectAll());
+			model.addAttribute("users", userService.selectAll());
+			model.addAttribute("projects", projectService.selectAll());
+			model.addAttribute("departments", departmentService.selectAll());
 			return "add-wd";
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
@@ -93,7 +97,7 @@ public class WorkDescriptionCRUDController {
 			return "add-wd";
 		} else {
 			try {
-				workDescriptionService.addWorkDescription(workDescription);
+				workDescriptionService.create(workDescription);
 				model.addAttribute("users", userService.selectAll());
 				model.addAttribute("projects", projectService.selectAll());
 				return "redirect:/workdescriptions/crud/list";
@@ -107,10 +111,13 @@ public class WorkDescriptionCRUDController {
 	@GetMapping("/update/{id}") // http://localhost:8080/workdescriptions/crud/update/1
 	public String retrieveUpdateWorkDescriptionById(@PathVariable(name = "id") long id, Model model) {
 		try {
-			KPIWorkDescription workDescription = workDescriptionService.findWorkDescriptionById(id);
+			KPIWorkDescription workDescription = workDescriptionService.retrieve(id);
 			model.addAttribute("workDescription", workDescription);
 			model.addAttribute("users", userService.selectAll());
 			model.addAttribute("projects", projectService.selectAll());
+			model.addAttribute("users", userService.selectAll());
+			model.addAttribute("projects", projectService.selectAll());
+			model.addAttribute("departments", departmentService.selectAll());
 			return "update-wd";
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
@@ -122,7 +129,9 @@ public class WorkDescriptionCRUDController {
 	public String postControllerForUpdateById(@PathVariable(name = "id") long id, KPIWorkDescription workDescription,
 			Model model) {
 		try {
-			workDescriptionService.updateWorkDescription(id, workDescription.getDescription(),workDescription.getDate(), workDescription.getAmount());
+			workDescriptionService.updateWorkDescription(id, workDescription.getDescription(),
+					workDescription.getDate(), workDescription.getPriority(),
+					workDescription.getInformation(), workDescription.getDepartment());
 			return "redirect:/workdescriptions/crud/list";
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());

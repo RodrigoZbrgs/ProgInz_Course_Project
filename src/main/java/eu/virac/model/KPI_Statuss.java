@@ -2,8 +2,11 @@ package eu.virac.model;
 
 import java.time.LocalDate;
 
+import eu.virac.model.enums.WDStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -26,31 +29,31 @@ import lombok.ToString;
 @Table(name = "KPIStatusTable")
 public class KPI_Statuss {
 
-	@Column(name = "KPI_ID")
+	@Column(name = "KPISTatusId")
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Setter(value = AccessLevel.NONE)
 	private long kpiId;
 
 	@Column(name = "Status")
-	@NotEmpty
-	@NotNull
-	private String status;
+	//TODO padomāt par notnull
+	@Enumerated(EnumType.STRING)
+	private WDStatus status;
 
 	@Column(name = "Status_date")
 	@NotNull
 	private LocalDate statusDate;
 
 	@ManyToOne
-	@JoinColumn(name = "idkpiwd")
+	@JoinColumn(name = "Idkpiwd")
 	private KPIWorkDescription workDescription;
 
-	@ManyToOne
-	@JoinColumn(name = "uid")
-	private Users user;
 
-	public KPI_Statuss(String status, LocalDate statusDate) {
+
+	public KPI_Statuss(WDStatus status, LocalDate statusDate, KPIWorkDescription workDescription) {
 		setStatus(status);
 		setStatusDate(statusDate);
+		setWorkDescription(workDescription);
+
 	}
 }

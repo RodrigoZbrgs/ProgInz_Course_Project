@@ -13,17 +13,16 @@ import eu.virac.model.Users;
 import eu.virac.repo.IUsersRepo;
 import eu.virac.service.IUserService;
 
-
 @Service
 public class UserServiceImpl implements IUserService {
 
 	@Autowired
 	private IUsersRepo userRepo;
-	
+
 	@Override
 	public void create(Users newObject) throws Exception {
 		userRepo.save(newObject);
-		
+
 	}
 
 	@Override
@@ -62,8 +61,8 @@ public class UserServiceImpl implements IUserService {
 
 	@Override
 	@CachePut(value = "users", key = "#id")
-	public void update(int id, String name, String surname, String email, String password,
-			Department department) throws Exception {
+	public void update(int id, String name, String surname, String email, String password, Department department)
+			throws Exception {
 		Users userToUpdate = retrieve(id);
 		if (name == null || surname == null || email == null || password == null || department == null) {
 			throw new Exception("Nav korekti ievades dati");
@@ -85,7 +84,5 @@ public class UserServiceImpl implements IUserService {
 		}
 		userRepo.save(userToUpdate);
 	}
-
-
 
 }

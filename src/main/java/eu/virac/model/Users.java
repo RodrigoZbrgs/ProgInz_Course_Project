@@ -1,9 +1,10 @@
 package eu.virac.model;
 
 import java.util.ArrayList;
+
 import java.util.Collection;
+
 import eu.virac.model.security.MyAuthority;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -50,8 +51,8 @@ public class Users {
 	@NotEmpty
 	@Pattern(regexp = "[A-Ž]{1}[a-ž]{2,20}([ ]{1}([A-Ž]{1}[a-ž]{2,20}))?")
 	private String surname;
-
-	@Column(name = "Username", unique = true)
+	
+	@Column(name = "Username",unique = true)
 	@NotNull
 	@NotEmpty
 	private String username;
@@ -66,38 +67,38 @@ public class Users {
 	@NotNull
 	@NotEmpty
 	private String password;
-
-	@ManyToMany(mappedBy = "users", fetch = FetchType.EAGER)
+	@ManyToMany(mappedBy = "users", fetch=FetchType.EAGER)
 	private Collection<MyAuthority> authorities = new ArrayList<MyAuthority>();
-
-	public void addAuthority(MyAuthority authority) {
-		if (!authorities.contains(authority)) {
+	public void addAuthority (MyAuthority authority) {
+		if(!authorities.contains(authority)) {
 			authorities.add(authority);
 		}
 	}
-
 	public void removeUser(MyAuthority authority) {
 		if (authorities.contains(authority)) {
 			authorities.remove(authority);
 		}
 	}
-
-	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-	@JoinColumn(name = "Did")
+	@ToString.Exclude
+	@ManyToOne
+	@JoinColumn(name = "did")
 	private Department department;
+	
+	
 
 	@OneToMany(mappedBy = "user")
 	@ToString.Exclude
 	private Collection<ProjectContribution> contributions = new ArrayList<ProjectContribution>();
-
+/*
 	@OneToMany(mappedBy = "user")
 	@ToString.Exclude
 	private Collection<KPIWorkDescription> kpiWorkDescription = new ArrayList<KPIWorkDescription>();
-
-	@OneToMany(mappedBy = "user")
+*/
+/*	@OneToMany(mappedBy = "user")
 	@ToString.Exclude
 	private Collection<KPI_Statuss> kpiStatuss = new ArrayList<KPI_Statuss>();
 
+*/
 	public Users(String name, String surname, String email, String password, Department department) {
 		setName(name);
 		setSurname(surname);
@@ -105,14 +106,11 @@ public class Users {
 		setPassword(password);
 		setDepartment(department);
 	}
-
-	public Users(String username, String password, MyAuthority... inputAuthorities) { // idk kp te bija deparment bet ja
-																						// vajades var
-																						// pievienot(martins)
+	public Users(String username,String password, MyAuthority ...inputAuthorities) { // idk kp te bija deparment bet ja vajades var pievienot(martins)
 		setUsername(username);
 		setPassword(password);
-
-		for (MyAuthority tempA : inputAuthorities) {
+		
+		for(MyAuthority tempA:inputAuthorities) {
 			addAuthority(tempA);
 		}
 	}

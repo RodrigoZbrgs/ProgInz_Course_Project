@@ -17,10 +17,6 @@ public interface IKPIWorkDescriptionRepo
 
 	public abstract ArrayList<KPIWorkDescription> findByDate(LocalDate date);
 
-	public abstract ArrayList<KPIWorkDescription> findByAmountGreaterThan(int amount);
-
-	public abstract ArrayList<KPIWorkDescription> findByAmountLessThan(int amount);
-
 	public abstract ArrayList<KPIWorkDescription> findByPriority(Priority priority);
 //	public abstract ArrayList<KPIWorkDescription> findByAmountLessThan(Priority priority);
 }

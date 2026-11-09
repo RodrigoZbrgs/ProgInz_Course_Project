@@ -50,31 +50,28 @@ public class WorkDescriptionFilterController {
 		}
 	}
 
-	@GetMapping("/greater/{amount}") // http://localhost:8080/workdescriptions/filter/greater/8
-	public String filterByAmountGreaterThan(@PathVariable(name = "amount") int amount, Model model) {
-		try {
-			ArrayList<KPIWorkDescription> WdFromDB = filterService.filterByAmountGreaterThan(amount);
-			model.addAttribute("package", WdFromDB);
-			model.addAttribute("info", "Filter by amount greater than: " + amount);
-			return "show-all-wd";
-		} catch (Exception e) {
-			model.addAttribute("package", e.getMessage());
-			return "error-page";
-		}
-	}
+	/*
+	 * @GetMapping("/greater/{amount}") //
+	 * http://localhost:8080/workdescriptions/filter/greater/8 public String
+	 * filterByAmountGreaterThan(@PathVariable(name = "amount") int amount, Model
+	 * model) { try { ArrayList<KPIWorkDescription> WdFromDB =
+	 * filterService.filterByAmountGreaterThan(amount);
+	 * model.addAttribute("package", WdFromDB); model.addAttribute("info",
+	 * "Filter by amount greater than: " + amount); return "show-all-wd"; } catch
+	 * (Exception e) { model.addAttribute("package", e.getMessage()); return
+	 * "error-page"; } }
+	 */
 
-	@GetMapping("/lesser/{amount}") // http://localhost:8080/workdescriptions/filter/lesser/8
-	public String filterByAmountLessThan(@PathVariable(name = "amount") int amount, Model model) {
-		try {
-			ArrayList<KPIWorkDescription> WdFromDB = filterService.filterAmountLessThan(amount);
-			model.addAttribute("package", WdFromDB);
-			model.addAttribute("info", "Filter by amount lesser than: " + amount);
-			return "show-all-wd";
-		} catch (Exception e) {
-			model.addAttribute("package", e.getMessage());
-			return "error-page";
-		}
-	}
+	/*
+	 * @GetMapping("/lesser/{amount}") //
+	 * http://localhost:8080/workdescriptions/filter/lesser/8 public String
+	 * filterByAmountLessThan(@PathVariable(name = "amount") int amount, Model
+	 * model) { try { ArrayList<KPIWorkDescription> WdFromDB =
+	 * filterService.filterAmountLessThan(amount); model.addAttribute("package",
+	 * WdFromDB); model.addAttribute("info", "Filter by amount lesser than: " +
+	 * amount); return "show-all-wd"; } catch (Exception e) {
+	 * model.addAttribute("package", e.getMessage()); return "error-page"; } }
+	 */
 
 	@GetMapping("/priority/{priority}") // http://localhost:8080/workdescriptions/filter/greater/8
 	public String filterByPriority(@PathVariable(name = "priority") Priority priority, Model model) {

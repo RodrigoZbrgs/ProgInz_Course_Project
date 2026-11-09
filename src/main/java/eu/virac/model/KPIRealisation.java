@@ -2,7 +2,6 @@ package eu.virac.model;
 
 import java.time.LocalDate;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -55,11 +54,11 @@ public class KPIRealisation {
 	@JoinColumn(name = "Idpi")
 	private ProjectInformation projectInformation;
 
-	public KPIRealisation(LocalDate realisationdate, String textvalue, String comment, ProjectInformation projectName) {
+	public KPIRealisation(LocalDate realisationdate, String textvalue, String comment, KPIWorkDescription workDescription) {
 		setRealisationdate(realisationdate);
 		setTextvalue(textvalue);
 		setComment(comment);
-		setProjectInformation(projectName);
+		setWorkDescription(workDescription);
 	}
 
 }

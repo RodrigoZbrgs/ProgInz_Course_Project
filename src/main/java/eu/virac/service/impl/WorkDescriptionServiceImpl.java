@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import eu.virac.model.Department;
 import eu.virac.model.KPIWorkDescription;
 import eu.virac.model.ProjectInformation;
 import eu.virac.model.Users;
@@ -44,13 +45,13 @@ public class WorkDescriptionServiceImpl implements IWorkDescriptionService, IWor
 		return workDescriptionRepo.findByDate(date);
 	}
 
-	@Override
-	public ArrayList<KPIWorkDescription> filterByAmountGreaterThan(int amount) throws Exception {
-		if (amount < 1 || amount > 10) {
-			throw new Exception("Amount must be at least 1 and lesser than 10");
-		}
-		return workDescriptionRepo.findByAmountGreaterThan(amount);
-	}
+	//@Override
+	//public ArrayList<KPIWorkDescription> filterByAmountGreaterThan(int amount) throws Exception {
+	//	if (amount < 1 || amount > 10) {
+	//		throw new Exception("Amount must be at least 1 and lesser than 10");
+	//	}
+	//	return workDescriptionRepo.findByAmountGreaterThan(amount);
+	//}
 //	@Override
 //	public ArrayList<KPIWorkDescription> filterByAmountGreaterThan(int amount) throws Exception {
 //		if (amount < 1 || amount > 10) {
@@ -61,7 +62,7 @@ public class WorkDescriptionServiceImpl implements IWorkDescriptionService, IWor
 
 	@Override
 	@Cacheable("WorkDescription")
-	public ArrayList<KPIWorkDescription> findAllWorkDescriptions() throws Exception {
+	public ArrayList<KPIWorkDescription> selectAll() throws Exception {
 		if (workDescriptionRepo.count() == 0) {
 			throw new Exception("Work description amount is empty");
 		}
@@ -69,70 +70,36 @@ public class WorkDescriptionServiceImpl implements IWorkDescriptionService, IWor
 	}
 
 	@Override
-	public KPIWorkDescription addWorkDescription(KPIWorkDescription workDescription) throws Exception {
-
-		if (workDescription == null) {
+	public void create(KPIWorkDescription newObject) throws Exception {
+		if (newObject == null) {
 			throw new Exception("Work description data is not available");
 		}
-		if (workDescription.getDescription() == null || workDescription.getDescription().isEmpty()) {
+		if (newObject.getDescription() == null || newObject.getDescription().isEmpty()) {
 			throw new Exception("Description cannot be empty");
 		}
-		if (workDescription.getDate() == null) {
+		if (newObject.getDate() == null) {
 			throw new Exception("Date cannot be empty");
 		}
-		LocalDate date = workDescription.getDate();
+		LocalDate date = newObject.getDate();
 		LocalDate today = LocalDate.now();
 		LocalDate minDate = today.minusDays(1);
 		LocalDate maxDate = today.plusYears(5);
 		if (date.isBefore(minDate) || date.isAfter(maxDate)) {
 			throw new Exception("Date must be between " + minDate + " and " + maxDate);
 		}
-		if (workDescriptionRepo.existsByDescription(workDescription.getDescription())) {
+		if (workDescriptionRepo.existsByDescription(newObject.getDescription())) {
 			throw new Exception("Work description with this name already exists");
 		}
 
-		return workDescriptionRepo.save(workDescription);
+		workDescriptionRepo.save(newObject);
 
 	}
 
-	@Override
-	@CachePut(value = "WorkDescription", key = "#id")
-	public KPIWorkDescription updateWorkDescription(long id, String description, LocalDate date, Priority priority,
-			Users user, ProjectInformation information) throws Exception {
-		KPIWorkDescription workDescriptionToUpdate = findWorkDescriptionById(id);
-
-		if (description == null || description.isEmpty() || date == null) {
-			throw new Exception("Invalid input data");
-		}
-
-		if (description != null) {
-			workDescriptionToUpdate.setDescription(description);
-		}
-		if (date != null) {
-			workDescriptionToUpdate.setDate(date);
-		}
-		if (priority != null) {
-			workDescriptionToUpdate.setPriority(priority);
-		}
-		if (user != null) {
-			workDescriptionToUpdate.setUser(user);
-		}
-		if (information != null) {
-			workDescriptionToUpdate.setInformation(information);
-		}
-		LocalDate today = LocalDate.now();
-		LocalDate minDate = today.minusYears(5);
-		LocalDate maxDate = today.plusYears(5);
-		if (date.isBefore(minDate) || date.isAfter(maxDate)) {
-			throw new Exception("Date must be between " + minDate + " and " + maxDate);
-		}
-
-		return workDescriptionRepo.save(workDescriptionToUpdate);
-	}
+	// TODO naav nepieciesmas user iekš parametriem
 
 	@Override
 	@CacheEvict(value = "WorkDescription", key = "#id")
-	public void deleteWorkDescription(long id) throws Exception {
+	public void delete(long id) throws Exception {
 		if (id < 1) {
 			throw new Exception("Id cannot be negative or 0");
 		}
@@ -144,7 +111,7 @@ public class WorkDescriptionServiceImpl implements IWorkDescriptionService, IWor
 
 	@Override
 	@Cacheable(value = "WorkDescription", key = "#id")
-	public KPIWorkDescription findWorkDescriptionById(long id) throws Exception {
+	public KPIWorkDescription retrieve(long id) throws Exception {
 
 		if (!workDescriptionRepo.existsById(id)) {
 			throw new Exception("Work description with id " + id + " does not exist");
@@ -179,15 +146,35 @@ public class WorkDescriptionServiceImpl implements IWorkDescriptionService, IWor
 		return workDescriptionRepo.findByPriority(priority);
 	}
 
-	@Override
-	public ArrayList<KPIWorkDescription> filterAmountLessThan(int amount) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
-	public void updateWorkDescription(long id, String description, LocalDate date, int amount) {
-		// TODO Auto-generated method stub
-		
+	@CachePut(value = "WorkDescription", key = "#id")
+	public void updateWorkDescription(long id, String description, LocalDate date,
+			Priority priority, ProjectInformation information, Department department) throws Exception {
+		KPIWorkDescription workDescriptionToUpdate = retrieve(id);
+		if (date != null) {
+			workDescriptionToUpdate.setDate(date);
+		}
+		if (priority != null) {
+			workDescriptionToUpdate.setPriority(priority);
+		}
+		/*
+		 * if (user != null) { workDescriptionToUpdate.setUser(user); }
+		 */
+		if (information != null) {
+			workDescriptionToUpdate.setInformation(information);
+			if (department != null) {
+				workDescriptionToUpdate.setDepartment(department);
+			}
+			LocalDate today = LocalDate.now();
+			LocalDate minDate = today.minusYears(5);
+			LocalDate maxDate = today.plusYears(5);
+			if (date.isBefore(minDate) || date.isAfter(maxDate)) {
+				throw new Exception("Date must be between " + minDate + " and " + maxDate);
+			}
+		}
+		workDescriptionRepo.save(workDescriptionToUpdate);
 	}
+
+
 }
