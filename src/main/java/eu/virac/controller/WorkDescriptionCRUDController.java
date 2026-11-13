@@ -97,6 +97,7 @@ public class WorkDescriptionCRUDController {
 		try {
 			KPIWorkDescription workDescription = workDescriptionService.findWorkDescriptionById(id);
 			model.addAttribute("workDescription", workDescription);
+			System.out.println(workDescription);
 			return "update-wd";
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());

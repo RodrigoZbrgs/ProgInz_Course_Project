@@ -31,8 +31,11 @@ public class SecurityConfig {
 	@Bean
 		public SecurityFilterChain httpPremisions(HttpSecurity http) {
 			http.authorizeHttpRequests(auth->auth
-					.requestMatchers("/workdescriptions/crud/**").hasAuthority("ADMIN")
-					.requestMatchers("/workdescriptions/filter/**").hasAuthority("USER"));
+		/*			.requestMatchers("/workdescriptions/crud/**").hasAuthority("ADMIN")
+					.requestMatchers("/workdescriptions/filter/**").hasAuthority("USER"));*/
+					.requestMatchers("/workdescriptions/crud/**").permitAll()
+					.requestMatchers("/workdescriptions/filter/**").permitAll());
+					
 			http.formLogin(auth->auth.permitAll());
 			return http.build();
 		}

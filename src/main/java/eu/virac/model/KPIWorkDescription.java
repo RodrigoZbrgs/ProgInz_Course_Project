@@ -5,8 +5,12 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -37,6 +41,7 @@ public class KPIWorkDescription {
 	
     @Column(name = "date")
     @NotNull
+//    @DateTimeFormat(pattern = "MM-dd-yyyy")
     private LocalDate date;
 //severity
     @Column(name = "amount")

@@ -1,6 +1,8 @@
 package eu.virac.service.impl;
 
+import java.text.DateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -67,15 +69,20 @@ public class WorkDescriptionServiceImpl implements IWorkDescriptionService, IWor
 		if (workDescriptionRepo.existsByDescription(workDescription.getDescription())) {
 			throw new Exception("Work description with this name already exists");
 		}
+		if (workDescription.getDate().getYear() >  LocalDate.now().plusYears(5).getYear()) {
+			throw new Exception ("diapazona parak liela");
+		}
+		if (workDescription.getDate().getDayOfMonth() <  LocalDate.now().minusDays(1).getYear()) {
+			throw new Exception ("diapazona parak maza");
+		}
 		return workDescriptionRepo.save(workDescription);
-
 	}
 
 	@Override
 	public KPIWorkDescription updateWorkDescription(long id, String description, LocalDate date, int amount)
 			throws Exception {
 		KPIWorkDescription workDescriptionToUpdate = findWorkDescriptionById(id);
-
+		
 		if (description == null || description.isEmpty() || date == null || amount < 1) {
 			throw new Exception("Invalid input data");
 		}
