@@ -52,7 +52,7 @@ public class Users {
 	@Pattern(regexp = "[A-Ž]{1}[a-ž]{2,20}([ ]{1}([A-Ž]{1}[a-ž]{2,20}))?")
 	private String surname;
 	
-	@Column(name = "Username",unique = true)
+	@Column(name = "Username"/*,unique = true*/)
 	@NotNull
 	@NotEmpty
 	private String username;
@@ -101,8 +101,10 @@ public class Users {
 */
 	public Users(String name, String surname, String email, String password, Department department) {
 		setName(name);
+		
 		setSurname(surname);
 		setEmail(email);
+		setUsername(email);
 		setPassword(password);
 		setDepartment(department);
 	}

@@ -54,11 +54,12 @@ public class KPIRealisation {
 	@JoinColumn(name = "Idpi")
 	private ProjectInformation projectInformation;
 
-	public KPIRealisation(LocalDate realisationdate, String textvalue, String comment, KPIWorkDescription workDescription) {
+	public KPIRealisation(LocalDate realisationdate, String textvalue, String comment, KPIWorkDescription workDescription, ProjectInformation projectInformation) {
 		setRealisationdate(realisationdate);
 		setTextvalue(textvalue);
 		setComment(comment);
 		setWorkDescription(workDescription);
+		setProjectInformation(projectInformation);
 	}
 
 }

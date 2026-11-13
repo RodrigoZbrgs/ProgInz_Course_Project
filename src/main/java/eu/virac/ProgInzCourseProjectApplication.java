@@ -57,22 +57,23 @@ public class ProgInzCourseProjectApplication {
 							LocalDate.of(2026, 6, 25), LocalDate.of(2027, 6, 25));
 					ProjectInformation p3 = new ProjectInformation(true, "P125", "ProjectEcho",
 							LocalDate.of(2026, 6, 26), LocalDate.of(2027, 6, 26));
+					prInfoRepo.saveAll(Arrays.asList(p1, p2, p3));
 					Department dep1 = new Department("Programming", "Clean coding");
 					Department dep2 = new Department("Manegment", "Ower seers");
 					Department dep3 = new Department("Workers", "Work hard");
 
 					depRepo.saveAll(Arrays.asList(dep1, dep2, dep3));
 
-					prInfoRepo.saveAll(Arrays.asList(p1, p2, p3));
+					
 					MyAuthority auth1 = new MyAuthority("ADMIN");
 					MyAuthority auth2 = new MyAuthority("USER");
 					authRepo.saveAll(Arrays.asList(auth1, auth2));
 					Users u1 = new Users("Rodrigo", "Zandbergs", "rodrigo.zandbergs@gmail.com", "********", dep1);
-					u1.setUsername("Rodrigo");
+					//u1.setUsername("Rodrigo");
 					Users u2 = new Users("Maris", "Maize", "maris.maize@inbox.com", "rootadmin", dep2);
-					u2.setUsername("Maris");
+					//u2.setUsername("Maris");
 					Users u3 = new Users("Marcis", "Rupmaize", "marcis.rupmaize@gmail.com", "adminroot", dep3);
-					u3.setUsername("Marics");
+					//u3.setUsername("Marics");
 					// TODO uztaisīt, ka vns darbinieks ir divos projektos jeb piesiastīts diviem
 					// ProjectContrubution
 					usersRepo.saveAll(Arrays.asList(u1, u2, u3));
@@ -148,11 +149,12 @@ public class ProgInzCourseProjectApplication {
 					kpiStatusRepo.saveAll(Arrays.asList(st1, st2, st3, st4));
 
 					KPIRealisation kpir1 = new KPIRealisation(LocalDate.of(2026, 3, 24), "Fixed up the telescope",
-							"wasnt easy :(", wd1);
+							"wasnt easy :(", wd1, p1);
+					
 					KPIRealisation kpir2 = new KPIRealisation(LocalDate.of(2026, 3, 24),
-							"Finally aligned the primary mirrors", "took three coffees and a existential crisis", wd2);
+							"Finally aligned the primary mirrors", "took three coffees and a existential crisis", wd2, p2);
 					KPIRealisation kpir3 = new KPIRealisation(LocalDate.of(2026, 3, 24), "Calibrated the spectrograph",
-							"still don't think it's 100% right but I'm leaving it", wd3);
+							"still don't think it's 100% right but I'm leaving it", wd3, p3);
 					kpiRealisationRepo.saveAll(Arrays.asList(kpir1, kpir2, kpir3));
 
 				}
