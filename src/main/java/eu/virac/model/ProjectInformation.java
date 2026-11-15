@@ -4,11 +4,13 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -56,17 +58,20 @@ public class ProjectInformation {
 	@NotNull
 	@Column(name = "Ending_date")
 	private LocalDate endingDate;
-	
+
 	@ToString.Exclude
 	@OneToMany(mappedBy = "information")
 	private Collection<KPIWorkDescription> workDescription = new ArrayList<>();
-	
+
 	@ToString.Exclude
 	@OneToMany(mappedBy = "projectInformation")
 	private Collection<ProjectContribution> contributions = new ArrayList<>();
-	
+
 	@ToString.Exclude
-	@OneToOne(mappedBy = "projectInformation")
+	@OneToOne(cascade = CascadeType.ALL) // Kautkāda cascade funkicija kas saglabā projectInformation, lai to varetu
+											// pectam izdzest. Es meiginaju saglabat application klase, toties tas ta
+											// nestradaja.
+	@JoinColumn(name = "projectInformation")
 	private KPIRealisation kpiRealisation;
 
 	public ProjectInformation(boolean isActive, String projectNumber, String projectName, LocalDate startingDate,

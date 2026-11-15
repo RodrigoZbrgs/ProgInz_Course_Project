@@ -79,7 +79,8 @@ public class KPIRealisationServiceImpl implements IKPIRealisationService, IKPIRe
 		if (!realRepo.existsById(id)) {
 			throw new Exception("Work description with id " + id + " does not exist");
 		}
-		realRepo.deleteById(id);
+		KPIRealisation kpiRealForDelete = retrieve(id);
+		realRepo.delete(kpiRealForDelete);
 
 	}
 

@@ -45,8 +45,8 @@ public class KPIRealisationCRUDnFilterController {
 
 	}
 
-	@GetMapping("/remove/{id}") // localhost:8080/kpireal/crud/all/1
-	public String getControllerRealisationForRemoval(@PathVariable(name = "id") int id, Model model) {
+	@GetMapping("/remove/{id}") // localhost:8080/kpireal/crud/remove/1
+	public String getControllerRealisationForRemoval(@PathVariable(name = "id") long id, Model model) {
 		try {
 			realService.delete(id);
 			ArrayList<KPIRealisation> kpiRealFromDB = realService.selectAll();

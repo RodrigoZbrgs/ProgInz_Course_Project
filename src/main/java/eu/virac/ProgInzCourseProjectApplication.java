@@ -61,7 +61,7 @@ public class ProgInzCourseProjectApplication {
 					Department dep1 = new Department("Programming", "Clean coding");
 					Department dep2 = new Department("Manegment", "Ower seers");
 					Department dep3 = new Department("Workers", "Work hard");
-
+					
 					depRepo.saveAll(Arrays.asList(dep1, dep2, dep3));
 
 					
