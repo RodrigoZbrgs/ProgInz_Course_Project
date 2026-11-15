@@ -32,7 +32,7 @@ public class KPIRealisationCRUDnFilterController {
 	}
 
 	@GetMapping("/all/{id}") // localhost:8080/kpireal/crud/all/1
-	public String getControllerSelectRealisationById(@PathVariable(name = "id") int id, Model model) {
+	public String getControllerSelectRealisationById(@PathVariable(name = "id") long id, Model model) {
 		try {
 			KPIRealisation kpiRealFromDB = realService.retrieve(id);
 			model.addAttribute("package", kpiRealFromDB);
